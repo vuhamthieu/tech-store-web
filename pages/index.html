@@ -1,158 +1,189 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Techsphere - Trang chủ</title>
-  <link rel="stylesheet" href="../assets/css/index.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
-  <style></style>
-</head>
-<body>
-  <header>
-    <div class="logo">Techsphere</div>
-    <nav>
-      <a href="#">Trang chủ</a>
-      <a href="#products">Sản phẩm</a>
-      <a href="#about">Về chúng tôi</a>
-      <a href="#contact">Liên hệ</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Khám phá thế giới công nghệ đỉnh cao</h1>
-      <p>Techsphere - Nơi hội tụ của những thiết bị hiện đại nhất</p>
-      <a href="#products" class="btn-main">Xem sản phẩm</a>
-    </div>
-  </section>
-
-  <section id="products">
-    <h2 class="section-title">Sản phẩm nổi bật</h2>
-    <div class="products">
-      <div class="product-card">
-        <img src="https://via.placeholder.com/300x200" alt="Sản phẩm 1">
-        <h3>Laptop Gaming</h3>
-        <p>Hiệu năng đỉnh cao, thiết kế mạnh mẽ</p>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/300x200" alt="Sản phẩm 2">
-        <h3>Chuột Không Dây</h3>
-        <p>Phản hồi nhanh, cảm giác mượt mà</p>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/300x200" alt="Sản phẩm 3">
-        <h3>Tai nghe Chống Ồn</h3>
-        <p>Âm thanh sống động, cách âm tuyệt đối</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="about">
-    <h2 class="section-title">Về Techsphere</h2>
-    <p style="text-align: center; max-width: 800px; margin: auto;">
-      Techsphere là nền tảng thương mại điện tử chuyên cung cấp các sản phẩm công nghệ chính hãng, chất lượng cao, cập nhật xu hướng mới nhất. Chúng tôi cam kết mang đến trải nghiệm mua sắm hiện đại và tiện lợi cho bạn.
-    </p>
-  </section>
-
-  <!-- Tech Product Showcase Section -->
-  <section class="tech-showcase" id="contact">
-    <div class="tech-content">
-      <div class="tech-hero">
-        <div class="tech-text">
-          <div class="tech-subtitle">Techsphere</div>
-          <h2 class="tech-title">Sản phẩm<br><span class="highlight">của bạn</span></h2>
-          <p class="tech-description">
-            TECHSPHERE hứa hẹn mang đến cho bạn trải nghiệm sản phẩm công nghệ tuyệt vời 
-        nhất.
-          </p>
-          <a href="#products" class="tech-cta">Khám phá sản phẩm</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techsphere - Trang chủ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/index.css">
+  </head>
+  <body>
+    <header>
+      <div class="logo">Techsphere</div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+      <div class="nav-container" id="navContainer">
+        <nav>
+          <a href="#">Trang chủ</a>
+          <a href="#products">Sản phẩm</a>
+          <a href="#about">Về chúng tôi</a>
+          <a href="#contact">Liên hệ</a>
+        </nav>
+        <div class="auth-buttons">
+          <a href="#" class="btn-login">Đăng nhập</a>
+          <a href="#" class="btn-register">Đăng ký</a>
         </div>
-        <div class="tech-visual">
-          <div class="product-3d">
-            <div class="product-container">
-              <div class="product-item">
-                <img src="/api/placeholder/120/80" alt="Laptop" />
-              </div>
-              <div class="product-item">
-                <img src="/api/placeholder/120/80" alt="Smartphone" />
-              </div>
-              <div class="product-item">
-                <img src="/api/placeholder/120/80" alt="Headphones" />
-              </div>
-              <div class="product-item">
-                <img src="/api/placeholder/120/80" alt="Smart Watch" />
-              </div>
-              <div class="product-item">
-                <img src="/api/placeholder/120/80" alt="Tablet" />
-              </div>
-            </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>Techsphere</h1>
+          <a href="#products" class="btn-main">Xem sản phẩm</a>
+        </div>
+        <div class="hero-video-container">
+          <iframe
+            src="https://www.youtube.com/embed/3hBAw-TCCzg?autoplay=1&mute=1&loop=1&playlist=3hBAw-TCCzg&controls=1&showinfo=0&rel=0"
+            title="Lenovo Workstations: Introducing the All New ThinkPad P16"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          >
+          </iframe>
+          <div class="video-overlay"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products">
+      <h2 class="section-title">Sản phẩm nổi bật</h2>
+      <div class="products">
+        <div class="product-card">
+          <img
+            src="https://th.bing.com/th/id/OIP.cXFNh9C1UiIVl3z8S4WKPQHaEK?cb=iwc2&w=1600&h=900&rs=1&pid=ImgDetMain"
+            alt="Sản phẩm 1"
+          />
+          <h3>Laptop Gaming</h3>
+          <p>Hiệu năng đỉnh cao, thiết kế mạnh mẽ</p>
+        </div>
+        <div class="product-card">
+          <img
+            src="https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_2.0/d_transparent.gif/content/dam/logitech/en/products/webcams/mx-brio/buy/migration-assets-for-delorean-2025/gallery/mx-brio-3qtr-front-right-graphite.png?v=1"
+            alt="Sản phẩm 2"
+          />
+          <h3>Camera sắc nét</h3>
+          <p>Chất lượng hình ảnh vượt trội</p>
+        </div>
+        <div class="product-card">
+          <img
+            src="https://th.bing.com/th/id/OIP.hrfYja_oUMC46bWVGlCjYgHaEK?cb=iwc2&rs=1&pid=ImgDetMain"
+            alt="Sản phẩm 3"
+          />
+          <h3>Tai nghe Premium</h3>
+          <p>Âm thanh Hi-Fi chuyên nghiệp</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">Về Techsphere</h2>
+      <p>
+        Techsphere là nền tảng thương mại điện tử chuyên cung cấp các sản phẩm
+        công nghệ chính hãng, chất lượng cao, cập nhật xu hướng mới nhất. Chúng
+        tôi cam kết mang đến trải nghiệm mua sắm hiện đại và tiện lợi cho bạn.
+      </p>
+    </section>
+
+    <!-- Tech Product Showcase Section -->
+    <section class="tech-showcase" id="contact">
+      <div class="tech-content">
+        <div class="tech-hero">
+          <div class="tech-text">
+            <div class="tech-subtitle">Techsphere</div>
+            <h2 class="tech-title">
+              Sản phẩm<br /><span class="highlight">của bạn</span>
+            </h2>
+            <p class="tech-description">
+              TECHSPHERE hứa hẹn mang đến cho bạn trải nghiệm sản phẩm công nghệ
+              tuyệt vời nhất.
+            </p>
+            <a href="#products" class="tech-cta">Khám phá sản phẩm</a>
           </div>
         </div>
-      </div>
 
-      <div class="tech-stats">
-        <div class="stat-item">
-          <div class="stat-number">60+</div>
-          <div class="stat-label">Sản phẩm</div>
+        <div class="tech-stats">
+          <div class="stat-item">
+            <div class="stat-number">60+</div>
+            <div class="stat-label">Sản phẩm</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Khách hàng</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Hỗ trợ</div>
+          </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">0</div>
-          <div class="stat-label">Khách hàng</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Hỗ trợ</div>
-        </div>
-      </div>
 
-      <div class="footer-grid">
-        <div class="footer-column">
-          <h3>Sản phẩm</h3>
-          <ul>
-            <li><a href="#">Laptop & PC</a></li>
-            <li><a href="#">Smartphone</a></li>
-            <li><a href="#">Phụ kiện Tech</a></li>
-            <li><a href="#">Audio & Video</a></li>
-            <li><a href="#">Smart Home</a></li>
-          </ul>
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3>Sản phẩm</h3>
+            <ul>
+              <li><a href="#">Laptop & PC</a></li>
+              <li><a href="#">Smartphone</a></li>
+              <li><a href="#">Phụ kiện Tech</a></li>
+              <li><a href="#">Audio & Video</a></li>
+              <li><a href="#">Smart Home</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Hỗ trợ</h3>
+            <ul>
+              <li><a href="#">Trung tâm trợ giúp</a></li>
+              <li><a href="#">Chính sách bảo hành</a></li>
+              <li><a href="#">Hướng dẫn mua hàng</a></li>
+              <li><a href="#">Chính sách đổi trả</a></li>
+              <li><a href="#">Liên hệ</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Cộng đồng</h3>
+            <ul>
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">YouTube</a></li>
+              <li><a href="#">TikTok</a></li>
+              <li><a href="#">LinkedIn</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Công ty</h3>
+            <ul>
+              <li><a href="#">Về Techsphere</a></li>
+              <li><a href="#">Tuyển dụng</a></li>
+              <li><a href="#">Tin tức</a></li>
+              <li><a href="#">Đối tác</a></li>
+              <li><a href="#">Điều khoản</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-column">
-          <h3>Hỗ trợ</h3>
-          <ul>
-            <li><a href="#">Trung tâm trợ giúp</a></li>
-            <li><a href="#">Chính sách bảo hành</a></li>
-            <li><a href="#">Hướng dẫn mua hàng</a></li>
-            <li><a href="#">Chính sách đổi trả</a></li>
-            <li><a href="#">Liên hệ</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>Cộng đồng</h3>
-          <ul>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">YouTube</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">LinkedIn</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>Công ty</h3>
-          <ul>
-            <li><a href="#">Về Techsphere</a></li>
-            <li><a href="#">Tuyển dụng</a></li>
-            <li><a href="#">Tin tức</a></li>
-            <li><a href="#">Đối tác</a></li>
-            <li><a href="#">Điều khoản</a></li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="footer-bottom">
-        <p>&copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc sống hiện đại.</p>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
+            sống hiện đại.
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
-</body>
+    </section>
+
+    <script>
+      function toggleMobileMenu() {
+        const navContainer = document.getElementById("navContainer");
+        navContainer.classList.toggle("active");
+      }
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll("nav a").forEach((link) => {
+        link.addEventListener("click", () => {
+          const navContainer = document.getElementById("navContainer");
+          navContainer.classList.remove("active");
+        });
+      });
+    </script>
+  </body>
 </html>
