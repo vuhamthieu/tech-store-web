@@ -1,5 +1,5 @@
-CREATE DATABASE my_electronics_store;
-USE my_electronics_store;
+CREATE DATABASE db_tech_store_web;
+USE db_tech_store_web;
 
 -- Bảng Role
 CREATE TABLE Roles (
