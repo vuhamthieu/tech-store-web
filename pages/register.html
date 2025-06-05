@@ -1,11 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techsphere - Đăng ký</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/register.css" />
+    <link rel="icon" type="image/png" href="../assets/img/logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo" style="font-family: Orbitron, sans-serif">
+        Techsphere
+      </div>
+      <p>Đăng ký</p>
+      <a href="#" class="help-link">
+        <i class="fas fa-question-circle"></i> Trợ giúp
+      </a>
+    </header>
+
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">TECHSPHERE</h1>
+          <p class="hero-subtitle">
+            Tham gia Techsphere ngay hôm nay và nhận nhiều ưu đãi hấp dẫn!
+          </p>
+
+          <div class="tech-features">
+            <div class="feature">
+              <div class="feature-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Thành viên mới</h4>
+                <p>Nhận mã giảm giá 100K khi đăng ký lần đầu</p>
+              </div>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Ưu đãi độc quyền</h4>
+                <p>Chỉ dành cho tài khoản thành viên</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-container">
+          <h1 class="login-title">ĐĂNG KÝ</h1>
+          <p class="login-subtitle">Tạo tài khoản Techsphere của bạn</p>
+
+          <form id="registerForm">
+            <div class="form-group">
+              <label class="form-label" for="fullname"
+                ><i class="fas fa-user"></i> Họ và tên</label
+              >
+              <input
+                type="text"
+                class="form-input"
+                id="fullname"
+                placeholder="Nguyễn Văn A"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email"
+                ><i class="fas fa-envelope"></i> Email</label
+              >
+              <input
+                type="email"
+                class="form-input"
+                id="email"
+                placeholder="example@email.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="password"
+                ><i class="fas fa-lock"></i> Mật khẩu</label
+              >
+              <div class="password-container">
+                <input
+                  type="password"
+                  class="form-input"
+                  id="password"
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  onclick="togglePassword()"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirmPassword"
+                ><i class="fas fa-lock"></i> Nhập lại mật khẩu</label
+              >
+              <input
+                type="password"
+                class="form-input"
+                id="confirmPassword"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <button type="submit" class="login-btn">TẠO TÀI KHOẢN</button>
+          </form>
+
+          <div class="register-link">
+            Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2025 Techsphere. All rights reserved.</p>
+      <p>Công nghệ cho cuộc sống hiện đại.</p>
+    </footer>
+
+    <script>
+      function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.querySelector(".toggle-password i");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleBtn.classList.remove("fa-eye");
+          toggleBtn.classList.add("fa-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          toggleBtn.classList.remove("fa-eye-slash");
+          toggleBtn.classList.add("fa-eye");
+        }
+      }
+
+      // Xử lý đăng ký
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const fullName = document.getElementById("fullname").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (password !== confirmPassword) {
+            alert("Mật khẩu không khớp!");
+            return;
+          }
+
+          // window.location.href = 'login.html';
+        });
+    </script>
+  </body>
 </html>
