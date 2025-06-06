@@ -6,7 +6,9 @@ const products = [
         category: "laptop",
         brand: "dell",
         price: 28990000,
-        image: "https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220"
+        image: "https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220",
+
+
     },
     {
         id: 2,
@@ -30,7 +32,7 @@ const products = [
         category: "camera",
         brand: "ipcam",
         price: 0, // Price 0 means contact for price
-        image: "images/products/camera2.jpg"
+        image: "https://i5.walmartimages.com/asr/8958ec19-817b-4493-9f8d-78286102c695.79b3bc27ec5282456d13c823e95e15bc.jpeg"
     },
     {
         id: 5,
@@ -160,141 +162,4 @@ document.querySelectorAll('.promo-card, .hot-deal').forEach(card => {
     });
 });
 
-// Đếm ngược khuyến mãi (tùy chọn)
-function startCountdown() {
-    const countdownEl = document.createElement('div');
-    countdownEl.className = 'countdown';
-    document.querySelector('.promo-card').appendChild(countdownEl);
-    
-    let timeLeft = 3600; // 1 giờ
-    
-    const timer = setInterval(() => {
-        const hours = Math.floor(timeLeft / 3600);
-        const minutes = Math.floor((timeLeft % 3600) / 60);
-        const seconds = timeLeft % 60;
-        
-        countdownEl.innerHTML = `
-            <span>KẾT THÚC SAU:</span>
-            <span class="time">${hours}h ${minutes}m ${seconds}s</span>
-        `;
-        
-        if (timeLeft <= 0) clearInterval(timer);
-        timeLeft--;
-    }, 1000);
-}
-
-startCountdown();
-// Hiển thị popup sau 3 giây
-setTimeout(() => {
-    document.getElementById('floatingAd').classList.add('show');
-}, 3000);
-
-// Đóng popup khi click nút X
-document.getElementById('closeAd').addEventListener('click', function() {
-    document.getElementById('floatingAd').classList.remove('show');
-    
-    // Lưu trạng thái đã đóng vào localStorage (không hiển thị lại trong 24h)
-    localStorage.setItem('adClosed', Date.now());
-});
-
-// Kiểm tra nếu đã đóng trước đó
-window.addEventListener('DOMContentLoaded', () => {
-    const lastClosed = localStorage.getItem('adClosed');
-    if (lastClosed && (Date.now() - lastClosed < 86400000)) { // 24h
-        return;
-    }
-    setTimeout(() => {
-        document.getElementById('floatingAd').classList.add('show');
-    }, 3000);
-});
-// Đóng/mở quảng cáo trái
-const leftAd = document.getElementById('leftAd');
-const closeLeftAd = document.getElementById('closeLeftAd');
-
-// Kiểm tra localStorage
-if (!localStorage.getItem('adClosed')) {
-    // Hiển thị sau 2 giây
-    setTimeout(() => {
-        leftAd.classList.remove('collapsed');
-    }, 2000);
-}
-
-// Sự kiện đóng quảng cáo
-closeLeftAd.addEventListener('click', function() {
-    leftAd.classList.add('collapsed');
-    localStorage.setItem('adClosed', 'true');
-    
-    // Tự động mở lại sau 30 phút
-    setTimeout(() => {
-        localStorage.removeItem('adClosed');
-    }, 1800000);
-});
-
-// Hiệu ứng hover
-leftAd.addEventListener('mouseenter', function() {
-    if (leftAd.classList.contains('collapsed')) {
-        leftAd.classList.remove('collapsed');
-    }
-});
-
-leftAd.addEventListener('mouseleave', function() {
-    if (localStorage.getItem('adClosed')) {
-        leftAd.classList.add('collapsed');
-    }
-});
-// Đóng/mở sidebar trên mobile
-const sidebar = document.querySelector('.left-sidebar');
-const toggleBtn = document.querySelector('.sidebar-toggle');
-
-toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-});
-
-// Đếm ngược khuyến mãi
-function updateCountdown() {
-    const countdownElement = document.querySelector('.countdown');
-    let hours = 5;
-    let minutes = 12;
-    let seconds = 36;
-    
-    const timer = setInterval(() => {
-        seconds--;
-        
-        if (seconds < 0) {
-            seconds = 59;
-            minutes--;
-        }
-        
-        if (minutes < 0) {
-            minutes = 59;
-            hours--;
-        }
-        
-        if (hours < 0) {
-            clearInterval(timer);
-            countdownElement.textContent = "KẾT THÚC";
-            countdownElement.style.background = "#333";
-            return;
-        }
-        
-        countdownElement.textContent = 
-            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }, 1000);
-}
-
-updateCountdown();
-
-// Lưu trạng thái sidebar
-window.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth > 992) {
-        sidebar.classList.add('active');
-    }
-});
-
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 992) {
-        sidebar.classList.add('active');
-    } else {
-        sidebar.classList.remove('active');
-    }
-});
+ 
