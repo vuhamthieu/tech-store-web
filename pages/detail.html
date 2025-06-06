@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techology</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/product.css" />
+    <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
+    <link rel="stylesheet" href="../assets/css/detail.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="container">
+        <div class="logo">
+          <a href="index.html">
+            <img
+              src=""
+              alt="TechBlack Logo"
+            />
+            <span>TECHBLACK</span>
+          </a>
+        </div>
+
+        <div class="search-box">
+          <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="header-icons">
+          <a href="#"><i class="fas fa-user"></i></a>
+          <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-menu">
+          <li><a href="index.html">TRANG CHỦ</a></li>
+          <li class="dropdown">
+            <a href="#">MÁY TÍNH </i></a>
+           
+          </li>
+          <li class="dropdown">
+            <a href="#">CAMERA </i></a>
+            
+          </li>
+          <li class="dropdown">
+            <a href="#">THIẾT BỊ</i></a>
+          
+          </li>
+          <li><a href="#">KHUYẾN MÃI</a></li>
+        
+        </ul>
+      </div>
+    </nav>
+
+
+  
+
+
+
+    <!-- Main Content -->
+    <main class="container main-content">
+   <!-- Main Content -->
+<div class="product-detail-container">
+    <div class="product-images">
+        <div class="main-image">
+            <img id="mainImage" src="images/product1.jpg" alt="Tên sản phẩm">
+        </div>
+        <div class="thumbnail-gallery">
+            <img src="https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220" alt="Thumbnail 1" class="thumbnail active" onclick="changeImage('images/product1.jpg')">
+            <img src="https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220" alt="Thumbnail 2" class="thumbnail" onclick="changeImage('images/product1-2.jpg')">
+            <img src="images/product1-thumb3.jpg" alt="Thumbnail 3" class="thumbnail" onclick="changeImage('images/product1-3.jpg')">
+        </div>
+    </div>
+
+    <div class="product-info">
+        <h1 class="product-title">Tên Sản Phẩm</h1>
+        <div class="product-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="review-count">(42 đánh giá)</span>
+        </div>
+        
+        <div class="product-price">
+            <span class="current-price">1.299.000₫</span>
+            <span class="old-price">1.599.000₫</span>
+            <span class="discount">-19%</span>
+        </div>
+        <div class="product-stock">
+            <strong>Tồn kho:</strong> <span id="stockCount">125 sản phẩm</span>
+        </div>
+        <div class="product-description">
+            <h3>Mô tả sản phẩm</h3>
+            <p>Đây là mô tả chi tiết về sản phẩm, các tính năng nổi bật và thông tin hữu ích cho khách hàng.</p>
+            <ul>
+                <li>Tính năng 1</li>
+                <li>Tính năng 2</li>
+                <li>Tính năng 3</li>
+            </ul>
+        </div>
+        
+        <div class="product-actions">
+            <div class="quantity-selector">
+                <button class="qty-btn" onclick="decreaseQuantity()">-</button>
+                <input type="number" id="quantity" value="1" min="1">
+                <button class="qty-btn" onclick="increaseQuantity()">+</button>
+            </div>
+            <button class="add-to-cart">Thêm vào giỏ hàng</button>
+            <button class="buy-now">Mua ngay</button>
+        </div>
+    </div>
+</div>
+    </main>
+    <section class="customer-review-form">
+        <h2>GỬI ĐÁNH GIÁ CỦA BẠN</h2>
+        <form id="reviewForm">
+          <div class="form-group">
+            <label for="username">Tên của bạn</label>
+            <input type="text" id="username" name="username" placeholder="Nhập tên của bạn" required />
+          </div>
+      
+          <div class="form-group">
+            <label>Đánh giá của bạn</label>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+              <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+              <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+              <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+              <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+            </div>
+          </div>
+      
+          <div class="form-group">
+            <label for="comment">Nội dung đánh giá</label>
+            <textarea id="comment" name="comment" rows="4" placeholder="Viết nhận xét tại đây..." required></textarea>
+          </div>
+      
+          <div class="form-group">
+            <label for="media">Hình ảnh / Video (tuỳ chọn)</label>
+            <input type="file" id="media" name="media" accept="image/*,video/*" multiple />
+          </div>
+      
+          <button type="submit" class="submit-btn">Gửi đánh giá</button>
+        </form>
+      </section>
+      
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="footer-column">
+          <h4>VỀ CHÚNG TÔI</h4>
+          <p>TechBlack - Đối tác công nghệ tin cậy</p>
+          <p>Giấy phép kinh doanh: 0123456789</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>LIÊN HỆ</h4>
+          <p>
+            <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
+            Nội
+          </p>
+          <p><i class="fas fa-phone"></i> 0909 123 456</p>
+          <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>THEO DÕI CHÚNG TÔI</h4>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  
+   <script src="../assets/js/product-detail.js"></script>
+        
+</body>
+</html>
+
+
+
