@@ -879,7 +879,7 @@ ul {
 }
 
 .new-price {
-    color: white;
+    
     font-size: 20px;
     font-weight: bold;
 }
@@ -928,22 +928,8 @@ ul {
     left: 0 !important;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .left-ad-container {
-        width: 220px;
-        font-size: 14px;
-    }
-    
-    .left-ad-container.collapsed {
-        left: -190px;
-    }
-    
-    .product-image {
-        width: 80px;
-        height: 80px;
-    }
-}
+
+
 /* ===== SIDEBAR TRÁI ===== */
 .left-sidebar {
     position: fixed;
@@ -1096,39 +1082,9 @@ ul {
     border-radius: 5px;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-    .left-sidebar {
-        width: 250px;
-    }
-    
-    .left-sidebar.collapsed {
-        left: -220px;
-    }
-}
 
-@media (max-width: 768px) {
-    .left-sidebar {
-        top: 120px;
-        height: calc(100vh - 120px);
-    }
-}
 
-/* ===== SIDEBAR TRÁI ===== */
-.left-sidebar {
-    position: fixed;
-    left: 0;
-    top: 120px; /* Cách header */
-    width: 280px;
-    height: calc(100vh - 120px);
-    background: #1a1a1a;
-    color: white;
-    padding: 15px;
-    overflow-y: auto;
-    z-index: 900;
-    border-right: 3px solid #E53935;
-    transition: all 0.3s ease;
-}
+
 
 /* Section chung */
 .sidebar-section {
@@ -1227,40 +1183,8 @@ ul {
     background: linear-gradient(to right, #C62828, #E53935);
 }
 
-/* Badge giảm giá */
-.discount-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #E53935;
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    z-index: 2;
-}
 
-/* Nút toggle cho mobile */
-.sidebar-toggle {
-    display: none;
-    position: absolute;
-    right: -35px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 35px;
-    height: 70px;
-    background: #E53935;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    color: white;
-    cursor: pointer;
-    z-index: 950;
-}
+
 
 /* Responsive */
 @media (max-width: 992px) {
@@ -1282,83 +1206,4 @@ ul {
         transform: rotate(180deg);
     }
 }
-/*HMMMMMMMMMMMMMMMMMMMMMMMM*/
-/* Header */
-.header_div {
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .header_img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* Menu ngang */
-  nav {
-    background-color: var(--pure-black);
-  }
-  
-  .main-menu {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    background-color: var(--pure-black);
-  }
-  
-  .main-menu > li {
-    position: relative;
-  }
-  
-  .main-menu li a {
-    display: block;
-    padding: 15px 20px;
-    color:  white;
-    text-decoration: none;
-  }
-  
-  .main-menu li:hover {
-    background-color: var(--pure-black);
-  }
-  
-  .sub-menu {
-    display: none;
-    position: absolute;
-    background-color: var(--pure-black);
-    top: 100%;
-    left: 0;
-    min-width: 150px;
-    list-style: none;
-  }
-  
-  .main-menu li:hover .sub-menu {
-    display: block;
-  }
-  
-  .sub-menu li a {
-    padding: 10px;
-    color: white;
-  }
-  
-  /* Nội dung 3 cột */
-  .content {
-    display: flex;
-    padding: 20px;
-    gap: 20px;
-  }
-  
-  #aside_left,
-  #aside_right {
-    width: 15%;
-  }
-  
-  #aside_left img,
-  #aside_right img {
-    width: 100%;
-  }
-  
-  article {
-    width: 70%;
-    background-color: #f5f5f5;
-    padding: 20px;
-  }
+
