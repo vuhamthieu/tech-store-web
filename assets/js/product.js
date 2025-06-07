@@ -216,9 +216,9 @@ async function loadProducts(page = 1) {
 function renderProducts(products) {
   productGrid.innerHTML = products.map(p => `
     <div class="product-item">
-      <img src="${p.image_url}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p class="price">${formatPrice(p.price)}₫</p>
+      <img src="${p.Image}" alt="${p.Title}">
+      <h3>${p.Title}</h3>
+      <p class="price">${formatPrice(p.Price)}₫</p>
     </div>
   `).join('');
 }
@@ -256,6 +256,7 @@ sortSelect.addEventListener('change', () => {
 
 // Gọi lần đầu
 loadProducts();
+
 ///////////////suggest
 const suggestionBox = document.getElementById('search-suggestions');
 
