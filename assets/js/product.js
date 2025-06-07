@@ -1,92 +1,33 @@
-// Sample product data
-const products = [
-    {
-        id: 1,
-        name: "Laptop Dell XPS 15",
-        category: "laptop",
-        brand: "dell",
-        price: 28990000,
-        image: "https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220",
+// GERNERATE PRODUCT
+const apiURL = "https://api.example.com/cameras";
+    const grid = document.getElementById("product-grid");
 
+    fetch(apiURL)
+      .then(res => res.json())
+      .then(data => {
+        renderProducts(data);
+      })
+      .catch(err => {
+        console.error("Lỗi khi tải dữ liệu:", err);
+        grid.innerHTML = "<p>Không có sản phẩm.</p>";
+      });
 
-    },
-    {
-        id: 2,
-        name: "Camera HD Pro 4K",
-        category: "camera",
-        brand: "hdpro",
-        price: 3490000,
-        image: "https://i5.walmartimages.com/asr/8958ec19-817b-4493-9f8d-78286102c695.79b3bc27ec5282456d13c823e95e15bc.jpeg"
-    },
-    {
-        id: 3,
-        name: "Laptop Lenovo ThinkPad",
-        category: "laptop",
-        brand: "lenovo",
-        price: 21990000,
-        image: "images/products/laptop2.jpg"
-    },
-    {
-        id: 4,
-        name: "Camera IP Wifi",
-        category: "camera",
-        brand: "ipcam",
-        price: 0, // Price 0 means contact for price
-        image: "https://i5.walmartimages.com/asr/8958ec19-817b-4493-9f8d-78286102c695.79b3bc27ec5282456d13c823e95e15bc.jpeg"
-    },
-    {
-        id: 5,
-        name: "Laptop HP EliteBook",
-        category: "laptop",
-        brand: "hp",
-        price: 24990000,
-        image: "images/products/laptop3.jpg"
-    },
-    {
-        id: 6,
-        name: "Camera Không Dây",
-        category: "camera",
-        brand: "wireless",
-        price: 1890000,
-        image: "images/products/camera3.jpg"
-    }
-];
-
-// DOM Elements
-const productGrid = document.querySelector('.product-grid');
-const brandFilter = document.getElementById('brand-filter');
-const priceFilter = document.getElementById('price-filter');
-
-// Display products function
-function displayProducts(productsToDisplay) {
-    productGrid.innerHTML = '';
-    
-    productsToDisplay.forEach(product => {
-        const priceHTML = product.price > 0 ? 
-            `<p class="price">${formatCurrency(product.price)}</p>` : 
-            `<p class="price contact-price">Liên hệ</p>`;
-        
-        const buttonsHTML = product.price > 0 ?
-            `<button class="btn add-to-cart">Thêm giỏ hàng</button>
-             <button class="btn quick-view">Xem nhanh</button>` :
-            `<button class="btn contact-btn">Yêu cầu báo giá</button>`;
-        
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <div class="product-info">
-                <h3>${product.name}</h3>
-                ${priceHTML}
-                <div class="product-actions">
-                    ${buttonsHTML}
-                </div>
+    function renderProducts(data) {
+      grid.innerHTML = data.map(product => `
+        <div class="card">
+          <img src="${product.image}" alt="${product.name}">
+          <div class="card-content">
+            <h2>${product.name}</h2>
+            <div class="price">${product.price.toLocaleString('vi-VN')}₫</div>
+            <div class="btns">
+              <button>THÊM GIỎ HÀNG</button>
+              <button>XEM NHANH</button>
             </div>
-        `;
-        
-        productGrid.appendChild(productCard);
-    });
-}
+          </div>
+        </div>
+      `).join("");
+    }
+
 
 // Format currency (VND)
 function formatCurrency(amount) {
@@ -123,12 +64,9 @@ function filterProducts() {
     displayProducts(filteredProducts);
 }
 
-// Event listeners
-brandFilter.addEventListener('change', filterProducts);
-priceFilter.addEventListener('change', filterProducts);
 
-// Initial display
-displayProducts(products);
+
+
 // Làm nổi bật widget khi scroll đến
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarWidgets = document.querySelectorAll('.sidebar-widget');
@@ -162,4 +100,107 @@ document.querySelectorAll('.promo-card, .hot-deal').forEach(card => {
     });
 });
 
- 
+// Tự nhận diện trang hiện tại theo URL
+const currentPage = window.location.pathname.split("/").pop();
+    document.querySelectorAll(".nav-menu li a").forEach(link => {
+      const href = link.getAttribute("href");
+      if (href === currentPage || (href === "product.html" && currentPage === "")) {
+        link.parentElement.classList.add("active");
+      }
+    });
+    ///////DETAIL PRODUCT
+    function changeImage(src) {
+        document.getElementById('mainImage').src = src;
+        const thumbs = document.querySelectorAll('.thumbnail');
+        thumbs.forEach(img => img.classList.remove('active'));
+        [...thumbs].find(img => img.src === src)?.classList.add('active');
+      }
+      
+      function increaseQuantity() {
+        const input = document.getElementById('quantity');
+        input.value = parseInt(input.value) + 1;
+      }
+      
+      function decreaseQuantity() {
+        const input = document.getElementById('quantity');
+        if (parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
+      }
+      
+      // Lấy dữ liệu sản phẩm từ API
+      fetch('https://api.example.com/product/123')
+        .then(res => res.json())
+        .then(product => {
+          document.getElementById('mainImage').src = product.mainImage;
+          document.getElementById('productTitle').textContent = product.name;
+          document.getElementById('productPrice').textContent = product.price + '₫';
+          document.getElementById('productOldPrice').textContent = product.oldPrice + '₫';
+          document.getElementById('productDiscount').textContent = product.discount;
+          document.getElementById('stockCount').textContent = product.stock + ' sản phẩm';
+          document.getElementById('productDescription').textContent = product.description;
+      
+          const features = document.getElementById('productFeatures');
+          features.innerHTML = product.features.map(f => `<li>${f}</li>`).join('');
+      
+          const gallery = document.getElementById('thumbnailGallery');
+          gallery.innerHTML = product.images.map((img, index) => `
+            <img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage('${img}')">
+          `).join('');
+        });
+        ////////////////////////////////////////////
+        /////REVIEW
+        async function loadProductData() {
+            try {
+              const res = await fetch("https://example.com/api/products/1");
+              const product = await res.json();
+          
+              // Cập nhật hình ảnh chính
+              document.getElementById("mainImage").src = product.images[0];
+          
+              // Cập nhật thumbnail
+              const thumbnailGallery = document.querySelector(".thumbnail-gallery");
+              thumbnailGallery.innerHTML = ""; // Xóa ảnh cũ
+              product.images.forEach((img, index) => {
+                const thumb = document.createElement("img");
+                thumb.src = img;
+                thumb.alt = "Thumbnail " + (index + 1);
+                thumb.className = "thumbnail" + (index === 0 ? " active" : "");
+                thumb.onclick = () => changeImage(img);
+                thumbnailGallery.appendChild(thumb);
+              });
+          
+              // Cập nhật thông tin sản phẩm
+              document.querySelector(".product-title").innerText = product.name;
+              document.querySelector(".current-price").innerText = product.price.toLocaleString() + "₫";
+              document.querySelector(".old-price").innerText = product.old_price.toLocaleString() + "₫";
+              document.querySelector(".discount").innerText = 
+                `-${Math.round(100 - (product.price / product.old_price) * 100)}%`;
+              document.getElementById("stockCount").innerText = product.stock + " sản phẩm";
+          
+              // Đánh giá
+              document.querySelector(".stars").innerText = "★".repeat(product.rating) + "☆".repeat(5 - product.rating);
+              document.querySelector(".review-count").innerText = `(${product.reviews} đánh giá)`;
+          
+              // Mô tả
+              document.querySelector(".product-description p").innerText = product.description;
+              
+              const featureList = document.querySelector(".product-description ul");
+              featureList.innerHTML = "";
+              product.features.forEach(f => {
+                const li = document.createElement("li");
+                li.innerText = f;
+                featureList.appendChild(li);
+              });
+          
+            } catch (err) {
+              console.error("Lỗi tải sản phẩm:", err);
+            }
+          }
+          
+          // Gọi hàm khi trang tải xong
+          document.addEventListener("DOMContentLoaded", loadProductData);
+          
+          // Hàm đổi hình ảnh chính
+          function changeImage(url) {
+            document.getElementById("mainImage").src = url;
+          }
+          ////////////////////////////////

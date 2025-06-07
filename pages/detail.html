@@ -53,18 +53,18 @@
         <ul class="nav-menu">
           <li><a href="index.html">TRANG CHỦ</a></li>
           <li class="dropdown">
-            <a href="#">MÁY TÍNH </i></a>
+            <a href="product.html">MÁY TÍNH </i></a>
            
           </li>
           <li class="dropdown">
-            <a href="#">CAMERA </i></a>
+            <a href="product-camera.html">CAMERA </i></a>
             
           </li>
           <li class="dropdown">
-            <a href="#">THIẾT BỊ</i></a>
+            <a href="product-devices.html">THIẾT BỊ</i></a>
           
           </li>
-          <li><a href="#">KHUYẾN MÃI</a></li>
+        
         
         </ul>
       </div>
@@ -77,58 +77,55 @@
 
     <!-- Main Content -->
     <main class="container main-content">
-   <!-- Main Content -->
-<div class="product-detail-container">
-    <div class="product-images">
-        <div class="main-image">
-            <img id="mainImage" src="images/product1.jpg" alt="Tên sản phẩm">
+      <div class="product-detail-container">
+        <div class="product-images">
+          <div class="main-image">
+            <img id="mainImage" src="" alt="Tên sản phẩm">
+          </div>
+          <div class="thumbnail-gallery" id="thumbnailGallery"></div>
         </div>
-        <div class="thumbnail-gallery">
-            <img src="https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220" alt="Thumbnail 1" class="thumbnail active" onclick="changeImage('images/product1.jpg')">
-            <img src="https://tse2.mm.bing.net/th?id=OIP.3-gnsUPAVPugc62QeeoNDgHaDl&pid=Api&P=0&h=220" alt="Thumbnail 2" class="thumbnail" onclick="changeImage('images/product1-2.jpg')">
-            <img src="images/product1-thumb3.jpg" alt="Thumbnail 3" class="thumbnail" onclick="changeImage('images/product1-3.jpg')">
-        </div>
-    </div>
-
-    <div class="product-info">
-        <h1 class="product-title">Tên Sản Phẩm</h1>
-        <div class="product-rating">
+    
+        <div class="product-info">
+          <h1 class="product-title" id="productTitle">Tên Sản Phẩm</h1>
+          <div class="product-rating">
             <span class="stars">★★★★☆</span>
             <span class="review-count">(42 đánh giá)</span>
-        </div>
-        
-        <div class="product-price">
-            <span class="current-price">1.299.000₫</span>
-            <span class="old-price">1.599.000₫</span>
-            <span class="discount">-19%</span>
-        </div>
-        <div class="product-stock">
+          </div>
+    
+          <div class="product-price">
+            <span class="current-price" id="productPrice">1.299.000₫</span>
+            <span class="old-price" id="productOldPrice">1.599.000₫</span>
+            <span class="discount" id="productDiscount">-19%</span>
+          </div>
+          <div class="product-stock">
             <strong>Tồn kho:</strong> <span id="stockCount">125 sản phẩm</span>
-        </div>
-        <div class="product-description">
+          </div>
+          <div class="product-description">
             <h3>Mô tả sản phẩm</h3>
-            <p>Đây là mô tả chi tiết về sản phẩm, các tính năng nổi bật và thông tin hữu ích cho khách hàng.</p>
-            <ul>
-                <li>Tính năng 1</li>
-                <li>Tính năng 2</li>
-                <li>Tính năng 3</li>
+            <p id="productDescription">Đây là mô tả chi tiết về sản phẩm, các tính năng nổi bật và thông tin hữu ích cho khách hàng.</p>
+            <ul id="productFeatures">
+              <!-- Tính năng từ API sẽ được thêm vào đây -->
             </ul>
-        </div>
-        
-        <div class="product-actions">
+          </div>
+    
+          <div class="product-actions">
             <div class="quantity-selector">
-                <button class="qty-btn" onclick="decreaseQuantity()">-</button>
-                <input type="number" id="quantity" value="1" min="1">
-                <button class="qty-btn" onclick="increaseQuantity()">+</button>
+              <button class="qty-btn" onclick="decreaseQuantity()">-</button>
+              <input type="number" id="quantity" value="1" min="1">
+              <button class="qty-btn" onclick="increaseQuantity()">+</button>
             </div>
             <button class="add-to-cart">Thêm vào giỏ hàng</button>
             <button class="buy-now">Mua ngay</button>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
     </main>
+    <section class="customer-reviews">
+      <h2>Nhận xét của khách hàng</h2>
+      <div id="reviewsContainer"></div>
+    </section>
     <section class="customer-review-form">
-        <h2>GỬI ĐÁNH GIÁ CỦA BẠN</h2>
+        <h2 >Gửi đánh giá của bạn</h2>
         <form id="reviewForm">
           <div class="form-group">
             <label for="username">Tên của bạn</label>
