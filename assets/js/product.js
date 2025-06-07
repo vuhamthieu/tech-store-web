@@ -1,68 +1,6 @@
 // GERNERATE PRODUCT
-const apiURL = "https://api.example.com/cameras";
-    const grid = document.getElementById("product-grid");
-
-    fetch(apiURL)
-      .then(res => res.json())
-      .then(data => {
-        renderProducts(data);
-      })
-      .catch(err => {
-        console.error("Lỗi khi tải dữ liệu:", err);
-        grid.innerHTML = "<p>Không có sản phẩm.</p>";
-      });
-
-    function renderProducts(data) {
-      grid.innerHTML = data.map(product => `
-        <div class="card">
-          <img src="${product.image}" alt="${product.name}">
-          <div class="card-content">
-            <h2>${product.name}</h2>
-            <div class="price">${product.price.toLocaleString('vi-VN')}₫</div>
-            <div class="btns">
-              <button>THÊM GIỎ HÀNG</button>
-              <button>XEM NHANH</button>
-            </div>
-          </div>
-        </div>
-      `).join("");
-    }
 
 
-// Format currency (VND)
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', { 
-        style: 'currency', 
-        currency: 'VND' 
-    }).format(amount);
-}
-
-// Filter products function
-function filterProducts() {
-    const brandValue = brandFilter.value;
-    const priceValue = priceFilter.value;
-    
-    let filteredProducts = products;
-    
-    // Filter by brand
-    if (brandValue !== 'all') {
-        filteredProducts = filteredProducts.filter(product => product.brand === brandValue);
-    }
-    
-    // Filter by price
-    if (priceValue !== 'all') {
-        switch(priceValue) {
-            case '1': // Under 5 million
-                filteredProducts = filteredProducts.filter(product => product.price > 0 && product.price < 5000000);
-                break;
-            case '2': // 5-10 million
-                filteredProducts = filteredProducts.filter(product => product.price >= 5000000 && product.price <= 10000000);
-                break;
-        }
-    }
-    
-    displayProducts(filteredProducts);
-}
 
 
 
@@ -99,6 +37,24 @@ document.querySelectorAll('.promo-card, .hot-deal').forEach(card => {
         card.style.boxShadow = '0 3px 10px rgba(0,0,0,0.05)';
     });
 });
+
+
+
+  const sidebar = document.getElementById('leftSidebar');
+  const toggleBtn = document.getElementById('sidebarToggle');
+
+  toggleBtn.addEventListener('click', function () {
+    sidebar.classList.toggle('collapsed');
+    // Đổi icon và vị trí nút
+    if (sidebar.classList.contains('collapsed')) {
+      toggleBtn.querySelector('i').className = 'fas fa-chevron-right';
+      toggleBtn.style.left = '15px';
+    } else {
+      toggleBtn.querySelector('i').className = 'fas fa-chevron-left';
+      toggleBtn.style.left = '265px';
+    }
+  });
+
 
 // Tự nhận diện trang hiện tại theo URL
 const currentPage = window.location.pathname.split("/").pop();
@@ -203,7 +159,8 @@ const currentPage = window.location.pathname.split("/").pop();
           function changeImage(url) {
             document.getElementById("mainImage").src = url;
           }
-          ////////////////////////////////
+          //////////////////////////////// 
+         ////check out
           document.getElementById('buyBtn').onclick = async () => {
             const res = await fetch('checkout.html');
             const html = await res.text();
@@ -211,3 +168,143 @@ const currentPage = window.location.pathname.split("/").pop();
             container.innerHTML = html;
             container.style.display = 'flex';
           };
+////////////////////
+//product list
+const API_URL = 'http://localhost/webproject/tech-store-web/back-end/php/api/products.php';
+
+const productGrid = document.querySelector('.product-grid');
+const searchInput = document.getElementById('search-input');
+const sortSelect = document.getElementById('sort-filter');
+const paginationContainer = document.getElementById('pageNumbers');
+const limit = 15;
+
+let currentPageNum = 1;
+let currentSearch = '';
+let currentSort = '';
+
+async function loadProducts(page = 1) {
+  currentPageNum = page;
+  currentSearch = searchInput.value.trim();
+  currentSort = sortSelect.value;
+
+  const params = new URLSearchParams({
+    page: currentPageNum,
+    limit: limit
+  });
+
+  if (currentSearch) params.append('search', currentSearch);
+  if (currentSort) params.append('sort_by', currentSort);
+
+  try {
+    const response = await fetch(`${API_URL}?${params.toString()}`);
+    const data = await response.json();
+
+    if (data.products && data.products.length > 0) {
+      renderProducts(data.products);
+      renderPagination(data.total_pages, data.page);
+    } else {
+      productGrid.innerHTML = '<p>Không có sản phẩm phù hợp.</p>';
+      paginationContainer.innerHTML = '';
+    }
+  } catch (error) {
+    console.error('Lỗi khi tải sản phẩm:', error);
+    productGrid.innerHTML = '<p>Không thể tải sản phẩm.</p>';
+    paginationContainer.innerHTML = '';
+  }
+}
+
+function renderProducts(products) {
+  productGrid.innerHTML = products.map(p => `
+    <div class="product-item">
+      <img src="${p.image_url}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">${formatPrice(p.price)}₫</p>
+    </div>
+  `).join('');
+}
+
+function formatPrice(price) {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function renderPagination(totalPages, current) {
+  paginationContainer.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.textContent = i;
+    pageBtn.classList.add('page-btn');
+    if (i === current) pageBtn.classList.add('active');
+    pageBtn.addEventListener('click', () => loadProducts(i));
+    paginationContainer.appendChild(pageBtn);
+  }
+}
+
+// Debounce tìm kiếm
+let debounceTimer;
+const debounceDelay = 500;
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    loadProducts(1);
+  }, debounceDelay);
+});
+
+sortSelect.addEventListener('change', () => {
+  loadProducts(1);
+});
+
+// Gọi lần đầu
+loadProducts();
+///////////////suggest
+const suggestionBox = document.getElementById('search-suggestions');
+
+// Hàm gọi API gợi ý (giả sử trả về danh sách tên sản phẩm gần đúng)
+async function fetchSuggestions(query) {
+  try {
+    const res = await fetch(`${API_URL}?suggest=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    return data.suggestions || [];
+  } catch (err) {
+    console.error('Lỗi gợi ý:', err);
+    return [];
+  }
+}
+
+// Hiển thị gợi ý
+function showSuggestions(suggestions) {
+  suggestionBox.innerHTML = '';
+  if (suggestions.length === 0) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+  suggestions.forEach(item => {
+    const div = document.createElement('div');
+    div.textContent = item;
+    div.addEventListener('click', () => {
+      searchInput.value = item;
+      suggestionBox.style.display = 'none';
+      loadProducts(1);
+    });
+    suggestionBox.appendChild(div);
+  });
+  suggestionBox.style.display = 'block';
+}
+
+// Lắng nghe nhập liệu và hiển thị gợi ý
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.trim();
+  if (query.length < 2) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  fetchSuggestions(query).then(showSuggestions);
+});
+
+// Ẩn gợi ý khi click ra ngoài
+document.addEventListener('click', (e) => {
+  if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+    suggestionBox.style.display = 'none';
+  }
+});
