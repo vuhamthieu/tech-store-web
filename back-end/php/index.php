@@ -19,8 +19,8 @@ switch ($path) {
         require 'api/register.php';
         break;
 
-    case 'api/get-products':
-        require 'api/get-products.php';
+    case 'api/products':
+        require 'api/products.php';
         break;
 
     case 'api/add-to-cart':
