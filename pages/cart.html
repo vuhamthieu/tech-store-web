@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techsphere - Giỏ hàng</title>
+    <link rel="stylesheet" href="cart.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/cart.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <span class="logo" style="font-family: Orbitron, sans-serif"
+          >Techsphere</span
+        >
+        <div class="divider"></div>
+        <span class="header-title" style="color: white">Giỏ hàng</span>
+      </div>
+      <div class="user-info">
+        <img
+          src="https://th.bing.com/th/id/OIP.sbRjMD2zaP12rWg1bR1PDAHaHa?rs=1&pid=ImgDetMain"
+          alt="Avatar"
+          class="user-avatar"
+        />
+        <span class="user-name">User</span>
+      </div>
+    </header>
+
+    <div class="cart-container">
+      <div class="cart-header">
+        <div class="select-all">
+          <input type="checkbox" id="select-all" />
+          <label for="select-all">Chọn tất cả</label>
+        </div>
+        <button class="delete-selected">
+          <i class="fas fa-trash"></i> Xóa
+        </button>
+      </div>
+
+      <div class="cart-column-titles">
+        <div class="col-select">Chọn</div>
+        <div class="col-product">Sản phẩm</div>
+        <div class="col-price">Đơn giá</div>
+        <div class="col-quantity">Số lượng</div>
+        <div class="col-total">Thành tiền</div>
+        <div class="col-action">Thao tác</div>
+      </div>
+
+      <div class="cart-items">
+        <div class="cart-empty">
+          <i class="fas fa-shopping-cart"></i>
+          <p>Giỏ hàng của bạn đang trống!</p>
+          <p>Thêm sản phẩm ngay để bắt đầu mua sắm.</p>
+          <a href="../pages/product.html" class="btn-shopping">MUA NGAY</a>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <div class="footer-left">
+          <span>Tổng thanh toán (0 sản phẩm):</span>
+        </div>
+        <div class="footer-right">
+          <div class="total-price">
+            <span class="amount">0 ₫</span>
+          </div>
+          <button class="checkout-btn">MUA HÀNG</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>© 2025 Techsphere. All rights reserved.</p>
+      <p>Công nghệ cho cuộc sống hiện đại.</p>
+    </footer>
+  </body>
+</html>

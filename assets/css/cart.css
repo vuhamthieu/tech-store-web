@@ -1,0 +1,201 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.header-left {
+  display: flex;
+  align-items: center;
+}
+.divider {
+  width: 2px;
+  height: 1.5rem;
+  background: #ff0000;
+  margin: 0 1rem;
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff0000;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.header-title {
+  font-size: 1.1rem;
+  color: #ff0000;
+  font-family: "Orbitron", sans-serif;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff0000;
+}
+.user-name {
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Cart container */
+.cart-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart header */
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.select-all {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  color: #000;
+}
+.delete-selected {
+  background: none;
+  border: none;
+  color: #ff0000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+.delete-selected:hover {
+  color: #cc0000;
+}
+
+/* Cart column titles */
+.cart-column-titles {
+  display: flex;
+  padding: 0.8rem 1rem;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
+  color: #ff0000;
+  font-size: 0.9rem;
+}
+.col-select { width: 60px; text-align: center; }
+.col-product { flex: 3; padding-left: 1rem; }
+.col-price, .col-quantity, .col-total { width: 150px; text-align: center; }
+.col-action { width: 80px; text-align: center; }
+
+/* Cart empty */
+.cart-empty {
+  text-align: center;
+  padding: 4rem 0;
+  color: #666;
+}
+.cart-empty i {
+  font-size: 4rem;
+  color: #ff0000;
+  animation: shake 0.5s ease-in-out;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+.cart-empty p {
+  margin: 1rem 0;
+  font-size: 1.1rem;
+}
+.btn-shopping {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #ff0000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.btn-shopping:hover {
+  background: #cc0000;
+}
+
+/* Cart footer */
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 1.5rem;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.total-price .amount {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+.checkout-btn {
+  padding: 0.8rem 2.5rem;
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.checkout-btn:hover {
+  background: #cc0000;
+}
+
+/* Footer */
+.footer {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 3rem;
+}
+.footer p {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-column-titles { display: none; }
+  .cart-item { flex-wrap: wrap; position: relative; padding: 1rem 0.5rem; }
+  .col-select { order: 1; width: 40px; }
+  .col-product { order: 2; flex: 1 0 calc(100% - 40px); padding: 0.5rem 0; }
+  .col-price, .col-quantity, .col-total { width: 33.33%; text-align: left; padding: 0.5rem 0; }
+  .col-action { position: absolute; top: 1rem; right: 0.5rem; }
+  .footer-left, .footer-right { flex-direction: column; gap: 0.8rem; width: 100%; }
+  .total-price { width: 100%; align-items: center; margin: 0.5rem 0; }
+  .checkout-btn { width: 100%; }
+}
