@@ -163,18 +163,5 @@ document.querySelectorAll('.promo-card, .hot-deal').forEach(card => {
 });
 
 
-  const sidebar = document.getElementById('leftSidebar');
-  const toggleBtn = document.getElementById('sidebarToggle');
 
-  toggleBtn.addEventListener('click', function () {
-    sidebar.classList.toggle('collapsed');
-    // Đổi icon và vị trí nút
-    if (sidebar.classList.contains('collapsed')) {
-      toggleBtn.querySelector('i').className = 'fas fa-chevron-right';
-      toggleBtn.style.left = '15px';
-    } else {
-      toggleBtn.querySelector('i').className = 'fas fa-chevron-left';
-      toggleBtn.style.left = '265px';
-    }
-  });
 
