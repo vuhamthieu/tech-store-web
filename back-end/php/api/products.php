@@ -40,7 +40,7 @@
     $params     = [];
 
     if ($search) {
-        $conditions[] = "Title LIKE ?";
+        $conditions[] = "LOWER(Title) LIKE LOWER(?)";
         $params[] = "%$search%";
     }
     if ($category) {
