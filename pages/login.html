@@ -165,7 +165,7 @@
           const user = document.getElementById("username").value.trim();
           const password = document.getElementById("password").value;
 
-          // Validation 
+          // Validation
           if (!user || !password) {
             alert("Vui lòng nhập đầy đủ thông tin!");
             loginBtn.disabled = false;
@@ -199,7 +199,7 @@
               localStorage.setItem("user", JSON.stringify(result.data));
               localStorage.setItem("isLoggedIn", "true");
 
-              // Direct 
+              // Direct
               window.location.href = "product.html";
             } else {
               alert(result.message || "Đăng nhập thất bại!");
