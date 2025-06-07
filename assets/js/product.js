@@ -204,3 +204,10 @@ const currentPage = window.location.pathname.split("/").pop();
             document.getElementById("mainImage").src = url;
           }
           ////////////////////////////////
+          document.getElementById('buyBtn').onclick = async () => {
+            const res = await fetch('checkout.html');
+            const html = await res.text();
+            const container = document.getElementById('checkout-container');
+            container.innerHTML = html;
+            container.style.display = 'flex';
+          };

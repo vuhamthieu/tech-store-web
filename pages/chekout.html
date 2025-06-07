@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Thanh Toán Đơn Hàng</h2>
+      
+        <div class="product-info">
+          <img id="checkout-img" src="" alt="Sản phẩm" width="100" />
+          <div>
+            <h3 id="checkout-name">Tên sản phẩm</h3>
+            <p>Giá: <span id="checkout-price"></span></p>
+            <p>Giá gốc: <del id="checkout-old-price"></del> | Giảm: <span id="checkout-discount"></span></p>
+            <p>Tồn kho: <span id="checkout-stock"></span></p>
+          </div>
+        </div>
+      
+        <label for="address">Địa chỉ giao hàng:</label>
+        <input id="address" placeholder="Nhập địa chỉ (Google Maps sẽ tích hợp sau)" />
+      
+        <label for="voucher">Mã giảm giá:</label>
+        <input id="voucher" placeholder="Nhập mã giảm giá (nếu có)" />
+      
+        <label>Phương thức vận chuyển:</label>
+        <select id="shipping">
+          <option value="0">Giao tiêu chuẩn (Miễn phí)</option>
+          <option value="30000">Giao nhanh (30.000₫)</option>
+        </select>
+      
+        <label>Phương thức thanh toán:</label>
+        <div>
+          <input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận<br>
+          <input type="radio" name="payment" value="bank"> Thanh toán qua ngân hàng
+        </div>
+      
+        <div class="summary">
+          <p>Tạm tính: <span id="temp-total">...</span></p>
+          <p>Giảm giá: <span id="discount-amount">0</span></p>
+          <p>Phí vận chuyển: <span id="shipping-fee">0</span></p>
+          <hr>
+          <strong>Tổng cộng: <span id="final-total">...</span></strong>
+        </div>
+      
+        <button id="placeOrderBtn">Đặt hàng</button>
+      </div>
+</body>
+</html>
