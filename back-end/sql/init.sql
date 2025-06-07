@@ -49,6 +49,7 @@ CREATE TABLE Products (
     Stock INT DEFAULT 0 CHECK (Stock >= 0),
     Brand VARCHAR(100),
     Thumbnail VARCHAR(500),
+    Rating DECIMAL(2, 1) DEFAULT 0 CHECK (Rating >= 0 AND Rating <= 5),
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
     IsDeleted TINYINT DEFAULT 0,

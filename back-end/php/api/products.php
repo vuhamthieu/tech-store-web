@@ -13,28 +13,50 @@
     $limit      = max(1, intval($_GET['limit'] ?? 12));
     $offset     = ($page - 1) * $limit;
 
+    if ($category) {
+    $stmt = $conn->prepare("SELECT CategoryID FROM Categories WHERE CategoryName = ?");
+    $stmt->bind_param("s", $category);
+    $stmt->execute();
+    $stmt->bind_result($categoryId);
+    if ($stmt->fetch()) {
+        $category = $categoryId; // Gán lại biến $category = id
+    } else {
+        // Không tìm thấy danh mục, trả về rỗng
+        echo json_encode([
+            "page" => 1,
+            "limit" => 0,
+            "total" => 0,
+            "total_pages" => 0,
+            "products" => []
+        ]);
+        exit;
+    }
+    $stmt->close();
+}
+
+
     // Xây dựng điều kiện truy vấn
     $conditions = [];
     $params     = [];
 
     if ($search) {
-        $conditions[] = "name LIKE ?";
+        $conditions[] = "LOWER(Title) LIKE LOWER(?)";
         $params[] = "%$search%";
     }
     if ($category) {
-        $conditions[] = "category = ?";
+        $conditions[] = "CategoryID = ?";
         $params[] = $category;
     }
     if ($brand) {
-        $conditions[] = "brand = ?";
+        $conditions[] = "Brand = ?";
         $params[] = $brand;
     }
     if ($price_min !== null) {
-        $conditions[] = "price >= ?";
+        $conditions[] = "Price >= ?";
         $params[] = $price_min;
     }
     if ($price_max !== null) {
-        $conditions[] = "price <= ?";
+        $conditions[] = "Price <= ?";
         $params[] = $price_max;
     }
 
@@ -44,10 +66,9 @@
     // Sắp xếp
     $order = "ORDER BY id DESC"; // mặc định
     switch ($sort_by) {
-        case "price_asc":  $order = "ORDER BY price ASC"; break;
-        case "price_desc": $order = "ORDER BY price DESC"; break;
-        case "rating":     $order = "ORDER BY rating DESC"; break;
-        case "newest":     $order = "ORDER BY created_at DESC"; break;
+        case "price_asc":  $order = "ORDER BY Price ASC"; break;
+        case "price_desc": $order = "ORDER BY Price DESC"; break;
+        case "newest":     $order = "ORDER BY CreatedAt DESC"; break;
     }
 
     // Đếm tổng số bản ghi
@@ -59,7 +80,7 @@
     $stmt->close();
 
     // Lấy danh sách sản phẩm
-    $query = "SELECT id, name, price, brand, category, rating, image_url FROM products $where $order LIMIT ? OFFSET ?";
+    $query = "SELECT * FROM products $where $order LIMIT ? OFFSET ?";
     $params[] = $limit;
     $params[] = $offset;
 
