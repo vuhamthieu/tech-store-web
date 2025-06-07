@@ -122,7 +122,8 @@
           </div>
 
           <div class="register-link">
-            Bạn mới biết đến Techsphere? <a href="../pages/register.html">Đăng ký tài khoản</a>
+            Bạn mới biết đến Techsphere?
+            <a href="../pages/register.html">Đăng ký tài khoản</a>
           </div>
         </div>
       </div>
@@ -148,6 +149,70 @@
           toggleBtn.classList.add("fa-eye");
         }
       }
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const loginBtn = document.querySelector(".login-btn");
+          const originalText = loginBtn.textContent;
+
+          // Disable button and show loading
+          loginBtn.disabled = true;
+          loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
+
+          const user = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value;
+
+          // Validation 
+          if (!user || !password) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            loginBtn.disabled = false;
+            loginBtn.textContent = originalText;
+            return;
+          }
+
+          try {
+            // Send request to login.php
+            const res = await fetch("./login.php", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({ user, password }),
+            });
+
+            // Cehck response status
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`);
+            }
+
+            const result = await res.json();
+
+            if (result.success) {
+              // result.data are object user (UserID, FullName, Email, RoleID…)
+              console.log("Đăng nhập thành công:", result.data);
+
+              // LSave user to localStorage
+              localStorage.setItem("user", JSON.stringify(result.data));
+              localStorage.setItem("isLoggedIn", "true");
+
+              // Direct 
+              window.location.href = "product.html";
+            } else {
+              alert(result.message || "Đăng nhập thất bại!");
+            }
+          } catch (error) {
+            console.error("Lỗi kết nối:", error);
+            alert("Có lỗi xảy ra khi kết nối tới server. Vui lòng thử lại!");
+          } finally {
+            // Reset button
+            loginBtn.disabled = false;
+            loginBtn.textContent = originalText;
+          }
+        });
     </script>
   </body>
 </html>
