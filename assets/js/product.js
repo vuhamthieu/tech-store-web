@@ -87,12 +87,12 @@ let currentPageNum = 1;
 async function loadProducts(page = 1) {
   currentPageNum = page;
 
-  const search = searchInput.value.trim();
-  const category = categorySelect.value;
-  const brand = brandSelect.value;
-  const priceMin = priceMinInput.value;
-  const priceMax = priceMaxInput.value;
-  const sortBy = sortSelect.value;
+  const search = searchInput?.value.trim() || '';
+  const category = categorySelect?.value || '';
+  const brand = brandSelect?.value || '';
+  const priceMin = priceMinInput?.value || '';
+  const priceMax = priceMaxInput?.value || '';
+  const sortBy = sortSelect?.value || '';
 
   const params = new URLSearchParams({
     page: currentPageNum,
@@ -127,15 +127,18 @@ async function loadProducts(page = 1) {
 function renderProducts(products) {
   productGrid.innerHTML = products.map(p => `
     <div class="product-item">
-      <img src="${p.image}" alt="${p.title}">
-      <h3>${p.title}</h3>
+      <img src="${p.image_url}" alt="${p.name}">
+      <h3>${p.name}</h3>
       <p class="price">${formatPrice(p.price)}₫</p>
+      <p class="brand-category">${p.brand} - ${p.category}</p>
+      <p class="rating">⭐ ${p.rating}</p>
     </div>
   `).join('');
 }
 
 function formatPrice(price) {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  // Hiển thị giá theo format VNĐ với dấu chấm ngăn cách hàng nghìn
+  return price.toLocaleString('vi-VN');
 }
 
 function renderPagination(totalPages, current) {
@@ -161,29 +164,28 @@ searchInput.addEventListener('input', () => {
   }, debounceDelay);
 });
 
-// Filter listeners
+// Lắng nghe thay đổi các filter
 [sortSelect, categorySelect, brandSelect, priceMinInput, priceMaxInput].forEach(el => {
-  el.addEventListener('change', () => {
+  el?.addEventListener('change', () => {
     loadProducts(1);
   });
 });
 
-priceMinInput.addEventListener('input', () => {
+// Nếu input giá có thay đổi, debounce để giảm số lần gọi API
+priceMinInput?.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    loadProducts(1);
+  }, debounceDelay);
+});
+priceMaxInput?.addEventListener('input', () => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
     loadProducts(1);
   }, debounceDelay);
 });
 
-priceMaxInput.addEventListener('input', () => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    loadProducts(1);
-  }, debounceDelay);
-});
-
-// Gọi lần đầu
+// Tải sản phẩm lần đầu
 loadProducts();
-
 
 ///////////////suggest
