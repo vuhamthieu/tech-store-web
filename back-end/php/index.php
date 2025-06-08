@@ -1,13 +1,14 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Lấy path từ URL
 $request = $_SERVER['REQUEST_URI'];
-$parsed = parse_url($request);
-$path = trim($parsed['path'], '/');
+$scriptName = dirname($_SERVER['SCRIPT_NAME']);
+$path = substr($request, strlen($scriptName));
+$path = trim($path, '/');
 
 // Điều hướng các route
 switch ($path) {
@@ -23,6 +24,13 @@ switch ($path) {
         require 'api/products.php';
         break;
 
+    case 'api/product-detail':
+        require 'api/product_detail.php';
+        break;
+
+    case 'api/product-suggest':
+        require 'api/product-suggest.php';
+        break;
     case 'api/add-to-cart':
         require 'api/add-to-cart.php';
         break;

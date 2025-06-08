@@ -1,6 +1,6 @@
 <?php
     // Kết nối MySQL
-    include 'connect.php';
+    include __DIR__ . '/../connect.php';
 
     // Lấy tham số từ URL
     $search     = $_GET['search']     ?? null;
@@ -10,7 +10,7 @@
     $price_max  = $_GET['price_max']  ?? null;
     $sort_by    = $_GET['sort_by']    ?? null;
     $page       = max(1, intval($_GET['page'] ?? 1));
-    $limit      = max(1, intval($_GET['limit'] ?? 12));
+    $limit      = max(1, intval($_GET['limit'] ?? 15));
     $offset     = ($page - 1) * $limit;
 
     if ($category) {
@@ -64,7 +64,7 @@
     $where = count($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
 
     // Sắp xếp
-    $order = "ORDER BY id DESC"; // mặc định
+    $order = "ORDER BY ProductID DESC"; // mặc định
     switch ($sort_by) {
         case "price_asc":  $order = "ORDER BY Price ASC"; break;
         case "price_desc": $order = "ORDER BY Price DESC"; break;
