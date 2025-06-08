@@ -70,7 +70,9 @@ const currentPage = window.location.pathname.split("/").pop();
         
 ////////////////////
 //product list
-const API_URL = 'http://192.168.0.103/webproject/tech-store-web/back-end/php/api/products';
+// ...existing code...
+const API_URL = 'http://localhost/tech-store-web/back-end/php/api/products';
+// ...existing code...
 
 const productGrid = document.querySelector('.product-grid');
 const searchInput = document.getElementById('search-input');
@@ -84,11 +86,24 @@ const limit = 15;
 
 let currentPageNum = 1;
 
+// Xác định category cố định theo từng trang
+let fixedCategory = '';
+const path = window.location.pathname;
+if (path.includes('product-camera.html')) {
+  fixedCategory = 'Cameras';      
+} else if (path.includes('product-devices.html')) {
+  fixedCategory = 'Accessories';
+} else if (path.includes('product.html')) {
+  fixedCategory = 'Laptop';       
+}
+
+
 async function loadProducts(page = 1) {
   currentPageNum = page;
 
   const search = searchInput?.value.trim() || '';
-  const category = categorySelect?.value || '';
+  // Ưu tiên fixedCategory nếu có, nếu không lấy từ select
+  const category = fixedCategory || categorySelect?.value || '';
   const brand = brandSelect?.value || '';
   const priceMin = priceMinInput?.value || '';
   const priceMax = priceMaxInput?.value || '';
@@ -124,14 +139,16 @@ async function loadProducts(page = 1) {
   }
 }
 
+// ...giữ nguyên các hàm còn lại...
+
 function renderProducts(products) {
   productGrid.innerHTML = products.map(p => `
     <div class="product-item">
-      <img src="${p.image_url}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p class="price">${formatPrice(p.price)}₫</p>
-      <p class="brand-category">${p.brand} - ${p.category}</p>
-      <p class="rating">⭐ ${p.rating}</p>
+      <img src="${p.Thumbnail}" alt="${p.Title}">
+      <h3>${p.Title}</h3>
+      <p class="price">${formatPrice(Number(p.Price))}₫</p>
+      <p class="brand-category">${p.Brand}</p>
+      <p class="rating">⭐ ${p.Rating}</p>
     </div>
   `).join('');
 }
@@ -185,7 +202,17 @@ priceMaxInput?.addEventListener('input', () => {
   }, debounceDelay);
 });
 
+
+
 // Tải sản phẩm lần đầu
 loadProducts();
 
 ///////////////suggest
+
+function formatPrice(price) {
+  if (typeof price === 'number') {
+    return price.toLocaleString('vi-VN') + ' ₫';
+  }
+  return 'Liên hệ';
+}
+
