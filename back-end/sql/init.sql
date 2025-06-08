@@ -167,6 +167,10 @@ INSERT INTO Categories (CategoryID, CategoryName) VALUES
   (2, 'Cameras'),
   (3, 'Accessories');
 
+INSERT INTO Roles (RoleID, RoleName) VALUES
+  (1, 'User'),
+  (2, 'Admin');
+
 -- 2. Dữ liệu cho bảng Products
 INSERT INTO Products (ProductID, CategoryID, Title, Price, Description, Stock, Brand, Thumbnail) VALUES
 (1, 1, 'Laptop Acer Swift Go 14 SFG14-41-R251 (Ryzen 5 7430U/ Onboard graphics/ 16GB/ 1TB/ Windows 11)', 16990000, '- CPU: AMD Ryzen™ 5 7430U (2.3 GHz - 4.3 GHz/ 16MB/ 6 nhân, 12 luồng)\n- RAM: 16GB Onbard 4800MHz LPDDR4X (Hỗ trợ tối đa 16GB)\n- VGA: Onboard graphics\n- Ổ cứng: 1TB SSD M.2 NVMe\n- Màn hình: 14\" Full HD (1920 x 1080) IPS, 60Hz, 300 nits, Acer ComfyView, 100% sRGB\n- Khác: Bàn phím thường, FHD webcam, Acer Purified Voice; Acer TrueHarmony, AMD\n- OS: Windows 11 Home', 50, 'Acer', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_o0cawh.webp'),

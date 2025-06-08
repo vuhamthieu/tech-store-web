@@ -70,7 +70,7 @@ const currentPage = window.location.pathname.split("/").pop();
         
 ////////////////////
 //product list
-const API_URL = 'http://localhost/webproject/tech-store-web/back-end/php/api/products';
+const API_URL = 'http://192.168.0.103/webproject/tech-store-web/back-end/php/api/products';
 
 const productGrid = document.querySelector('.product-grid');
 const searchInput = document.getElementById('search-input');

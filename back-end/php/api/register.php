@@ -37,7 +37,7 @@
     //thêm user
     $insertQuery = "INSERT INTO Users (FullName, Email, Password, RoleID) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insertQuery);
-    mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $hashedPassword, $role);
+    mysqli_stmt_bind_param($stmt, "sssi", $username, $email, $hashedPassword, $role);
     $success = mysqli_stmt_execute($stmt);
 
     //response
