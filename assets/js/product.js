@@ -217,7 +217,7 @@ function renderProducts(products) {
   productGrid.innerHTML = products.map(p => `
     <div class="product-item">
       <img src="${p.image}" alt="${p.title}">
-      <h3>${p.Title}</h3>
+      <h3>${p.title}</h3>
       <p class="price">${formatPrice(p.price)}₫</p>
     </div>
   `).join('');
