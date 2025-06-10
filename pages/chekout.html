@@ -3,51 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/chekout.css">
+    <link rel="stylesheet" href="../assets/css/checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
     <title>Document</title>
 </head>
 <body>
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Thanh Toán Đơn Hàng</h2>
-      
-        <div class="product-info">
-          <img id="checkout-img" src="" alt="Sản phẩm" width="100" />
-          <div>
-            <h3 id="checkout-name">Tên sản phẩm</h3>
-            <p>Giá: <span id="checkout-price"></span></p>
-            <p>Giá gốc: <del id="checkout-old-price"></del> | Giảm: <span id="checkout-discount"></span></p>
-            <p>Tồn kho: <span id="checkout-stock"></span></p>
+    <!-- Header -->
+    <header class="checkout-header">
+      <div class="header-container">
+          <div class="logo"><a href="product.html">
+              <img src="" alt="">
+              <span style="color: var(--primary-red);" class="logo-text" >Techsphere | </span>
+              <span class="logo-text">Thanh Toán</span>
+            </a>
           </div>
-        </div>
-      
-        <label for="address">Địa chỉ giao hàng:</label>
-        <input id="address" placeholder="Nhập địa chỉ (Google Maps sẽ tích hợp sau)" />
-      
-        <label for="voucher">Mã giảm giá:</label>
-        <input id="voucher" placeholder="Nhập mã giảm giá (nếu có)" />
-      
-        <label>Phương thức vận chuyển:</label>
-        <select id="shipping">
-          <option value="0">Giao tiêu chuẩn (Miễn phí)</option>
-          <option value="30000">Giao nhanh (30.000₫)</option>
-        </select>
-      
-        <label>Phương thức thanh toán:</label>
-        <div>
-          <input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận<br>
-          <input type="radio" name="payment" value="bank"> Thanh toán qua ngân hàng
-        </div>
-      
-        <div class="summary">
-          <p>Tạm tính: <span id="temp-total">...</span></p>
-          <p>Giảm giá: <span id="discount-amount">0</span></p>
-          <p>Phí vận chuyển: <span id="shipping-fee">0</span></p>
-          <hr>
-          <strong>Tổng cộng: <span id="final-total">...</span></strong>
-        </div>
-      
-        <button id="placeOrderBtn">Đặt hàng</button>
+          <div class="steps">
+              <div class="step active">
+                  <div class="step-number">1</div>
+                  <span>Giỏ hàng</span>
+              </div>
+              <div class="step active">
+                  <div class="step-number">2</div>
+                  <span>Thanh toán</span>
+              </div>
+              <div class="step">
+                  <div class="step-number">3</div>
+                  <span>Hoàn tất</span>
+              </div>
+          </div>
       </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="checkout-container">
+      <!-- Left Column (Checkout Form) -->
+      <div class="left-column">
+          <!-- Delivery Address -->
+          <div class="card">
+              <h3 class="card-title">
+                  Địa chỉ nhận hàng
+                  <span class="edit-btn">Thay đổi</span>
+              </h3>
+              <div class="address-info">
+                  <i class="fas fa-map-marker-alt address-icon"></i>
+                  <div class="address-details">
+                      <h4>
+                          Nguyễn Văn A
+                          <span class="default-badge">Mặc định</span>
+                      </h4>
+                      <p>Điện thoại: 0987 654 321</p>
+                      <p>123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí Minh</p>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Shipping Method -->
+          <div class="card">
+              <h3 class="card-title">Phương thức vận chuyển</h3>
+              <div class="shipping-option selected">
+                  <div class="shipping-info">
+                      <img src="https://via.placeholder.com/40" alt="Giao hàng nhanh" class="shipping-icon">
+                      <div>
+                          <div class="shipping-name">Giao hàng nhanh</div>
+                          <small>Nhận hàng vào 25/06/2023</small>
+                      </div>
+                  </div>
+                  <div class="shipping-price">20.000đ</div>
+              </div>
+              <div class="shipping-option">
+                  <div class="shipping-info">
+                      <img src="https://via.placeholder.com/40" alt="Giao hàng tiết kiệm" class="shipping-icon">
+                      <div>
+                          <div class="shipping-name">Giao hàng tiết kiệm</div>
+                          <small>Nhận hàng vào 27/06/2023</small>
+                      </div>
+                  </div>
+                  <div class="shipping-price">15.000đ</div>
+              </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="card">
+              <h3 class="card-title">Phương thức thanh toán</h3>
+              <div class="payment-option selected">
+                  <img src="https://via.placeholder.com/40" alt="COD" class="payment-icon">
+                  <span class="payment-name">Thanh toán khi nhận hàng (COD)</span>
+                  <i class="fas fa-check-circle" style="color: var(--primary);"></i>
+              </div>
+              <div class="payment-option">
+                  <img src="https://via.placeholder.com/40" alt="ShopeePay" class="payment-icon">
+                  <span class="payment-name">Ví ShopeePay</span>
+              </div>
+              <div class="payment-option">
+                  <img src="https://via.placeholder.com/40" alt="Credit Card" class="payment-icon">
+                  <span class="payment-name">Thẻ tín dụng/Ghi nợ</span>
+              </div>
+              <div class="payment-option">
+                  <img src="https://via.placeholder.com/40" alt="Bank Transfer" class="payment-icon">
+                  <span class="payment-name">Chuyển khoản ngân hàng</span>
+              </div>
+          </div>
+
+          <!-- Voucher -->
+          <div class="card">
+              <h3 class="card-title">Mã giảm giá</h3>
+              <div class="voucher-input">
+                  <input type="text" placeholder="Nhập mã giảm giá">
+                  <button>Áp dụng</button>
+              </div>
+          </div>
+
+          <!-- Order Note -->
+          <div class="card">
+              <h3 class="card-title">Lưu ý cho người bán</h3>
+              <textarea style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; min-height: 80px;" placeholder="Ví dụ: Gọi điện trước khi giao hàng..."></textarea>
+          </div>
+      </div>
+
+      <!-- Right Column (Order Summary) -->
+      <div class="right-column">
+          <div class="card order-summary">
+              <h3 class="card-title">Đơn hàng (3 sản phẩm)</h3>
+              <div class="product-list">
+                  <div class="product-item">
+                      <img src="https://via.placeholder.com/60" alt="Product 1" class="product-image">
+                      <div class="product-details">
+                          <div class="product-name">Áo thun nam cổ tròn chất liệu cotton thoáng mát</div>
+                          <div class="product-variant">Phân loại: Đen, XL</div>
+                          <div class="product-variant">Số lượng: 1</div>
+                          <div class="product-price">120.000đ</div>
+                      </div>
+                  </div>
+                  <div class="product-item">
+                      <img src="https://via.placeholder.com/60" alt="Product 2" class="product-image">
+                      <div class="product-details">
+                          <div class="product-name">Quần jean nam ống đứng co giãn</div>
+                          <div class="product-variant">Phân loại: Xanh đậm, 32</div>
+                          <div class="product-variant">Số lượng: 1</div>
+                          <div class="product-price">250.000đ</div>
+                      </div>
+                  </div>
+                  <div class="product-item">
+                      <img src="https://via.placeholder.com/60" alt="Product 3" class="product-image">
+                      <div class="product-details">
+                          <div class="product-name">Giày thể thao nam đế cao su chống trơn trượt</div>
+                          <div class="product-variant">Phân loại: Đen, 42</div>
+                          <div class="product-variant">Số lượng: 1</div>
+                          <div class="product-price">350.000đ</div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="price-row">
+                  <span>Tạm tính</span>
+                  <span>720.000đ</span>
+              </div>
+              <div class="price-row">
+                  <span>Phí vận chuyển</span>
+                  <span>20.000đ</span>
+              </div>
+              <div class="price-row">
+                  <span>Giảm giá</span>
+                  <span>-50.000đ</span>
+              </div>
+              <div class="price-row total-row">
+                  <span>Tổng cộng</span>
+                  <span>690.000đ</span>
+              </div>
+
+              <button class="checkout-btn" id="checkoutBtn">
+                  <span id="btnText">ĐẶT HÀNG</span>
+                  <div class="loading-spinner" id="loadingSpinner"></div>
+              </button>
+          </div>
+      </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal" id="successModal">
+      <div class="modal-content">
+          <div class="modal-icon">
+              <i class="fas fa-check-circle"></i>
+          </div>
+          <h3 class="modal-title">Đặt hàng thành công!</h3>
+          <p class="modal-message">Cảm ơn bạn đã mua sắm tại Shopee. Đơn hàng sẽ được giao trong 2-3 ngày tới.</p>
+          <button class="modal-btn" id="closeModal">Tiếp tục mua sắm</button>
+      </div>
+  </div>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-column">
+        <h4>VỀ CHÚNG TÔI</h4>
+        <p>TechBlack - Đối tác công nghệ tin cậy</p>
+        <p>Giấy phép kinh doanh: 0123456789</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>LIÊN HỆ</h4>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
+          Nội
+        </p>
+        <p><i class="fas fa-phone"></i> 0909 123 456</p>
+        <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>THEO DÕI CHÚNG TÔI</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-facebook"></i>
+          <a href="#"><i class="fa-brands fa-youtube""></i>
+
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../assets/js/checkout.js"></script>
 </body>
 </html>

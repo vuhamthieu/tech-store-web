@@ -1,44 +1,57 @@
-const modal = document.getElementById('checkout-container');
-  const productAPI = 'https://api.example.com/product/123'; // ← thay link API thật
+// Select Shipping Method
+const shippingOptions = document.querySelectorAll('.shipping-option');
+shippingOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        shippingOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+    });
+});
 
-  let product = null;
+// Select Payment Method
+const paymentOptions = document.querySelectorAll('.payment-option');
+paymentOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        paymentOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+    });
+});
 
-  async function loadCheckoutData() {
-    const res = await fetch(productAPI);
-    product = await res.json();
+// Apply Voucher
+const voucherBtn = document.querySelector('.voucher-input button');
+voucherBtn.addEventListener('click', () => {
+    const voucherInput = document.querySelector('.voucher-input input');
+    if (voucherInput.value.trim() === '') {
+        alert('Vui lòng nhập mã giảm giá');
+    } else {
+        alert(`Áp dụng mã: ${voucherInput.value}`);
+        // In a real app, validate and apply discount
+    }
+});
 
-    document.getElementById('checkout-img').src = product.mainImage;
-    document.getElementById('checkout-name').textContent = product.name;
-    document.getElementById('checkout-price').textContent = product.price.toLocaleString('vi-VN') + '₫';
-    document.getElementById('checkout-old-price').textContent = product.oldPrice.toLocaleString('vi-VN') + '₫';
-    document.getElementById('checkout-discount').textContent = product.discount;
-    document.getElementById('checkout-stock').textContent = product.stock + ' sản phẩm';
-    document.getElementById('temp-total').textContent = product.price.toLocaleString('vi-VN') + '₫';
+// Checkout Button with Loading Animation
+const checkoutBtn = document.getElementById('checkoutBtn');
+const btnText = document.getElementById('btnText');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const successModal = document.getElementById('successModal');
+const closeModal = document.getElementById('closeModal');
 
-    updateTotal();
-  }
+checkoutBtn.addEventListener('click', () => {
+    // Show loading spinner
+    btnText.style.display = 'none';
+    loadingSpinner.style.display = 'block';
 
-  function updateTotal() {
-    const shippingFee = parseInt(document.getElementById('shipping').value);
-    const voucherCode = document.getElementById('voucher').value.trim();
+    // Simulate API call (2 seconds delay)
+    setTimeout(() => {
+        // Hide spinner, show success modal
+        loadingSpinner.style.display = 'none';
+        btnText.style.display = 'inline';
+        successModal.style.display = 'flex';
+    }, 2000);
+});
 
-    let discount = 0;
-    if (voucherCode === 'GIAM10') discount = 50000;
-    if (voucherCode === 'FREESHIP') discount = shippingFee;
-
-    const total = product.price - discount + shippingFee;
-    document.getElementById('discount-amount').textContent = discount.toLocaleString('vi-VN') + '₫';
-    document.getElementById('shipping-fee').textContent = shippingFee.toLocaleString('vi-VN') + '₫';
-    document.getElementById('final-total').textContent = total.toLocaleString('vi-VN') + '₫';
-  }
-
-  document.getElementById('voucher').addEventListener('input', updateTotal);
-  document.getElementById('shipping').addEventListener('change', updateTotal);
-  document.querySelector('.close').onclick = () => modal.style.display = 'none';
-
-  document.getElementById('placeOrderBtn').onclick = () => {
-    alert('Đặt hàng thành công!');
-    modal.style.display = 'none';
-  };
-
-  loadCheckoutData();
+// Close Modal
+closeModal.addEventListener('click', () => {
+    successModal.style.display = 'none';
+    // Redirect to home or order detail page in real app
+    // window.location.href = "/";
+});
