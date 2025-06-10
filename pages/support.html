@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỗ Trợ Khách Hàng | Shopee</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d32f2f;  /* Đỏ đậm */
+            --primary-light: #ff6659; /* Đỏ nhạt */
+            --primary-dark: #9a0007; /* Đỏ tối */
+            --dark: #212121; /* Đen */
+            --gray: #757575; /* Xám */
+            --light: #ffffff; /* Trắng */
+            --border: #e0e0e0; /* Viền */
+            --background: #f5f5f5; /* Nền */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .support-header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Main Content */
+        .support-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary-dark);
+            color: var(--light);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--dark);
+        }
+
+        /* Help Categories */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 2rem 0 1.5rem;
+            color: var(--dark);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--primary);
+            border-radius: 5px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .category-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            background-color: var(--light);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .faq-question:hover {
+            background-color: #f9f9f9;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: transform 0.3s;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .contact-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Footer */
+        .support-footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-link a {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-link a:hover {
+            color: var(--light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #424242;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #424242;
+            color: #bdbdbd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="support-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg" alt="Shopee Logo">
+                <span class="logo-text">Hỗ Trợ</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    Trang chủ
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-question-circle"></i>
+                    Câu hỏi thường gặp
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    Liên hệ
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    Tài khoản
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="support-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">Chúng tôi có thể giúp gì cho bạn?</h1>
+            <p class="hero-subtitle">Tìm kiếm câu trả lời cho các câu hỏi thường gặp hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi</p>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Tìm kiếm câu hỏi, vấn đề...">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Help Categories -->
+        <h2 class="section-title">Danh mục hỗ trợ</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h3 class="category-title">Đặt hàng & Thanh toán</h3>
+                <p class="category-description">Hướng dẫn đặt hàng, phương thức thanh toán và xử lý đơn hàng</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3 class="category-title">Vận chuyển & Giao nhận</h3>
+                <p class="category-description">Theo dõi đơn hàng, thời gian giao hàng và phí vận chuyển</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3 class="category-title">Đổi trả & Hoàn tiền</h3>
+                <p class="category-description">Chính sách đổi trả, hoàn tiền và bảo hành sản phẩm</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3 class="category-title">Ví ShopeePay</h3>
+                <p class="category-description">Hướng dẫn sử dụng ví điện tử và các chương trình khuyến mãi</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 class="category-title">Bảo mật tài khoản</h3>
+                <p class="category-description">Bảo vệ tài khoản, xác thực và khôi phục mật khẩu</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3 class="category-title">Mã giảm giá & Khuyến mãi</h3>
+                <p class="category-description">Cách sử dụng voucher, mã giảm giá và chương trình ưu đãi</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="section-title">Câu hỏi thường gặp</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Làm thế nào để theo dõi đơn hàng của tôi?</span>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Bạn có thể theo dõi đơn hàng bằng cách vào mục "Đơn Mua" trong tài khoản Shopee của bạn. Tại đây bạn sẽ thấy trạng thái chi tiết của đơn hàng cùng với thông tin vận chuyển cập nhật liên tục.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Tôi có thể đổi/trả hàng trong bao lâu?</span>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Thời gian đổi trả hàng là 7 ngày kể từ ngày nhận hàng đối với sản phẩm lỗi hoặc không đúng mô tả. Đối với sản phẩm không lỗi, bạn có thể yêu cầu trả hàng trong vòng 3 ngày với điều kiện sản phẩm còn nguyên tem mác, chưa qua sử dụng.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Cách thức thanh toán nào được chấp nhận trên Shopee?</span>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Shopee chấp nhận nhiều phương thức thanh toán bao gồm: Thanh toán khi nhận hàng (COD), thẻ tín dụng/ghi nợ, ví điện tử ShopeePay, chuyển khoản ngân hàng và các hình thức thanh toán trực tuyến khác.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Làm sao để liên hệ với người bán?</span>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Bạn có thể nhắn tin trực tiếp với người bán bằng cách vào trang sản phẩm và chọn nút "Chat với người bán" hoặc vào mục "Trò chuyện" trong ứng dụng Shopee và chọn người bán bạn muốn liên hệ.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2 class="section-title">Liên hệ hỗ trợ</h2>
+            <p>Bạn không tìm thấy câu trả lời? Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ!</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Gọi điện hỗ trợ</h3>
+                    <p class="contact-info">1900 6035 (8:00 - 22:00 hàng ngày)</p>
+                    <a href="tel:19006035" class="contact-button">Gọi ngay</a>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3 class="contact-title">Chat trực tuyến</h3>
+                    <p class="contact-info">Hỗ trợ 24/7 qua hệ thống chat</p>
+                    <a href="#" class="contact-button">Bắt đầu chat</a>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-title">Email hỗ trợ</h3>
+                    <p class="contact-info">Phản hồi trong vòng 24 giờ</p>
+                    <a href="mailto:hotro@shopee.vn" class="contact-button">Gửi email</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="support-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về Shopee</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Giới thiệu</a></li>
+                    <li class="footer-link"><a href="#">Tuyển dụng</a></li>
+                    <li class="footer-link"><a href="#">Điều khoản</a></li>
+                    <li class="footer-link"><a href="#">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Trung tâm hỗ trợ</a></li>
+                    <li class="footer-link"><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li class="footer-link"><a href="#">Thanh toán</a></li>
+                    <li class="footer-link"><a href="#">Vận chuyển</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Theo dõi chúng tôi</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <h3 style="margin-top: 1.5rem;">Tải ứng dụng</h3>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                    <img src="https://via.placeholder.com/100x30" alt="App Store" style="border-radius: 5px;">
+                    <img src="https://via.placeholder.com/100x30" alt="Google Play" style="border-radius: 5px;">
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2023 Shopee. Tất cả các quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // Search Functionality
+        const searchButton = document.querySelector('.search-button');
+        searchButton.addEventListener('click', () => {
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput.value.trim() !== '') {
+                alert(`Đang tìm kiếm: ${searchInput.value}`);
+                // In a real app, this would trigger a search function
+            }
+        });
+
+        // Allow pressing Enter to search
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
