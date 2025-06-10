@@ -25,8 +25,8 @@
 
     //response
     if ($user = mysqli_fetch_assoc($result)) {
-        if (password_verify($password, $user['password'])) {
-            unset($user['password']); //unset password
+        if (password_verify($password, $user['Password'])) {
+            unset($user['Password']); //unset password
 
             // Tạo Access Token và Refresh Token
             $accessToken = bin2hex(random_bytes(32));    // 64 ký tự
