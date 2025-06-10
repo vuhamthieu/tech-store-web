@@ -26,12 +26,14 @@ CREATE TABLE UserTokens (
     UserID INT NOT NULL,
     AccessToken TEXT,
     RefreshToken TEXT,
+    AccessTokenExpiresAt DATETIME,
+    RefreshTokenExpiresAt DATETIME,
     DeviceInfo VARCHAR(200),
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    ExpiresAt DATETIME,
     IsRevoked TINYINT DEFAULT 0,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
 
 -- Bảng Category
 CREATE TABLE Categories (

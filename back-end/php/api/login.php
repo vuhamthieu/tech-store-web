@@ -27,6 +27,34 @@
     if ($user = mysqli_fetch_assoc($result)) {
         if (password_verify($password, $user['password'])) {
             unset($user['password']); //unset password
+
+            // Tạo Access Token và Refresh Token
+            $accessToken = bin2hex(random_bytes(32));    // 64 ký tự
+            $refreshToken = bin2hex(random_bytes(32));
+
+            // Thiết lập thời gian hết hạn
+            $accessTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));     // Access Token hết hạn sau 1 giờ
+            $refreshTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));   // Refresh Token hết hạn sau 30 ngày
+
+            // Lấy thông tin thiết bị
+            $deviceInfo = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+
+            // Lưu token vào bảng UserTokens
+            $insertToken = "INSERT INTO UserTokens (UserID, AccessToken, RefreshToken, AccessTokenExpiresAt, RefreshTokenExpiresAt, DeviceInfo)
+                            VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtToken = mysqli_prepare($conn, $insertToken);
+            mysqli_stmt_bind_param(
+                $stmtToken,
+                "isssss",
+                $user['UserID'],
+                $accessToken,
+                $refreshToken,
+                $accessTokenExpiresAt,
+                $refreshTokenExpiresAt,
+                $deviceInfo
+            );
+            mysqli_stmt_execute($stmtToken);
+
             echo json_encode([
                 "success" => true,
                 "message" => "Đăng nhập thành công",
