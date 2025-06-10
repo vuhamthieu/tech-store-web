@@ -6,7 +6,7 @@
     $productId = isset($_GET['productId']) ? intval($_GET['productId']) : 0;
 
     if ($productId <= 0) {
-        echo json_encode(["error" => "Invalid productId"]);
+        echo json_encode(["error" => "Không tìm thấy productId"]);
         exit;
     }
 
