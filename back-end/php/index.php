@@ -27,15 +27,15 @@
             require 'api/products.php';
             break;
 
-        case 'api/product-detail':
-            require 'api/product_detail.php';
+        case 'api/product-images':
+            require 'api/product_images.php';
             break;
 
         case 'api/product-suggest':
             require 'api/product_suggest.php';
             break;
         case 'api/add-to-cart':
-            require 'api/add-to-cart.php';
+            require 'api/add_to_cart.php';
             break;
 
         case 'me':
