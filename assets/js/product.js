@@ -71,7 +71,7 @@ const currentPage = window.location.pathname.split("/").pop();
 ////////////////////
 //product list
 // ...existing code...
-const API_URL = 'http://localhost/tech-store-web/back-end/php/api/products';
+const API_URL = 'http://localhost/webproject/tech-store-web/back-end/php/api/products';
 // ...existing code...
 
 const productGrid = document.querySelector('.product-grid');
