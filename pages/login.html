@@ -86,7 +86,7 @@
               <input
                 type="text"
                 class="form-input"
-                id="username"
+                id="user"
                 placeholder="tech_user@example.com"
                 required
               />
@@ -134,85 +134,6 @@
       <p>Công nghệ cho cuộc sống hiện đại.</p>
     </footer>
 
-    <script>
-      function togglePassword() {
-        const passwordInput = document.getElementById("password");
-        const toggleBtn = document.querySelector(".toggle-password i");
-
-        if (passwordInput.type === "password") {
-          passwordInput.type = "text";
-          toggleBtn.classList.remove("fa-eye");
-          toggleBtn.classList.add("fa-eye-slash");
-        } else {
-          passwordInput.type = "password";
-          toggleBtn.classList.remove("fa-eye-slash");
-          toggleBtn.classList.add("fa-eye");
-        }
-      }
-
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const loginBtn = document.querySelector(".login-btn");
-          const originalText = loginBtn.textContent;
-
-          // Disable button and show loading
-          loginBtn.disabled = true;
-          loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
-
-          const user = document.getElementById("username").value.trim();
-          const password = document.getElementById("password").value;
-
-          // Validation
-          if (!user || !password) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            loginBtn.disabled = false;
-            loginBtn.textContent = originalText;
-            return;
-          }
-
-          try {
-            // Send request to login.php
-            const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify({ user, password }),
-            });
-
-            // Cehck response status
-            if (!res.ok) {
-              throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
-            const result = await res.json();
-
-            if (result.success) {
-              // result.data are object user (UserID, FullName, Email, RoleID…)
-              console.log("Đăng nhập thành công:", result.data);
-
-              // LSave user to localStorage
-              localStorage.setItem("user", JSON.stringify(result.data));
-              localStorage.setItem("isLoggedIn", "true");
-
-              // Direct
-              window.location.href = "product.html";
-            } else {
-              alert(result.message || "Đăng nhập thất bại!");
-            }
-          } catch (error) {
-            console.error("Lỗi kết nối:", error);
-            alert("Có lỗi xảy ra khi kết nối tới server. Vui lòng thử lại!");
-          } finally {
-            // Reset button
-            loginBtn.disabled = false;
-            loginBtn.textContent = originalText;
-          }
-        });
-    </script>
+    <script src="../assets/js/login.js"></script>
   </body>
 </html>
