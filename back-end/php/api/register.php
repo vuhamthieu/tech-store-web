@@ -8,7 +8,6 @@
     $password = $data['password'] ?? '';
     $role     = $data['role'] ?? 1;
 
-    // Kiểm tra dữ liệu đầu vào
     if (!$username || !$email || !$password) {
         echo json_encode([
             "success" => false,
@@ -17,7 +16,6 @@
         exit;
     }
 
-    // Kiểm tra email đã tồn tại chưa
     $checkQuery = "SELECT UserID FROM Users WHERE Email = ?";
     $stmt = mysqli_prepare($conn, $checkQuery);
     mysqli_stmt_bind_param($stmt, "s", $email);
@@ -34,13 +32,11 @@
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    //thêm user
     $insertQuery = "INSERT INTO Users (FullName, Email, Password, RoleID) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insertQuery);
     mysqli_stmt_bind_param($stmt, "sssi", $username, $email, $hashedPassword, $role);
     $success = mysqli_stmt_execute($stmt);
 
-    //response
     if ($success) {
         echo json_encode([
             "success" => true,

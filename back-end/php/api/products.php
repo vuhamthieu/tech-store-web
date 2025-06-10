@@ -1,8 +1,6 @@
 <?php
-    // Kết nối MySQL
     include __DIR__ . '/../connect.php';
 
-    // Lấy tham số từ URL
     $search     = $_GET['search']     ?? null;
     $category   = $_GET['category']   ?? null;
     $brand      = $_GET['brand']      ?? null;
@@ -19,9 +17,8 @@
     $stmt->execute();
     $stmt->bind_result($categoryId);
     if ($stmt->fetch()) {
-        $category = $categoryId; // Gán lại biến $category = id
+        $category = $categoryId; 
     } else {
-        // Không tìm thấy danh mục, trả về rỗng
         echo json_encode([
             "page" => 1,
             "limit" => 0,

@@ -6,7 +6,6 @@
     $inputUser = $data['user'] ?? '';    //username hoặc email
     $password  = $data['password'] ?? '';
 
-    //check input
     if (!$inputUser || !$password) {
         echo json_encode([
             "success" => false,
@@ -15,7 +14,6 @@
         exit;
     }
 
-    //truy vấn
     $query = "SELECT * FROM Users WHERE FullName = ? OR Email = ? LIMIT 1";
 
     $stmt = mysqli_prepare($conn, $query);
@@ -26,20 +24,17 @@
     //response
     if ($user = mysqli_fetch_assoc($result)) {
         if (password_verify($password, $user['Password'])) {
-            unset($user['Password']); //unset password
+            unset($user['Password']);
 
             // Tạo Access Token và Refresh Token
-            $accessToken = bin2hex(random_bytes(32));    // 64 ký tự
+            $accessToken = bin2hex(random_bytes(32));  
             $refreshToken = bin2hex(random_bytes(32));
 
-            // Thiết lập thời gian hết hạn
             $accessTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));     // Access Token hết hạn sau 1 giờ
             $refreshTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));   // Refresh Token hết hạn sau 30 ngày
 
-            // Lấy thông tin thiết bị
             $deviceInfo = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
 
-            // Lưu token vào bảng UserTokens
             $insertToken = "INSERT INTO UserTokens (UserID, AccessToken, RefreshToken, AccessTokenExpiresAt, RefreshTokenExpiresAt, DeviceInfo)
                             VALUES (?, ?, ?, ?, ?, ?)";
             $stmtToken = mysqli_prepare($conn, $insertToken);
@@ -58,6 +53,10 @@
             echo json_encode([
                 "success" => true,
                 "message" => "Đăng nhập thành công",
+                "access_token" => $accessToken,
+                "refresh_token" => $refreshToken,
+                "access_token_expires_at" => $accessTokenExpiresAt,
+                "refresh_token_expires_at" => $refreshTokenExpiresAt,
                 "data" => $user
             ]);
         } else {

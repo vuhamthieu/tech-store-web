@@ -50,7 +50,6 @@
             exit;
         }
 
-        // Trả về user (truy cập được trong file gọi authenticate())
         return $user;
     }
 ?>

@@ -14,7 +14,6 @@
     $path = substr($fullPath, strlen($scriptName));
     $path = trim($path, '/');
 
-    // Switch như cũ
     switch ($path) {
         case 'api/login':   
             require 'api/login.php';
@@ -33,10 +32,17 @@
             break;
 
         case 'api/product-suggest':
-            require 'api/product-suggest.php';
+            require 'api/product_suggest.php';
             break;
         case 'api/add-to-cart':
             require 'api/add-to-cart.php';
+            break;
+
+        case 'me':
+            require 'me.php';
+            break;
+        case 'refresh-token':
+            require 'refresh_token.php';
             break;
 
         default:
