@@ -3,6 +3,7 @@
 
     $userId    = intval($_POST['userId'] ?? 0);
     $productId = intval($_POST['productId'] ?? 0);
+    $options = intval($_POST['options'] ?? ""); //Ví dụ: 256GB, Trắng
     $quantity  = max(1, intval($_POST['quantity'] ?? 1));
 
     if ($userId <= 0 || $productId <= 0) {
@@ -10,8 +11,8 @@
         exit;
     }
 
-    $stmt = $conn->prepare("SELECT Quantity FROM Cart WHERE UserID = ? AND ProductID = ?");
-    $stmt->bind_param("ii", $userId, $productId);
+    $stmt = $conn->prepare("SELECT Quantity FROM Cart WHERE UserID = ? AND ProductID = ? AND Options = ?");
+    $stmt->bind_param("iis", $userId, $productId, $options);
     $stmt->execute();
     $stmt->store_result();
 
@@ -24,8 +25,8 @@
     } else {
         //thêm mới
         $stmt->close();
-        $stmt = $conn->prepare("INSERT INTO Cart (UserID, ProductID, Quantity) VALUES (?, ?, ?)");
-        $stmt->bind_param("iii", $userId, $productId, $quantity);
+        $stmt = $conn->prepare("INSERT INTO Cart (UserID, ProductID, Quantity, Options) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iii", $userId, $productId, $quantity, $options);
         $stmt->execute();
     }
 
