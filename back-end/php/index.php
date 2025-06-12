@@ -35,6 +35,14 @@
             require 'api/product_suggest.php';
             break;
 
+        case 'api/add-review':
+            require 'api/add_review.php';
+            break;
+
+        case 'api/get-reviews':
+            require 'api/get_reviews.php';
+            break;
+
         case 'api/add-to-cart':
             require 'api/add_to_cart.php';
             break;
