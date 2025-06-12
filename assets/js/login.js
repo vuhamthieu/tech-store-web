@@ -13,7 +13,9 @@ function togglePassword() {
   }
 }
 
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const loginBtn = document.querySelector(".login-btn");
@@ -22,40 +24,43 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     const password = document.getElementById("password").value;
 
     // Debug - kiểm tra giá trị
-    console.log('Sending:', { user: username, password });
+    console.log("Sending:", { user: username, password });
 
     if (!username || !password) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
-        return;
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
     }
 
     try {
-        loginBtn.disabled = true;
-        loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
+      loginBtn.disabled = true;
+      loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
-        const res = await fetch("http://localhost/tech-store-web/back-end/php/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ user: username, password })
-        });
-
-        const data = await res.json();
-        console.log('Response:', data); // Debug - kiểm tra response
-
-        if (data.success) {
-            localStorage.setItem("user", JSON.stringify(data.data));
-            localStorage.setItem("isLoggedIn", "true");
-            window.location.href = "product.html";
-        } else {
-            alert(data.message || "Đăng nhập thất bại!");
+      const res = await fetch(
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user: username, password }),
         }
+      );
+
+      const data = await res.json();
+      console.log("Response:", data); // Debug - kiểm tra response
+
+      if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.data));
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "product.html";
+      } else {
+        alert(data.message || "Đăng nhập thất bại!");
+      }
     } catch (error) {
-        console.error('Login error:', error);
-        alert("Lỗi kết nối server!");
+      console.error("Login error:", error);
+      alert("Lỗi kết nối server!");
     } finally {
-        loginBtn.disabled = false;
-        loginBtn.textContent = originalText;
+      loginBtn.disabled = false;
+      loginBtn.textContent = originalText;
     }
-});
+  });
