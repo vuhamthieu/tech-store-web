@@ -162,8 +162,228 @@
                 </button>
             </div>
         </div>
-    </div>
-
+    </div> 
+    <!-- Reviewer-->
+    <div class="product-reviews-container">
+      <!-- Phần hiển thị đánh giá tổng quan -->
+      <div class="reviews-summary">
+          <h2 class="section-title">Đánh Giá Sản Phẩm</h2>
+          <div class="summary-container">
+              <div class="average-rating">
+                  <div class="average-score">4.9<span>/5</span></div>
+                  <div class="stars">★★★★★</div>
+                  <div class="total-reviews">1.2k đánh giá</div>
+              </div>
+              
+              <div class="rating-details">
+                  <div class="rating-bar">
+                      <span class="rating-label">5 sao</span>
+                      <div class="progress-bar">
+                          <div class="progress-fill" style="width: 85%"></div>
+                      </div>
+                      <span class="rating-count">1,020</span>
+                  </div>
+                  <div class="rating-bar">
+                      <span class="rating-label">4 sao</span>
+                      <div class="progress-bar">
+                          <div class="progress-fill" style="width: 10%"></div>
+                      </div>
+                      <span class="rating-count">120</span>
+                  </div>
+                  <div class="rating-bar">
+                      <span class="rating-label">3 sao</span>
+                      <div class="progress-bar">
+                          <div class="progress-fill" style="width: 3%"></div>
+                      </div>
+                      <span class="rating-count">36</span>
+                  </div>
+                  <div class="rating-bar">
+                      <span class="rating-label">2 sao</span>
+                      <div class="progress-bar">
+                          <div class="progress-fill" style="width: 1%"></div>
+                      </div>
+                      <span class="rating-count">12</span>
+                  </div>
+                  <div class="rating-bar">
+                      <span class="rating-label">1 sao</span>
+                      <div class="progress-bar">
+                          <div class="progress-fill" style="width: 1%"></div>
+                      </div>
+                      <span class="rating-count">12</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Phần viết đánh giá -->
+      <div class="write-review">
+          <h3 class="review-title">Viết đánh giá của bạn</h3>
+          <form id="reviewForm">
+              <div class="form-group">
+                  <label for="reviewRating">Đánh giá của bạn:</label>
+                  <div class="rating-input">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="reviewRating" name="rating" value="0">
+              </div>
+              
+              <div class="form-group">
+                  <label for="reviewTitle">Tiêu đề đánh giá:</label>
+                  <input type="text" id="reviewTitle" class="form-input" placeholder="Ví dụ: Sản phẩm tuyệt vời">
+              </div>
+              
+              <div class="form-group">
+                  <label for="reviewContent">Nội dung đánh giá:</label>
+                  <textarea id="reviewContent" class="form-textarea" rows="4" placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                  <label>Tải lên hình ảnh (tối đa 3 ảnh):</label>
+                  <div class="image-upload-container">
+                      <div class="upload-preview">
+                          <div class="upload-placeholder">
+                              <i class="fas fa-camera"></i>
+                              <span>Thêm ảnh</span>
+                          </div>
+                      </div>
+                      <input type="file" id="reviewImages" multiple accept="image/*" style="display: none;">
+                  </div>
+              </div>
+              
+              <button type="submit" class="submit-review-btn">Gửi đánh giá</button>
+          </form>
+      </div>
+      
+      <!-- Danh sách đánh giá -->
+      <div class="reviews-list">
+          <div class="reviews-header">
+              <h3 class="section-title">Đánh Giá Của Khách Hàng</h3>
+              <div class="sort-options">
+                  <select class="sort-select">
+                      <option value="newest">Mới nhất</option>
+                      <option value="highest">Đánh giá cao nhất</option>
+                      <option value="lowest">Đánh giá thấp nhất</option>
+                      <option value="withPhotos">Có hình ảnh</option>
+                  </select>
+              </div>
+          </div>
+          
+          <!-- Review Item 1 -->
+          <div class="review-item">
+              <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                      <img src="https://via.placeholder.com/50x50" alt="Nguyễn Văn A">
+                  </div>
+                  <div class="reviewer-details">
+                      <div class="reviewer-name">Nguyễn Văn A</div>
+                      <div class="review-date">20/10/2023</div>
+                  </div>
+              </div>
+              
+              <div class="review-content">
+                  <div class="review-rating">
+                      <div class="stars">★★★★★</div>
+                      <div class="review-title">Sản phẩm tuyệt vời</div>
+                  </div>
+                  <div class="review-text">
+                      <p>Mình mới mua iPhone 14 Pro Max màu tím và rất hài lòng với sản phẩm. Máy chạy mượt, pin trâu, camera chụp ảnh đẹp. Nhân viên tư vấn nhiệt tình, giao hàng nhanh. Sẽ ủng hộ shop dài dài.</p>
+                  </div>
+                  
+                  <div class="review-images">
+                      <div class="review-image">
+                          <img src="https://via.placeholder.com/100x100" alt="Hình ảnh đánh giá">
+                      </div>
+                      <div class="review-image">
+                          <img src="https://via.placeholder.com/100x100?text=Ảnh+2" alt="Hình ảnh đánh giá">
+                      </div>
+                  </div>
+                  
+                  <div class="review-helpful">
+                      <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+                      <button class="helpful-btn">Có (12)</button>
+                      <button class="not-helpful-btn">Không (2)</button>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Review Item 2 -->
+          <div class="review-item">
+              <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                      <img src="https://via.placeholder.com/50x50" alt="Trần Thị B">
+                  </div>
+                  <div class="reviewer-details">
+                      <div class="reviewer-name">Trần Thị B</div>
+                      <div class="review-date">15/10/2023</div>
+                  </div>
+              </div>
+              
+              <div class="review-content">
+                  <div class="review-rating">
+                      <div class="stars">★★★★☆</div>
+                      <div class="review-title">Tốt nhưng giá hơi cao</div>
+                  </div>
+                  <div class="review-text">
+                      <p>Sản phẩm chất lượng tốt, mình dùng được 1 tuần thấy rất ổn. Tuy nhiên giá hơi cao so với mặt bằng chung. Nhân viên giao hàng thân thiện, đóng gói cẩn thận.</p>
+                  </div>
+                  
+                  <div class="review-helpful">
+                      <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+                      <button class="helpful-btn">Có (5)</button>
+                      <button class="not-helpful-btn">Không (0)</button>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Review Item 3 -->
+          <div class="review-item">
+              <div class="reviewer-info">
+                  <div class="reviewer-avatar">
+                      <img src="https://via.placeholder.com/50x50" alt="Lê Văn C">
+                  </div>
+                  <div class="reviewer-details">
+                      <div class="reviewer-name">Lê Văn C</div>
+                      <div class="review-date">10/10/2023</div>
+                  </div>
+              </div>
+              
+              <div class="review-content">
+                  <div class="review-rating">
+                      <div class="stars">★★★☆☆</div>
+                      <div class="review-title">Tạm được</div>
+                  </div>
+                  <div class="review-text">
+                      <p>Máy chạy ổn nhưng mình thấy pin không được tốt như quảng cáo. Phải sạc 2 lần/ngày với nhu cầu sử dụng của mình. Thiết kế đẹp, màn hình sắc nét.</p>
+                  </div>
+                  
+                  <div class="review-images">
+                      <div class="review-image">
+                          <img src="https://via.placeholder.com/100x100?text=Ảnh+3" alt="Hình ảnh đánh giá">
+                      </div>
+                  </div>
+                  
+                  <div class="review-helpful">
+                      <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+                      <button class="helpful-btn">Có (2)</button>
+                      <button class="not-helpful-btn">Không (1)</button>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Xem thêm đánh giá -->
+          <div class="load-more-reviews">
+              <button class="load-more-btn">Xem Thêm Đánh Giá</button>
+          </div>
+      </div>
+  </div>
+  
+  
+  
+  
     
     <!-- Footer -->
     <footer class="main-footer">
@@ -196,7 +416,7 @@
     </footer>
 
   
-   <script src="../assets/js/product-detail.js"></script>
+   <script src="../assets/js/product-detail.js"></>
         
 </body>
 </html>
