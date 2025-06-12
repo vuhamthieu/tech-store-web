@@ -105,6 +105,7 @@ CREATE TABLE Cart (
     UserID INT NOT NULL,
     ProductID INT NOT NULL,
     Quantity INT DEFAULT 1 CHECK (Quantity > 0),
+    Options TEXT DEFAULT NULL,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (UserID, ProductID),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),

@@ -11,6 +11,7 @@
         SELECT 
             c.ProductID,
             c.Quantity,
+            c.Options,
             p.ProductName,
             p.Price,
             p.Thumbnail
