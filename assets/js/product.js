@@ -75,7 +75,8 @@ const API_URL = 'http://localhost/webproject/tech-store-web/back-end/php/api/pro
 // ...existing code...
 
 const productGrid = document.querySelector('.product-grid');
-const searchInput = document.getElementById('search-input');
+// Lấy input tìm kiếm từ header
+const searchInput = document.querySelector('.search-box input');
 const sortSelect = document.getElementById('sort-filter');
 const categorySelect = document.getElementById('category-filter');
 const brandSelect = document.getElementById('brand-filter');

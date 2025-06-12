@@ -153,7 +153,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.helpful-btn, .not-helpful-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             const countSpan = this.querySelector('span') || this;
+<<<<<<< HEAD
             let count = parseInt(countSpan.textContent.match(/\d+/)?.[0] || 0);
+=======
+            let count = parseInt(countSpan.textContent.match(/\d+/)[0] || 0);
+>>>>>>> 97d83916975e4809f4e6a8287f92e189531834a4
             count++;
             this.textContent = this.textContent.replace(/\d+/, count);
             this.classList.add('active');

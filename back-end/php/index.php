@@ -27,8 +27,8 @@
             require 'api/products.php';
             break;
 
-        case 'api/product-images':
-            require 'api/product_images.php';
+        case 'api/product-details':
+            require 'api/product_details.php';
             break;
 
         case 'api/product-suggest':

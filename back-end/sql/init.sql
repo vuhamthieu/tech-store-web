@@ -15,6 +15,7 @@ CREATE TABLE Users (
     Phone VARCHAR(20) DEFAULT NULL,
     Address VARCHAR(200) DEFAULT NULL,
     Password VARCHAR(100) NOT NULL,
+    Avatar VARCHAR(500) DEFAULT NULL,
     RoleID INT NOT NULL,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
@@ -49,6 +50,7 @@ CREATE TABLE Products (
     Price DECIMAL(10, 2) NOT NULL CHECK (Price >= 0),
     Description LONGTEXT,
     Stock INT DEFAULT 0 CHECK (Stock >= 0),
+    SoldCount INT DEFAULT 0 CHECK (SoldCount >= 0),
     Brand VARCHAR(100),
     Thumbnail VARCHAR(500),
     Rating DECIMAL(2, 1) DEFAULT 0 CHECK (Rating >= 0 AND Rating <= 5),
@@ -58,12 +60,43 @@ CREATE TABLE Products (
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
 
+-- Bảng ProductSpecifications
+CREATE TABLE ProductSpecifications (
+    SpecID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    SpecKey VARCHAR(100),        -- ví dụ: CPU, Screen, Battery
+    SpecValue VARCHAR(200),      -- ví dụ: Intel i5, 15.6", 5000mAh
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+);
+
+-- Bảng ProductVariants (từng biến thể của sản phẩm)
+CREATE TABLE ProductVariants (
+    VariantID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT,
+    SKU VARCHAR(100) UNIQUE, -- Mã (VD: XYZ-BLK64)
+    Price DECIMAL(10,2) NOT NULL,
+    Stock INT DEFAULT 0 CHECK (Stock >= 0),
+    Thumbnail VARCHAR(500),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+);
+
+-- Bảng VariantSpecifications (chi tiết cho các biến thể)
+CREATE TABLE VariantSpecifications (
+    VariantSpecID INT PRIMARY KEY AUTO_INCREMENT,
+    VariantID INT,
+    SpecKey VARCHAR(100), -- Mã (VD: CPU, Screen, Battery)
+    SpecValue VARCHAR(100), -- Giá trị (VD: Intel i5, 15.6", 5000mAh)
+    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID) ON DELETE CASCADE
+);
+
 -- Bảng Gallery
 CREATE TABLE Gallery (
     GalleryID INT PRIMARY KEY AUTO_INCREMENT,
     ProductID INT NOT NULL,
+    VariantID INT NOT NULL,
     Thumbnail VARCHAR(500) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID)
 );
 
 -- Bảng Giỏ hàng
