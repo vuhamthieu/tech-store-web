@@ -1,142 +1,111 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Thumbnail click event
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.getElementById('mainProductImage');
 
-        // Thumbnail click event
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        const mainImage = document.getElementById('mainProductImage');
-        
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('click', function() {
-                // Remove active class from all thumbnails
-                thumbnails.forEach(t => t.classList.remove('active'));
-                
-                // Add active class to clicked thumbnail
-                this.classList.add('active');
-                
-                // Change main image
-                const imgSrc = this.querySelector('img').getAttribute('data-large');
-                mainImage.src = imgSrc;
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function () {
+            thumbnails.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const imgSrc = this.querySelector('img').getAttribute('data-large');
+            mainImage.src = imgSrc;
+        });
+    });
+
+    // Quantity selector
+    const decreaseBtn = document.getElementById('decreaseQty');
+    const increaseBtn = document.getElementById('increaseQty');
+    const quantityInput = document.getElementById('productQty');
+
+    decreaseBtn?.addEventListener('click', function () {
+        let value = parseInt(quantityInput.value);
+        if (value > 1) {
+            quantityInput.value = value - 1;
+        }
+    });
+
+    increaseBtn?.addEventListener('click', function () {
+        let value = parseInt(quantityInput.value);
+        if (value < 10) {
+            quantityInput.value = value + 1;
+        }
+    });
+
+    // Variant selection
+    const variantOptions = document.querySelectorAll('.variant-option:not(.disabled)');
+    variantOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            const optionsContainer = this.parentElement;
+            optionsContainer.querySelectorAll('.variant-option').forEach(opt => {
+                opt.classList.remove('selected');
             });
+            this.classList.add('selected');
         });
-        
-        // Quantity selector
-        const decreaseBtn = document.getElementById('decreaseQty');
-        const increaseBtn = document.getElementById('increaseQty');
-        const quantityInput = document.getElementById('productQty');
-        
-        decreaseBtn.addEventListener('click', function() {
-            let value = parseInt(quantityInput.value);
-            if (value > 1) {
-                quantityInput.value = value - 1;
-            }
-        });
-        
-        increaseBtn.addEventListener('click', function() {
-            let value = parseInt(quantityInput.value);
-            if (value < 10) {
-                quantityInput.value = value + 1;
-            }
-        });
-        
-        // Variant selection
-        const variantOptions = document.querySelectorAll('.variant-option:not(.disabled)');
-        
-        variantOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                // Find parent options container
-                const optionsContainer = this.parentElement;
-                
-                // Remove selected class from all options in this container
-                optionsContainer.querySelectorAll('.variant-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                
-                // Add selected class to clicked option
-                this.classList.add('selected');
-            });
-        });
-        
-        // Add to cart button
-        const addToCartBtn = document.querySelector('.add-to-cart');
-        addToCartBtn.addEventListener('click', function() {
-            alert('Sản phẩm đã được thêm vào giỏ hàng!');
-        });
-        
-        // Buy now button
-        const buyNowBtn = document.querySelector('.buy-now');
-        buyNowBtn.addEventListener('click', function() {
-            alert('Chuyển đến trang thanh toán!');
-        });
-    // JavaScript cho phần đánh giá
-    document.addEventListener('DOMContentLoaded', function() {
-    // Xử lý rating stars
- document.addEventListener('DOMContentLoaded', function() {
+    });
+
+    // Add to cart button
+    const addToCartBtn = document.querySelector('.add-to-cart');
+    addToCartBtn?.addEventListener('click', function () {
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+    });
+
+    // Buy now button
+    const buyNowBtn = document.querySelector('.buy-now');
+    buyNowBtn?.addEventListener('click', function () {
+        alert('Chuyển đến trang thanh toán!');
+    });
+
+    // Rating stars
     const stars = document.querySelectorAll('.rating-input .star');
     const ratingInput = document.getElementById('reviewRating');
-    
-    // Xử lý khi di chuột qua sao
+
     stars.forEach(star => {
-        star.addEventListener('mouseover', function() {
+        star.addEventListener('mouseover', function () {
             const value = parseInt(this.getAttribute('data-value'));
-            
-            // Xóa tất cả class hover trước đó
             stars.forEach(s => s.classList.remove('hover'));
-            
-            // Thêm class hover cho tất cả sao từ 1 đến value
             for (let i = 0; i < value; i++) {
                 stars[i].classList.add('hover');
             }
         });
-        
-        star.addEventListener('mouseout', function() {
-            // Xóa tất cả class hover khi chuột rời khỏi
+
+        star.addEventListener('mouseout', function () {
             stars.forEach(s => s.classList.remove('hover'));
-            
-            // Nếu đã chọn rating, hiển thị lại các sao đã chọn
-            if (ratingInput.value > 0) {
-                for (let i = 0; i < ratingInput.value; i++) {
-                    stars[i].classList.add('active');
-                }
+            for (let i = 0; i < ratingInput.value; i++) {
+                stars[i].classList.add('active');
             }
         });
-        
-        star.addEventListener('click', function() {
+
+        star.addEventListener('click', function () {
             const value = parseInt(this.getAttribute('data-value'));
             ratingInput.value = value;
-            
-            // Xóa tất cả class active trước đó
             stars.forEach(s => s.classList.remove('active'));
-            
-            // Thêm class active cho tất cả sao từ 1 đến value
             for (let i = 0; i < value; i++) {
                 stars[i].classList.add('active');
             }
         });
     });
-});
-    
-    // Xử lý tải ảnh
+
+    // Image upload
     const uploadPlaceholder = document.querySelector('.upload-placeholder');
     const fileInput = document.getElementById('reviewImages');
-    
-    uploadPlaceholder.addEventListener('click', function() {
+
+    uploadPlaceholder?.addEventListener('click', function () {
         fileInput.click();
     });
-    
-    fileInput.addEventListener('change', function() {
+
+    fileInput?.addEventListener('change', function () {
         const files = this.files;
         const uploadPreview = document.querySelector('.upload-preview');
-        
-        // Xóa placeholder nếu có ảnh được chọn
+
         if (files.length > 0) {
             uploadPreview.innerHTML = '';
         }
-        
-        // Hiển thị preview ảnh
+
         for (let i = 0; i < Math.min(files.length, 3); i++) {
             const file = files[i];
             if (file.type.match('image.*')) {
                 const reader = new FileReader();
-                
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const imgContainer = document.createElement('div');
                     imgContainer.className = 'uploaded-image';
                     imgContainer.innerHTML = `
@@ -144,9 +113,8 @@
                         <button class="remove-image-btn">&times;</button>
                     `;
                     uploadPreview.appendChild(imgContainer);
-                    
-                    // Xử lý xóa ảnh
-                    imgContainer.querySelector('.remove-image-btn').addEventListener('click', function() {
+
+                    imgContainer.querySelector('.remove-image-btn').addEventListener('click', function () {
                         imgContainer.remove();
                         if (uploadPreview.children.length === 0) {
                             uploadPreview.innerHTML = `
@@ -158,47 +126,159 @@
                         }
                     });
                 };
-                
                 reader.readAsDataURL(file);
             }
         }
     });
-    
-    // Xử lý gửi đánh giá
+
+    // Submit review
     const reviewForm = document.getElementById('reviewForm');
-    if (reviewForm) {
-        reviewForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Xử lý gửi dữ liệu đánh giá ở đây
-            alert('Cảm ơn bạn đã đánh giá sản phẩm!');
-            this.reset();
-            
-            // Reset stars
-            stars.forEach(star => star.classList.remove('active'));
-            ratingInput.value = '0';
-            
-            // Reset ảnh
-            const uploadPreview = document.querySelector('.upload-preview');
-            uploadPreview.innerHTML = `
-                <div class="upload-placeholder">
-                    <i class="fas fa-camera"></i>
-                    <span>Thêm ảnh</span>
-                </div>
-            `;
-        });
-    }
-    
-    // Xử lý nút hữu ích
+    reviewForm?.addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Cảm ơn bạn đã đánh giá sản phẩm!');
+        this.reset();
+        stars.forEach(star => star.classList.remove('active'));
+        ratingInput.value = '0';
+
+        const uploadPreview = document.querySelector('.upload-preview');
+        uploadPreview.innerHTML = `
+            <div class="upload-placeholder">
+                <i class="fas fa-camera"></i>
+                <span>Thêm ảnh</span>
+            </div>
+        `;
+    });
+
+    // Helpful buttons
     document.querySelectorAll('.helpful-btn, .not-helpful-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Xử lý đếm like/dislike ở đây
+        btn.addEventListener('click', function () {
             const countSpan = this.querySelector('span') || this;
+<<<<<<< HEAD
+            let count = parseInt(countSpan.textContent.match(/\d+/)?.[0] || 0);
+=======
             let count = parseInt(countSpan.textContent.match(/\d+/)[0] || 0);
+>>>>>>> 97d83916975e4809f4e6a8287f92e189531834a4
             count++;
             this.textContent = this.textContent.replace(/\d+/, count);
-            
-            // Thêm lớp active để đổi màu
             this.classList.add('active');
         });
     });
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            this.classList.add('active');
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
 });
+         //Detail
+         
+         document.addEventListener('DOMContentLoaded', async function() {
+           const urlParams = new URLSearchParams(window.location.search);
+           const productId = urlParams.get('id');
+           if (!productId) return alert('Không xác định sản phẩm!');
+         
+           try {
+             const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/getProduct.php?id=${productId}`);
+             if (!res.ok) throw new Error('Lỗi khi tải dữ liệu');
+             const data = await res.json();
+         
+             const { product, productSpecifications, variants, gallery } = data;
+         
+             // 1. Hiển thị thông tin cơ bản
+             document.querySelector('.product-title').textContent = product.name;
+             document.querySelector('.current-price').textContent = Number(product.price).toLocaleString('vi-VN') + '₫';
+             document.querySelector('.old-price').textContent = Number(product.oldPrice).toLocaleString('vi-VN') + '₫';
+             document.querySelector('.stock-info').textContent = `Còn ${product.stock} sản phẩm`;
+             document.querySelector('.rating .stars').textContent = '★★★★★'.slice(0, Math.round(product.rating));
+             document.querySelector('.rating .rating-count').textContent = `${Number(product.ratingCount).toLocaleString('vi-VN')} đánh giá`;
+             document.querySelector('.sold-count span').textContent = `${(product.sold / 1000).toFixed(1)}k`;
+         
+             const mainImage = document.getElementById('mainProductImage');
+             const galleryContainer = document.querySelector('.thumbnail-gallery');
+         
+             function renderGallery(images) {
+               galleryContainer.innerHTML = '';
+               images.forEach((url, idx) => {
+                 const thumb = document.createElement('div');
+                 thumb.className = 'thumbnail' + (idx === 0 ? ' active' : '');
+                 thumb.innerHTML = `<img src="${url}" data-large="${url}" alt="Ảnh ${idx + 1}">`;
+                 galleryContainer.appendChild(thumb);
+                 thumb.addEventListener('click', () => {
+                   document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                   thumb.classList.add('active');
+                   mainImage.src = url;
+                 });
+               });
+               if (images.length > 0) mainImage.src = images[0];
+             }
+         
+             // 2. Render màu sắc
+             const colorContainer = document.querySelectorAll('.variant-section')[1].querySelector('.variant-options');
+             colorContainer.innerHTML = '';
+             variants.colors.forEach((color, idx) => {
+               const div = document.createElement('div');
+               div.className = 'variant-option' + (idx === 0 ? ' selected' : '');
+               div.textContent = color;
+               colorContainer.appendChild(div);
+               div.addEventListener('click', () => {
+                 colorContainer.querySelectorAll('.variant-option').forEach(c => c.classList.remove('selected'));
+                 div.classList.add('selected');
+                 if (gallery[color]) renderGallery(gallery[color]);
+               });
+             });
+         
+             // 3. Render dung lượng
+             const capacityContainer = document.querySelectorAll('.variant-section')[0].querySelector('.variant-options');
+             capacityContainer.innerHTML = '';
+             variants.capacity.forEach((cap, idx) => {
+               const div = document.createElement('div');
+               div.className = 'variant-option' + (idx === 0 ? ' selected' : '');
+               if (cap === '1TB') div.classList.add('disabled');
+               div.textContent = cap;
+               capacityContainer.appendChild(div);
+               if (!div.classList.contains('disabled')) {
+                 div.addEventListener('click', () => {
+                   capacityContainer.querySelectorAll('.variant-option').forEach(c => c.classList.remove('selected'));
+                   div.classList.add('selected');
+                 });
+               }
+             });
+         
+             // 4. Khởi tạo ảnh lần đầu theo màu đầu tiên
+             const defaultColor = variants.colors[0];
+             if (gallery[defaultColor]) renderGallery(gallery[defaultColor]);
+         
+             // 5. Xử lý tăng/giảm số lượng
+             const qtyInput = document.getElementById('productQty');
+             document.getElementById('decreaseQty').addEventListener('click', () => {
+               if (+qtyInput.value > 1) qtyInput.value = +qtyInput.value - 1;
+             });
+             document.getElementById('increaseQty').addEventListener('click', () => {
+               if (+qtyInput.value < 10) qtyInput.value = +qtyInput.value + 1;
+             });
+         
+             // 6. Thêm vào giỏ / Mua ngay (demo alert)
+             document.querySelector('.add-to-cart').addEventListener('click', () => {
+               alert('Sản phẩm đã được thêm vào giỏ hàng!');
+             });
+             document.querySelector('.buy-now').addEventListener('click', () => {
+               alert('Chuyển đến thanh toán!');
+             });
+         
+             // 7. (Nếu cần) hiển thị thông số kỹ thuật: productSpecifications
+         
+           } catch (err) {
+             console.error(err);
+             alert('Không thể tải sản phẩm');
+           }
+         });
+       
+         

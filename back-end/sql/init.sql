@@ -15,6 +15,7 @@ CREATE TABLE Users (
     Phone VARCHAR(20) DEFAULT NULL,
     Address VARCHAR(200) DEFAULT NULL,
     Password VARCHAR(100) NOT NULL,
+    Avatar VARCHAR(500) DEFAULT NULL,
     RoleID INT NOT NULL,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
@@ -92,8 +93,10 @@ CREATE TABLE VariantSpecifications (
 CREATE TABLE Gallery (
     GalleryID INT PRIMARY KEY AUTO_INCREMENT,
     ProductID INT NOT NULL,
+    VariantID INT NOT NULL,
     Thumbnail VARCHAR(500) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID)
 );
 
 -- Bảng Giỏ hàng
