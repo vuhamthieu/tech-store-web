@@ -72,97 +72,116 @@
     </nav>
 
 
-  
 
 
    
-</head>
-<body>
-    <!-- Main Product Content -->
-    <div class="product-detail-container">
-        <!-- Product Images -->
-        <div class="product-images">
-            <div class="main-image">
-                <img src="https://via.placeholder.com/500x500" alt="Sản phẩm" id="mainProductImage">
+  <!-- Main Product Content -->
+<div class="product-detail-container">
+    <!-- Product Images -->
+    <div class="product-images">
+        <div class="main-image">
+            <img src="" alt="Sản phẩm" id="mainProductImage">
+        </div>
+        <div class="thumbnail-gallery" id="thumbnailGallery">
+            <!-- Thumbnails sẽ được thêm bằng JS -->
+        </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+        <h1 class="product-title" id="productTitle">Tên sản phẩm</h1>
+
+        <div class="product-meta">
+            <div class="rating">
+                <div class="stars" id="productStars">★★★★★</div>
+                <div class="rating-count" id="ratingCount">0 đánh giá</div>
             </div>
-            <div class="thumbnail-gallery">
-                <div class="thumbnail active">
-                    <img src="https://via.placeholder.com/100x100" data-large="https://via.placeholder.com/500x500" alt="Ảnh 1">
-                </div>
-                <div class="thumbnail">
-                    <img src="https://via.placeholder.com/100x100?text=Ảnh+2" data-large="https://via.placeholder.com/500x500?text=Ảnh+2" alt="Ảnh 2">
-                </div>
-                <div class="thumbnail">
-                    <img src="https://via.placeholder.com/100x100?text=Ảnh+3" data-large="https://via.placeholder.com/500x500?text=Ảnh+3" alt="Ảnh 3">
-                </div>
-                <div class="thumbnail">
-                    <img src="https://via.placeholder.com/100x100?text=Ảnh+4" data-large="https://via.placeholder.com/500x500?text=Ảnh+4" alt="Ảnh 4">
-                </div>
+            <div class="sold-count">Đã bán <span id="soldCount">0</span></div>
+        </div>
+
+        <div class="price-container">
+            <span class="current-price" id="currentPrice">0₫</span>
+            <span class="old-price" id="oldPrice">0₫</span>
+        </div>
+
+        <!-- ROM -->
+        <div class="variant-section" id="capacityVariantsSection">
+            <div class="variant-title">Dung lượng</div>
+            <div class="variant-options" id="capacityVariants">
+                <!-- JS sẽ render các option từ variants -->
             </div>
         </div>
 
-        <!-- Product Info -->
-        <div class="product-info">
-            <h1 class="product-title">Điện thoại iPhone 14 Pro Max 128GB - Chính hãng VN/A</h1>
-            
-            <div class="product-meta">
-                <div class="rating">
-                    <div class="stars">★★★★★</div>
-                    <div class="rating-count">1.2k đánh giá</div>
-                </div>
-                <div class="sold-count">Đã bán <span>5.7k</span></div>
-            </div>
-            
-            <div class="price-container">
-                <span class="current-price">25.990.000₫</span>
-                <span class="old-price">31.990.000₫</span>
-              
-            </div>
-            
-            
-            
-            <div class="variant-section">
-                <div class="variant-title">Dung lượng</div>
-                <div class="variant-options">
-                    <div class="variant-option selected">128GB</div>
-                    <div class="variant-option">256GB</div>
-                    <div class="variant-option">512GB</div>
-                    <div class="variant-option disabled">1TB</div>
-                </div>
-            </div>
-            
-            <div class="variant-section">
-                <div class="variant-title">Màu sắc</div>
-                <div class="variant-options">
-                    <div class="variant-option selected">Tím</div>
-                    <div class="variant-option">Vàng</div>
-                    <div class="variant-option">Bạc</div>
-                    <div class="variant-option">Đen</div>
-                </div>
-            </div>
-            
-            <div class="quantity-section">
-                <div class="quantity-label">Số lượng</div>
-                <div class="quantity-selector">
-                    <button class="quantity-btn" id="decreaseQty">-</button>
-                    <input type="number" class="quantity-input" value="1" min="1" max="10" id="productQty">
-                    <button class="quantity-btn" id="increaseQty">+</button>
-                </div>
-                <div class="stock-info">Còn 12 sản phẩm</div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="add-to-cart">
-                    <i class="fas fa-cart-plus"></i>
-                    Thêm vào giỏ hàng
-                </button>
-                <button class="buy-now">
-                    <i class="fas fa-bolt"></i>
-                    Mua ngay
-                </button>
+        <!-- Color -->
+        <div class="variant-section" id="colorVariantsSection">
+            <div class="variant-title">Màu sắc</div>
+            <div class="variant-options" id="colorVariants">
+                <!-- JS sẽ render các option từ variants -->
             </div>
         </div>
-    </div> 
+
+        <!-- Quantity -->
+        <div class="quantity-section">
+            <div class="quantity-label">Số lượng</div>
+            <div class="quantity-selector">
+                <button class="quantity-btn" id="decreaseQty">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10" id="productQty">
+                <button class="quantity-btn" id="increaseQty">+</button>
+            </div>
+            <div class="stock-info">Còn <span id="stockInfo">0</span> sản phẩm</div>
+        </div>
+
+        <!-- buttons cart and buy now -->
+        <div class="action-buttons">
+            <button class="add-to-cart" id="addToCartBtn">
+                <i class="fas fa-cart-plus"></i>
+                Thêm vào giỏ hàng
+            </button>
+            <button class="buy-now" id="buyNowBtn">
+                <i class="fas fa-bolt"></i>
+                Mua ngay
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!--Description-->
+    <div class="product-description-container">
+        <!-- Tabs -->
+        <div class="description-tabs">
+            <div class="tab active" data-tab="description">MÔ TẢ SẢN PHẨM</div>
+            <div class="tab" data-tab="specs">THÔNG SỐ KỸ THUẬT</div>
+            <div class="tab" data-tab="warranty">CHÍNH SÁCH BẢO HÀNH</div>
+        </div>
+    
+        <!-- Tab: Mô tả sản phẩm -->
+        <div class="tab-content active" id="description">
+            <div class="description-content">
+                <h2 class="section-title">Đang tải mô tả sản phẩm...</h2>
+                <!-- Bạn có thể mở rộng thêm khối này nếu cần thêm gallery hoặc mô tả chi tiết -->
+            </div>
+        </div>
+    
+        <!-- Tab: Thông số kỹ thuật -->
+        <div class="tab-content" id="specs">
+            <div class="specs-content">
+                <h2 class="section-title">Thông số kỹ thuật</h2>
+                <div class="specs-table">
+                    <!-- Các dòng thông số kỹ thuật sẽ được JS đổ vào đây -->
+                </div>
+            </div>
+        </div>
+    
+        <!-- Tab: Bảo hành -->
+        <div class="tab-content" id="warranty">
+            <div class="warranty-content">
+                <h2 class="section-title">Chính sách bảo hành</h2>
+                <!-- Các mục bảo hành sẽ được đổ vào đây bằng JS -->
+                <!-- Ghi chú bảo hành (nếu có) cũng sẽ được thêm vào sau cùng -->
+            </div>
+        </div>
+    </div>
+    
     <!-- Reviewer-->
     <div class="product-reviews-container">
       <!-- Phần hiển thị đánh giá tổng quan -->
@@ -416,7 +435,7 @@
     </footer>
 
   
-   <script src="../assets/js/product-detail.js"></>
+   <script src="../assets/js/detail.js"></script>
         
 </body>
 </html>
