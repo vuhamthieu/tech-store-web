@@ -73,7 +73,7 @@
 
           // ...existing code...
           const API_URL =
-            "http://localhost/tech-store-web/back-end/php/api/register";
+            "http://localhost/webproject/tech-store-web/back-end/php/api/register";
 
           try {
             // Send request to register.php
