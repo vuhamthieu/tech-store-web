@@ -35,16 +35,13 @@ document
       loginBtn.disabled = true;
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
-      const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: username, password }),
-        }
-      );
+        const res = await fetch("http://localhost/tech-store-web/back-end/php/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ user: username, password })
+        });
 
       const data = await res.json();
       console.log("Response:", data); // Debug - kiểm tra response
