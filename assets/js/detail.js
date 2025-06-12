@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", async function () {
     // Thumbnail click event
     const thumbnails = document.querySelectorAll('.thumbnail');
     const mainImage = document.getElementById('mainProductImage');
@@ -153,11 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.helpful-btn, .not-helpful-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             const countSpan = this.querySelector('span') || this;
-<<<<<<< HEAD
             let count = parseInt(countSpan.textContent.match(/\d+/)?.[0] || 0);
-=======
-            let count = parseInt(countSpan.textContent.match(/\d+/)[0] || 0);
->>>>>>> 97d83916975e4809f4e6a8287f92e189531834a4
             count++;
             this.textContent = this.textContent.replace(/\d+/, count);
             this.classList.add('active');
@@ -177,105 +173,93 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById(tabId).classList.add('active');
         });
     });
+
+    // Detail product fetch
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    if (!productId) {
+        alert("Không tìm thấy ID sản phẩm!");
+        return;
+    }
+
+    try {
+        const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/product_detail.php?id=${productId}`);
+        const data = await res.json();
+
+        const { product, productSpecifications, variants, gallery } = data;
+
+        if (gallery.length > 0) {
+            mainImage.src = gallery[0].ImageURL;
+        }
+
+        const galleryContainer = document.querySelector(".thumbnail-gallery");
+        galleryContainer.innerHTML = "";
+        gallery.forEach((imgObj, index) => {
+            const thumbnailDiv = document.createElement("div");
+            thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
+            thumbnailDiv.innerHTML = `<img src="${imgObj.ImageURL}" data-large="${imgObj.ImageURL}" alt="Ảnh ${index + 1}">`;
+            galleryContainer.appendChild(thumbnailDiv);
+        });
+
+        galleryContainer.addEventListener("click", (e) => {
+            const img = e.target.closest("img");
+            if (img) {
+                mainImage.src = img.dataset.large;
+                galleryContainer.querySelectorAll(".thumbnail").forEach(th => th.classList.remove("active"));
+                img.parentElement.classList.add("active");
+            }
+        });
+
+        document.querySelector(".product-title").textContent = product.Name || "Không tên";
+        document.querySelector(".current-price").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
+        document.querySelector(".old-price").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
+        document.querySelector(".sold-count span").textContent = product.Sold || 0;
+        document.querySelector(".stock-info").textContent = `Còn ${product.Stock || 0} sản phẩm`;
+
+        const capacityContainer = document.querySelectorAll(".variant-section")[0]?.querySelector(".variant-options");
+        const colorContainer = document.querySelectorAll(".variant-section")[1]?.querySelector(".variant-options");
+
+        if (capacityContainer && variants.length > 0) {
+            const capacities = [...new Set(variants.map(v => v.Capacity))];
+            capacityContainer.innerHTML = "";
+            capacities.forEach(cap => {
+                const div = document.createElement("div");
+                div.className = "variant-option";
+                div.textContent = cap;
+                capacityContainer.appendChild(div);
+            });
+        }
+
+        if (colorContainer && variants.length > 0) {
+            const colors = [...new Set(variants.map(v => v.Color))];
+            colorContainer.innerHTML = "";
+            colors.forEach(color => {
+                const div = document.createElement("div");
+                div.className = "variant-option";
+                div.textContent = color;
+                colorContainer.appendChild(div);
+            });
+        }
+
+        document.querySelector("#description .description-content").innerHTML = `
+            <h2 class="section-title">${product.Name}</h2>
+            <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
+        `;
+
+        const specsContainer = document.querySelector("#specs .specs-table");
+        specsContainer.innerHTML = "";
+        productSpecifications.forEach(spec => {
+            const row = document.createElement("div");
+            row.className = "spec-row";
+            row.innerHTML = `
+                <div class="spec-name">${spec.SpecKey}</div>
+                <div class="spec-value">${spec.SpecValue}</div>`;
+            specsContainer.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        alert("Không thể tải dữ liệu sản phẩm.");
+    }
 });
-         //Detail
-         document.addEventListener("DOMContentLoaded", async () => {
-             const params = new URLSearchParams(window.location.search);
-             const productId = params.get("id");
-         
-             if (!productId) {
-                 alert("Không tìm thấy ID sản phẩm!");
-                 return;
-             }
-         
-             try {
-                 const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/product_detail.php?id=${productId}`);
-                 const data = await res.json();
-         
-                 const { product, productSpecifications, variants, gallery } = data;
-         
-                 // Cập nhật ảnh chính
-                 const mainImage = document.getElementById("mainProductImage");
-                 if (gallery.length > 0) {
-                     mainImage.src = gallery[0].ImageURL;
-                 }
-         
-                 // Cập nhật thư viện ảnh nhỏ
-                 const galleryContainer = document.querySelector(".thumbnail-gallery");
-                 galleryContainer.innerHTML = "";
-                 gallery.forEach((imgObj, index) => {
-                     const thumbnailDiv = document.createElement("div");
-                     thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-                     thumbnailDiv.innerHTML = `<img src="${imgObj.ImageURL}" data-large="${imgObj.ImageURL}" alt="Ảnh ${index + 1}">`;
-                     galleryContainer.appendChild(thumbnailDiv);
-                 });
-         
-                 // Xử lý khi click vào ảnh nhỏ
-                 galleryContainer.addEventListener("click", (e) => {
-                     const img = e.target.closest("img");
-                     if (img) {
-                         mainImage.src = img.dataset.large;
-                         galleryContainer.querySelectorAll(".thumbnail").forEach(th => th.classList.remove("active"));
-                         img.parentElement.classList.add("active");
-                     }
-                 });
-         
-                 // Cập nhật thông tin sản phẩm
-                 document.querySelector(".product-title").textContent = product.Name || "Không tên";
-                 document.querySelector(".current-price").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
-                 document.querySelector(".old-price").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
-                 document.querySelector(".sold-count span").textContent = product.Sold || 0;
-                 document.querySelector(".stock-info").textContent = `Còn ${product.Stock || 0} sản phẩm`;
-         
-                 // Hiển thị biến thể - nếu có các lựa chọn dung lượng và màu sắc (giả sử có field Capacity, Color)
-                 const capacityContainer = document.querySelectorAll(".variant-section")[0]?.querySelector(".variant-options");
-                 const colorContainer = document.querySelectorAll(".variant-section")[1]?.querySelector(".variant-options");
-         
-                 if (capacityContainer && variants.length > 0) {
-                     const capacities = [...new Set(variants.map(v => v.Capacity))];
-                     capacityContainer.innerHTML = "";
-                     capacities.forEach(cap => {
-                         const div = document.createElement("div");
-                         div.className = "variant-option";
-                         div.textContent = cap;
-                         capacityContainer.appendChild(div);
-                     });
-                 }
-         
-                 if (colorContainer && variants.length > 0) {
-                     const colors = [...new Set(variants.map(v => v.Color))];
-                     colorContainer.innerHTML = "";
-                     colors.forEach(color => {
-                         const div = document.createElement("div");
-                         div.className = "variant-option";
-                         div.textContent = color;
-                         colorContainer.appendChild(div);
-                     });
-                 }
-         
-                 // Mô tả sản phẩm (giả sử product.Description)
-                 document.querySelector("#description .description-content").innerHTML = `
-                     <h2 class="section-title">${product.Name}</h2>
-                     <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
-                 `;
-         
-                 // Thông số kỹ thuật
-                 const specsContainer = document.querySelector("#specs .specs-table");
-                 specsContainer.innerHTML = "";
-                 productSpecifications.forEach(spec => {
-                     const row = document.createElement("div");
-                     row.className = "spec-row";
-                     row.innerHTML = `
-                         <div class="spec-name">${spec.SpecKey}</div>
-                         <div class="spec-value">${spec.SpecValue}</div>
-                     `;
-                     specsContainer.appendChild(row);
-                 });
-         
-             } catch (error) {
-                 console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-                 alert("Không thể tải dữ liệu sản phẩm.");
-             }
-         });
-      
-         
