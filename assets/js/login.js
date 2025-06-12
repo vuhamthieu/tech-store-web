@@ -33,7 +33,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         loginBtn.disabled = true;
         loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
-        const res = await fetch("http://localhost/tech-store-web/back-end/php/api/login", {
+        const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
