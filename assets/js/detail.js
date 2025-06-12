@@ -193,7 +193,7 @@
         btn.addEventListener('click', function() {
             // Xử lý đếm like/dislike ở đây
             const countSpan = this.querySelector('span') || this;
-            let count = parseInt(countSpan.textContent.match(/\d+/)[0] || 0;
+            let count = parseInt(countSpan.textContent.match(/\d+/)[0] || 0);
             count++;
             this.textContent = this.textContent.replace(/\d+/, count);
             
