@@ -4,10 +4,23 @@
   padding: 0;
   box-sizing: border-box;
 }
+html, body {
+  height: 100%;
+}
 body {
   font-family: "Segoe UI", sans-serif;
   background: #fff;
   color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.cart-container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 0;
 }
 
 /* Header */
@@ -155,6 +168,7 @@ header {
   padding: 1.5rem;
   border-top: 1px solid #eee;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: auto;
 }
 .total-price .amount {
   font-size: 1.4rem;
@@ -180,7 +194,8 @@ header {
   color: #fff;
   text-align: center;
   padding: 1.5rem;
-  margin-top: 3rem;
+  margin-top: 0;
+  flex-shrink: 0;
 }
 .footer p {
   margin-bottom: 0.5rem;
