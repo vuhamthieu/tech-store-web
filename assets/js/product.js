@@ -144,7 +144,7 @@ async function loadProducts(page = 1) {
 
 function renderProducts(products) {
   productGrid.innerHTML = products.map(p => `
-    <div class="product-item">
+    <div class="product-item" style="cursor:pointer" onclick="window.location.href='detail.html?id=${p.ProductID}'">
       <img src="${p.Thumbnail}" alt="${p.Title}">
       <h3>${p.Title}</h3>
       <p class="price">${formatPrice(Number(p.Price))}₫</p>

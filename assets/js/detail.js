@@ -184,13 +184,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
-        const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/product_detail.php?id=${productId}`);
+        const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`);
         const data = await res.json();
 
         const { product, productSpecifications, variants, gallery } = data;
 
         if (gallery.length > 0) {
-            mainImage.src = gallery[0].ImageURL;
+            mainImage.src = gallery[0].Thumbnail;
         }
 
         const galleryContainer = document.querySelector(".thumbnail-gallery");
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         gallery.forEach((imgObj, index) => {
             const thumbnailDiv = document.createElement("div");
             thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-            thumbnailDiv.innerHTML = `<img src="${imgObj.ImageURL}" data-large="${imgObj.ImageURL}" alt="Ảnh ${index + 1}">`;
+            thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${imgObj.Thumbnail}" alt="Ảnh ${index + 1}">`;
             galleryContainer.appendChild(thumbnailDiv);
         });
 
@@ -211,11 +211,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
 
-        document.querySelector(".product-title").textContent = product.Name || "Không tên";
-        document.querySelector(".current-price").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
-        document.querySelector(".old-price").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
-        document.querySelector(".sold-count span").textContent = product.Sold || 0;
-        document.querySelector(".stock-info").textContent = `Còn ${product.Stock || 0} sản phẩm`;
+        document.querySelector("productTitle").textContent = product.Title || "Không tên";
+        document.querySelector("currentPrice").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
+        document.querySelector("oldPrice").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
+        document.querySelector("soldCount").textContent = product.Sold || 0;
+        document.querySelector("stockInfo").textContent = `Còn ${product.Stock || 0} sản phẩm`;
 
         const capacityContainer = document.querySelectorAll(".variant-section")[0]?.querySelector(".variant-options");
         const colorContainer = document.querySelectorAll(".variant-section")[1]?.querySelector(".variant-options");
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         document.querySelector("#description .description-content").innerHTML = `
-            <h2 class="section-title">${product.Name}</h2>
+            <h2 class="section-title">${product.Title}</h2>
             <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
         `;
 
