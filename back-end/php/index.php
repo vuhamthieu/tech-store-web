@@ -34,13 +34,27 @@
         case 'api/product-suggest':
             require 'api/product_suggest.php';
             break;
+
         case 'api/add-to-cart':
             require 'api/add_to_cart.php';
+            break;
+        
+        case 'api/remove-from-cart':
+            require 'api/remove_from_cart.php';
+            break;
+
+        case 'api/update-cart-quantity':
+            require 'api/update_cart_quantity.php';
+            break;
+        
+        case 'api/cart':
+            require 'api/cart.php';
             break;
 
         case 'me':
             require 'me.php';
             break;
+            
         case 'refresh-token':
             require 'refresh_token.php';
             break;
