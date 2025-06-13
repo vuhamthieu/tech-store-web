@@ -273,29 +273,34 @@ body {
 .payment-option {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  padding: 10px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  margin-bottom: 0.8rem;
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: all 0.2s;
+  position: relative;
 }
 
 .payment-option:hover {
-  border-color: var(--primary);
+  border-color: #ccc;
 }
 
 .payment-option.selected {
-  border-color: var(--primary);
-  background-color: rgba(238, 77, 45, 0.05);
+  border-color: red;
 }
 
-.payment-icon {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
+.check-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 18px;
+  color: red;
+  display: none;
 }
+
+.payment-option.selected .check-icon {
+  display: inline;
+}
+
 
 .payment-name {
   font-weight: 500;
