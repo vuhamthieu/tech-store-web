@@ -118,9 +118,11 @@ CREATE TABLE Orders (
     ShippingName VARCHAR(100) CHARACTER SET utf8mb4,
     ShippingPhone VARCHAR(20),
     ShippingAddress VARCHAR(200),
+    ShippingNote TEXT,
     OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     TotalAmount DECIMAL(12, 2) NOT NULL,
     Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved',
+    PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid'
     PaymentMethod VARCHAR(50),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
@@ -135,6 +137,16 @@ CREATE TABLE OrderDetails (
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
+
+CREATE TABLE payment_tokens (
+    TokenID INT AUTO_INCREMENT PRIMARY KEY,
+    Token VARCHAR(100) NOT NULL UNIQUE,
+    OrderID VARCHAR(50),
+    UserID INT,
+    Amount DECIMAL(12,2),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Bảng đánh giá
 CREATE TABLE Reviews (

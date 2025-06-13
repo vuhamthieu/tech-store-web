@@ -59,6 +59,34 @@
             require 'api/cart.php';
             break;
 
+        case 'api/use-coupon':
+            require 'api/use_coupon.php';
+            break;
+
+        case 'api/get-info-user':
+            require 'api/get_info_user.php';
+            break;
+
+        case 'api/confirm-payment':
+            require 'api/confirm_payment.php';
+            break;
+
+        case 'api/place-order':
+            require 'api/place_order.php';
+            break;
+
+        case 'api/momo-payment':
+            require 'api/momo_payment.php';
+            break;
+
+        case 'api/visa-payment':
+            require 'api/visa_payment.php';
+            break;
+
+        case 'api/store-payment-token':
+            require 'api/store_payment_token.php';
+            break;
+
         case 'me':
             require 'me.php';
             break;
