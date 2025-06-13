@@ -333,7 +333,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       const tabId = this.getAttribute("data-tab");
       document.getElementById(tabId).classList.add("active");
     });
-<<<<<<< HEAD
 
     // Tab switching
     const tabs = document.querySelectorAll('.tab');
@@ -590,8 +589,4 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Khởi chạy
   loadReviews();
-=======
   });
->>>>>>> 199057146137f53d5f281b32629c923f36066ded
-});
-    
