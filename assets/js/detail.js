@@ -262,4 +262,158 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
         alert("Không thể tải dữ liệu sản phẩm.");
     }
+    //Reviewer
+    const reviewContainer = document.querySelector(".product-reviews-container");
+  
+
+  const reviewsList = document.getElementById("reviewsList");
+  const avgRatingEl = document.getElementById("avg-rating");
+  const totalReviewsEl = document.getElementById("total-reviews");
+  const ratingBreakdownEl = document.getElementById("rating-breakdown");
+
+  const starsInput = document.querySelectorAll("#ratingStars .star");
+  const reviewRatingInput = document.getElementById("reviewRating");
+  const reviewContentInput = document.getElementById("reviewContent");
+ 
+
+  let currentRating = 0;
+
+  // Gán sự kiện chọn sao
+  starsInput.forEach(star => {
+    star.addEventListener("click", () => {
+      currentRating = parseInt(star.dataset.value);
+      reviewRatingInput.value = currentRating;
+      updateStarDisplay(currentRating);
+    });
+  });
+
+  function updateStarDisplay(value) {
+    starsInput.forEach(star => {
+      star.classList.toggle("selected", parseInt(star.dataset.value) <= value);
+    });
+  }
+
+  // Lấy danh sách đánh giá từ API
+  function loadReviews() {
+    fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          reviewsList.innerHTML = `<p>${data.error}</p>`;
+          return;
+        }
+
+        // Hiển thị đánh giá
+        displayReviews(data);
+        displaySummary(data);
+      })
+      .catch(err => {
+        console.error("Lỗi khi tải đánh giá:", err);
+        reviewsList.innerHTML = "<p>Không thể tải đánh giá.</p>";
+      });
+  }
+
+  function displayReviews(reviews) {
+    reviewsList.innerHTML = "";
+    reviews.forEach(r => {
+      const reviewItem = document.createElement("div");
+      reviewItem.className = "review-item";
+      reviewItem.innerHTML = `
+        <div class="reviewer-info">
+          <div class="reviewer-avatar">
+            <img src="${r.Avatar || "https://via.placeholder.com/50x50"}" alt="${r.FullName}">
+          </div>
+          <div class="reviewer-details">
+            <div class="reviewer-name">${r.FullName}</div>
+            <div class="review-date">${formatDate(r.CreatedAt)}</div>
+          </div>
+        </div>
+        <div class="review-content">
+          <div class="review-rating">
+            <div class="stars">${renderStars(r.Rating)}</div>
+          </div>
+          <div class="review-text"><p>${r.Comment}</p></div>
+        </div>
+      `;
+      reviewsList.appendChild(reviewItem);
+    });
+  }
+
+  function displaySummary(reviews) {
+    const total = reviews.length;
+    const sum = reviews.reduce((acc, r) => acc + parseInt(r.Rating), 0);
+    const avg = total > 0 ? (sum / total).toFixed(1) : 0;
+
+    avgRatingEl.textContent = avg;
+    totalReviewsEl.textContent = total;
+
+    const counts = [0, 0, 0, 0, 0, 0]; // index 1–5
+    reviews.forEach(r => counts[r.Rating]++);
+
+    ratingBreakdownEl.innerHTML = "";
+    for (let i = 5; i >= 1; i--) {
+      const percent = total > 0 ? (counts[i] / total * 100).toFixed(1) : 0;
+      const bar = `
+        <div class="rating-bar">
+          <span class="rating-label">${i} sao</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${percent}%"></div>
+          </div>
+          <span class="rating-count">${counts[i]}</span>
+        </div>
+      `;
+      ratingBreakdownEl.innerHTML += bar;
+    }
+  }
+
+  function renderStars(count) {
+    return "★".repeat(count) + "☆".repeat(5 - count);
+  }
+
+  function formatDate(datetime) {
+    const date = new Date(datetime);
+    return date.toLocaleDateString("vi-VN");
+  }
+
+  // Gửi đánh giá mới
+  reviewForm.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const rating = parseInt(reviewRatingInput.value);
+    const comment = reviewContentInput.value.trim();
+    const userId = 1; // TODO: thay bằng ID người dùng thực (lấy từ session nếu cần)
+
+    if (!rating || !comment) {
+      alert("Vui lòng chọn sao và nhập nội dung.");
+      return;
+    }
+
+    fetch("http://localhost/webproject/tech-store-web/back-end/php/api/reviews/add_review.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ productId, userId, rating, comment })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Đánh giá đã được gửi.");
+          reviewForm.reset();
+          reviewRatingInput.value = 0;
+          updateStarDisplay(0);
+          loadReviews(); // Tải lại danh sách đánh giá
+        } else {
+          alert(data.error || "Có lỗi xảy ra.");
+        }
+      })
+      .catch(err => {
+        console.error("Lỗi khi gửi đánh giá:", err);
+        alert("Không thể gửi đánh giá.");
+      });
+  });
+
+  // Khởi chạy
+  loadReviews();
 });
+    
