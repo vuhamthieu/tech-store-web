@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin cá nhân | FPT Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+    <link rel="stylesheet" href="../assets/css/user.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Techsphere<span>Shop</span></a>
+                <div class="user-nav">
+                    <a href="profile.html"><i class="fas fa-user"></i> Tài khoản</a>
+                    <a href="orders.html"><i class="fas fa-box"></i> Đơn hàng</a>
+                    <a href="wishlist.html"><i class="fas fa-heart"></i> Yêu thích</a>
+                    <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="profile-container">
+            <!-- Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="user-info">
+                    <div class="avatar">
+                        <img src="images/default-avatar.jpg" alt="User Avatar">
+                        <button class="edit-avatar"><i class="fas fa-camera"></i></button>
+                    </div>
+                    <h3>Nguyễn Văn A</h3>
+                    <p>Thành viên từ: 12/2022</p>
+                </div>
+                
+                <nav class="profile-menu">
+                    <ul>
+                        <li class="active"><a href="#"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+                        <li><a href="#"><i class="fas fa-lock"></i> Đổi mật khẩu</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Sổ địa chỉ</a></li>
+                        <li><a href="#"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="#"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
+                        <li><a href="#"><i class="fas fa-bell"></i> Thông báo</a></li>
+                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Profile Content -->
+            <section class="profile-content">
+                <h2 class="section-title">Thông tin cá nhân</h2>
+                
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="fullname">Họ và tên</label>
+                        <input type="text" id="fullname" value="Nguyễn Văn A">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="nguyenvana@gmail.com" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="tel" id="phone" value="0987654321">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gender">Giới tính</label>
+                            <select id="gender">
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday">Ngày sinh</label>
+                            <input type="date" id="birthday" value="1990-01-01">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                        <button type="button" class="btn btn-secondary">Hủy bỏ</button>
+                    </div>
+                </form>
+                
+                <div class="security-section">
+                    <h3><i class="fas fa-shield-alt"></i> Bảo mật tài khoản</h3>
+                    <div class="security-item">
+                        <div>
+                            <h4>Mật khẩu</h4>
+                            <p>••••••••</p>
+                        </div>
+                        <a href="#" class="btn btn-outline">Đổi mật khẩu</a>
+                    </div>
+                    
+                    <div class="security-item">
+                        <div>
+                            <h4>Xác thực 2 bước</h4>
+                            <p>Chưa bật</p>
+                        </div>
+                        <a href="#" class="btn btn-outline">Bật ngay</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Về chúng tôi</h4>
+                    <ul>
+                        <li><a href="#">Giới thiệu</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hỗ trợ khách hàng</h4>
+                    <ul>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kết nối với chúng tôi</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 FPTShop. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+   
+    <script src="../assets/js/user.js"></script>
+</body>
+</html>
