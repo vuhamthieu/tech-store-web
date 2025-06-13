@@ -1,173 +1,16 @@
 document.addEventListener("DOMContentLoaded", async function () {
   // Thumbnail click event
+  const thumbnails = document.querySelectorAll(".thumbnail");
   const mainImage = document.getElementById("mainProductImage");
-  const galleryContainer = document.getElementById("thumbnailGallery");
-  const productTitle = document.getElementById("productTitle");
-  const descriptionContent = document.querySelector(
-    "#description .description-content"
-  );
-  const params = new URLSearchParams(window.location.search);
-  const productId = params.get("id");
 
-  if (!productId) {
-    alert("Không tìm thấy ID sản phẩm!");
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
-    );
-    const data = await res.json();
-    const { product, gallery } = data;
-
-    // Hiển thị tên sản phẩm
-    if (productTitle) productTitle.textContent = product?.Title || "Không tên";
-
-    // Hiển thị giá
-    const currentPrice = document.getElementById("currentPrice");
-    const oldPrice = document.getElementById("oldPrice");
-    if (currentPrice)
-      currentPrice.textContent = product?.CurrentPrice
-        ? Number(product.CurrentPrice).toLocaleString("vi-VN") + "₫"
-        : "0₫";
-    if (oldPrice)
-      oldPrice.textContent =
-        product?.OldPrice && product.OldPrice > product.CurrentPrice
-          ? Number(product.OldPrice).toLocaleString("vi-VN") + "₫"
-          : "";
-
-    // Hiển thị số lượng đã bán và tồn kho
-    const soldCount = document.getElementById("soldCount");
-    const stockInfo = document.getElementById("stockInfo");
-    if (soldCount) soldCount.textContent = product?.SoldCount || 0;
-    if (stockInfo) stockInfo.textContent = product?.Stock || 0;
-
-    // Hiển thị rating và số lượng đánh giá
-    const productStars = document.getElementById("productStars");
-    const ratingCount = document.getElementById("ratingCount");
-    if (productStars) {
-      const rating = Math.round(product?.Rating || 0);
-      productStars.innerHTML =
-        "★★★★★".slice(0, rating) + "☆☆☆☆☆".slice(0, 5 - rating);
-    }
-    if (ratingCount)
-      ratingCount.textContent = (product?.RatingCount || 0) + " đánh giá";
-
-    // Hiển thị ảnh chính
-    if (gallery && gallery.length > 0 && mainImage) {
-      mainImage.src = gallery[0].Thumbnail;
-    } else if (mainImage) {
-      mainImage.src = "https://via.placeholder.com/400x400?text=No+Image";
-    }
-
-    // Render gallery ảnh
-    if (galleryContainer) {
-      if (gallery && gallery.length > 0) {
-        galleryContainer.innerHTML = (gallery || [])
-          .map(
-            (img, index) => `
-                    <div class="thumbnail${index === 0 ? " active" : ""}">
-                        <img src="${img.Thumbnail}" data-large="${
-              img.Thumbnail
-            }" alt="Ảnh ${index + 1}">
-                    </div>
-                `
-          )
-          .join("");
-        // Xử lý click vào ảnh trong gallery
-        galleryContainer.addEventListener("click", (e) => {
-          const img = e.target.closest("img");
-          if (img && mainImage) {
-            mainImage.src = img.dataset.large;
-            galleryContainer
-              .querySelectorAll(".thumbnail")
-              .forEach((th) => th.classList.remove("active"));
-            img.parentElement.classList.add("active");
-          }
-        });
-      } else {
-        galleryContainer.innerHTML = "<div>Không có ảnh sản phẩm</div>";
-      }
-    }
-
-    // Hiển thị mô tả sản phẩm
-    if (descriptionContent) {
-      descriptionContent.innerHTML = `
-                <h2 class="section-title">${product?.Title || ""}</h2>
-                <div class="detailed-description">${
-                  product?.Description || "Không có mô tả."
-                }</div>
-            `;
-    }
-
-    // Render thông số kỹ thuật
-    const specsTable = document.querySelector("#specs .specs-table");
-    if (
-      specsTable &&
-      Array.isArray(data.productSpecifications) &&
-      data.productSpecifications.length > 0
-    ) {
-      specsTable.innerHTML = data.productSpecifications
-        .map(
-          (spec) => `
-                <div class="spec-row"><span class="spec-key">${spec.SpecKey}</span>: <span class="spec-value">${spec.SpecValue}</span></div>
-            `
-        )
-        .join("");
-    } else if (specsTable) {
-      specsTable.innerHTML = "<div>Không có thông số kỹ thuật.</div>";
-    }
-
-    // Render variant (nếu có)
-    const capacityVariants = document.getElementById("capacityVariants");
-    const capacitySection = document.getElementById("capacityVariantsSection");
-    const colorVariants = document.getElementById("colorVariants");
-    const colorSection = document.getElementById("colorVariantsSection");
-    if (Array.isArray(data.variants) && data.variants.length > 0) {
-      // Giả sử có các trường Capacity, Color trong mỗi variant
-      const capacities = [
-        ...new Set(data.variants.map((v) => v.Capacity).filter(Boolean)),
-      ];
-      const colors = [
-        ...new Set(data.variants.map((v) => v.Color).filter(Boolean)),
-      ];
-      if (capacities.length > 0 && capacityVariants) {
-        capacityVariants.innerHTML = capacities
-          .map(
-            (v, idx) => `
-                    <div class="variant-option${
-                      idx === 0 ? " selected" : ""
-                    }" data-value="${v}">${v}</div>
-                `
-          )
-          .join("");
-        capacitySection.style.display = "";
-      } else if (capacitySection) {
-        capacitySection.style.display = "none";
-      }
-      if (colors.length > 0 && colorVariants) {
-        colorVariants.innerHTML = colors
-          .map(
-            (v, idx) => `
-                    <div class="variant-option${
-                      idx === 0 ? " selected" : ""
-                    }" data-value="${v}">${v}</div>
-                `
-          )
-          .join("");
-        colorSection.style.display = "";
-      } else if (colorSection) {
-        colorSection.style.display = "none";
-      }
-    } else {
-      if (capacitySection) capacitySection.style.display = "none";
-      if (colorSection) colorSection.style.display = "none";
-    }
-  } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-    alert("Không thể tải dữ liệu sản phẩm.");
-  }
+  thumbnails.forEach((thumb) => {
+    thumb.addEventListener("click", function () {
+      thumbnails.forEach((t) => t.classList.remove("active"));
+      this.classList.add("active");
+      const imgSrc = this.querySelector("img").getAttribute("data-large");
+      mainImage.src = imgSrc;
+    });
+  });
 
   // Quantity selector
   const decreaseBtn = document.getElementById("decreaseQty");
@@ -268,9 +111,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           const imgContainer = document.createElement("div");
           imgContainer.className = "uploaded-image";
           imgContainer.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button class="remove-image-btn">&times;</button>
-                    `;
+            <img src="${e.target.result}" alt="Preview">
+            <button class="remove-image-btn">&times;</button>
+          `;
           uploadPreview.appendChild(imgContainer);
 
           imgContainer
@@ -279,11 +122,11 @@ document.addEventListener("DOMContentLoaded", async function () {
               imgContainer.remove();
               if (uploadPreview.children.length === 0) {
                 uploadPreview.innerHTML = `
-                                <div class="upload-placeholder">
-                                    <i class="fas fa-camera"></i>
-                                    <span>Thêm ảnh</span>
-                                </div>
-                            `;
+                  <div class="upload-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <span>Thêm ảnh</span>
+                  </div>
+                `;
               }
             });
         };
@@ -303,11 +146,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const uploadPreview = document.querySelector(".upload-preview");
     uploadPreview.innerHTML = `
-            <div class="upload-placeholder">
-                <i class="fas fa-camera"></i>
-                <span>Thêm ảnh</span>
-            </div>
-        `;
+      <div class="upload-placeholder">
+        <i class="fas fa-camera"></i>
+        <span>Thêm ảnh</span>
+      </div>
+    `;
   });
 
   // Helpful buttons
@@ -333,265 +176,172 @@ document.addEventListener("DOMContentLoaded", async function () {
       const tabId = this.getAttribute("data-tab");
       document.getElementById(tabId).classList.add("active");
     });
-<<<<<<< HEAD
-
-    // Tab switching
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            this.classList.add('active');
-            const tabId = this.getAttribute('data-tab');
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
-
-    // Detail product fetch
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
-
-    if (!productId) {
-        alert("Không tìm thấy ID sản phẩm!");
-        return;
-    }
-
-    try {
-        const res = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/product_detail.php?id=${productId}`);
-        const data = await res.json();
-
-        const { product, productSpecifications, variants, gallery } = data;
-
-        if (gallery.length > 0) {
-            mainImage.src = gallery[0].ImageURL;
-        }
-
-        const galleryContainer = document.querySelector(".thumbnail-gallery");
-        galleryContainer.innerHTML = "";
-        gallery.forEach((imgObj, index) => {
-            const thumbnailDiv = document.createElement("div");
-            thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-            thumbnailDiv.innerHTML = `<img src="${imgObj.ImageURL}" data-large="${imgObj.ImageURL}" alt="Ảnh ${index + 1}">`;
-            galleryContainer.appendChild(thumbnailDiv);
-        });
-
-        galleryContainer.addEventListener("click", (e) => {
-            const img = e.target.closest("img");
-            if (img) {
-                mainImage.src = img.dataset.large;
-                galleryContainer.querySelectorAll(".thumbnail").forEach(th => th.classList.remove("active"));
-                img.parentElement.classList.add("active");
-            }
-        });
-
-        document.querySelector(".product-title").textContent = product.Name || "Không tên";
-        document.querySelector(".current-price").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
-        document.querySelector(".old-price").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
-        document.querySelector(".sold-count span").textContent = product.Sold || 0;
-        document.querySelector(".stock-info").textContent = `Còn ${product.Stock || 0} sản phẩm`;
-
-        const capacityContainer = document.querySelectorAll(".variant-section")[0]?.querySelector(".variant-options");
-        const colorContainer = document.querySelectorAll(".variant-section")[1]?.querySelector(".variant-options");
-
-        if (capacityContainer && variants.length > 0) {
-            const capacities = [...new Set(variants.map(v => v.Capacity))];
-            capacityContainer.innerHTML = "";
-            capacities.forEach(cap => {
-                const div = document.createElement("div");
-                div.className = "variant-option";
-                div.textContent = cap;
-                capacityContainer.appendChild(div);
-            });
-        }
-
-        if (colorContainer && variants.length > 0) {
-            const colors = [...new Set(variants.map(v => v.Color))];
-            colorContainer.innerHTML = "";
-            colors.forEach(color => {
-                const div = document.createElement("div");
-                div.className = "variant-option";
-                div.textContent = color;
-                colorContainer.appendChild(div);
-            });
-        }
-
-        document.querySelector("#description .description-content").innerHTML = `
-            <h2 class="section-title">${product.Name}</h2>
-            <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
-        `;
-
-        const specsContainer = document.querySelector("#specs .specs-table");
-        specsContainer.innerHTML = "";
-        productSpecifications.forEach(spec => {
-            const row = document.createElement("div");
-            row.className = "spec-row";
-            row.innerHTML = `
-                <div class="spec-name">${spec.SpecKey}</div>
-                <div class="spec-value">${spec.SpecValue}</div>`;
-            specsContainer.appendChild(row);
-        });
-
-    } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-        alert("Không thể tải dữ liệu sản phẩm.");
-    }
-    //Reviewer
-    const reviewContainer = document.querySelector(".product-reviews-container");
-  
-
-  const reviewsList = document.getElementById("reviewsList");
-  const avgRatingEl = document.getElementById("avg-rating");
-  const totalReviewsEl = document.getElementById("total-reviews");
-  const ratingBreakdownEl = document.getElementById("rating-breakdown");
-
-  const starsInput = document.querySelectorAll("#ratingStars .star");
-  const reviewRatingInput = document.getElementById("reviewRating");
-  const reviewContentInput = document.getElementById("reviewContent");
- 
-
-  let currentRating = 0;
-
-  // Gán sự kiện chọn sao
-  starsInput.forEach(star => {
-    star.addEventListener("click", () => {
-      currentRating = parseInt(star.dataset.value);
-      reviewRatingInput.value = currentRating;
-      updateStarDisplay(currentRating);
-    });
   });
 
-  function updateStarDisplay(value) {
-    starsInput.forEach(star => {
-      star.classList.toggle("selected", parseInt(star.dataset.value) <= value);
-    });
+  // Fetch product details
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("id");
+
+  if (!productId) {
+    alert("Không tìm thấy ID sản phẩm!");
+    return;
   }
 
-  // Lấy danh sách đánh giá từ API
-  function loadReviews() {
-    fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          reviewsList.innerHTML = `<p>${data.error}</p>`;
-          return;
-        }
+  try {
+    const res = await fetch(
+      `http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
+    );
+    const data = await res.json();
 
-        // Hiển thị đánh giá
-        displayReviews(data);
-        displaySummary(data);
-      })
-      .catch(err => {
-        console.error("Lỗi khi tải đánh giá:", err);
-        reviewsList.innerHTML = "<p>Không thể tải đánh giá.</p>";
+    const { product, productSpecifications, variants, gallery } = data;
+
+    // Update product images
+    if (gallery.length > 0) {
+      mainImage.src = gallery[0].Thumbnail;
+      
+      const galleryContainer = document.querySelector(".thumbnail-gallery");
+      galleryContainer.innerHTML = "";
+      gallery.forEach((imgObj, index) => {
+        const thumbnailDiv = document.createElement("div");
+        thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
+        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${imgObj.Thumbnail}" alt="Ảnh ${index + 1}">`;
+        galleryContainer.appendChild(thumbnailDiv);
       });
-  }
+    }
 
-  function displayReviews(reviews) {
+    // Update product info
+    document.getElementById("productTitle").textContent = product.Title || "Không tên";
+    document.getElementById("currentPrice").textContent = 
+      Number(product.Price).toLocaleString("vi-VN") + "₫";
+    document.getElementById("oldPrice").textContent = product.OldPrice
+      ? Number(product.OldPrice).toLocaleString("vi-VN") + "₫"
+      : "";
+    document.getElementById("soldCount").textContent = product.SoldCount || 0;
+    document.getElementById("stockInfo").textContent = product.Stock || 0;
+
+    // Update variants
+    const capacityContainer = document.querySelector("#capacityVariants");
+    const colorContainer = document.querySelector("#colorVariants");
+
+    if (capacityContainer && variants.length > 0) {
+      const capacities = [...new Set(variants.map((v) => v.Capacity))];
+      capacityContainer.innerHTML = "";
+      capacities.forEach((cap) => {
+        const div = document.createElement("div");
+        div.className = "variant-option";
+        div.textContent = cap;
+        capacityContainer.appendChild(div);
+      });
+    }
+
+    if (colorContainer && variants.length > 0) {
+      const colors = [...new Set(variants.map((v) => v.Color))];
+      colorContainer.innerHTML = "";
+      colors.forEach((color) => {
+        const div = document.createElement("div");
+        div.className = "variant-option";
+        div.textContent = color;
+        colorContainer.appendChild(div);
+      });
+    }
+
+    // Update description
+    document.querySelector("#description .description-content").innerHTML = `
+      <h2 class="section-title">${product.Title}</h2>
+      <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
+    `;
+
+    // Update specifications
+    const specsContainer = document.querySelector("#specs .specs-table");
+    specsContainer.innerHTML = "";
+    productSpecifications.forEach((spec) => {
+      const row = document.createElement("div");
+      row.className = "spec-row";
+      row.innerHTML = `
+        <div class="spec-name">${spec.SpecKey}</div>
+        <div class="spec-value">${spec.SpecValue}</div>
+      `;
+      specsContainer.appendChild(row);
+    });
+
+    // Load reviews
+    await loadReviews(productId);
+
+  } catch (error) {
+    console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+    alert("Không thể tải dữ liệu sản phẩm.");
+  }
+});
+
+async function loadReviews(productId) {
+  try {
+    const res = await fetch(
+      `http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`
+    );
+    const reviews = await res.json();
+
+    const reviewsList = document.querySelector(".reviews-list");
+    
+    if (!reviews || reviews.length === 0) {
+      reviewsList.innerHTML = "<p>Chưa có đánh giá nào cho sản phẩm này.</p>";
+      return;
+    }
+
+    // Clear existing reviews except the header
+    const header = reviewsList.querySelector(".reviews-header");
     reviewsList.innerHTML = "";
-    reviews.forEach(r => {
+    if (header) reviewsList.appendChild(header);
+
+    // Add each review
+    reviews.forEach(review => {
       const reviewItem = document.createElement("div");
       reviewItem.className = "review-item";
       reviewItem.innerHTML = `
         <div class="reviewer-info">
           <div class="reviewer-avatar">
-            <img src="${r.Avatar || "https://via.placeholder.com/50x50"}" alt="${r.FullName}">
+            <img src="${review.Avatar || 'https://via.placeholder.com/50x50'}" alt="${review.FullName}">
           </div>
           <div class="reviewer-details">
-            <div class="reviewer-name">${r.FullName}</div>
-            <div class="review-date">${formatDate(r.CreatedAt)}</div>
+            <div class="reviewer-name">${review.FullName}</div>
+            <div class="review-date">${new Date(review.CreatedAt).toLocaleDateString('vi-VN')}</div>
           </div>
         </div>
         <div class="review-content">
           <div class="review-rating">
-            <div class="stars">${renderStars(r.Rating)}</div>
+            <div class="stars">${'★'.repeat(review.Rating)}${'☆'.repeat(5 - review.Rating)}</div>
+            <div class="review-title">${review.Title || ''}</div>
           </div>
-          <div class="review-text"><p>${r.Comment}</p></div>
+          <div class="review-text">
+            <p>${review.Comment}</p>
+          </div>
+          ${review.Images ? `
+          <div class="review-images">
+            ${review.Images.map(img => `
+              <div class="review-image">
+                <img src="${img}" alt="Hình ảnh đánh giá">
+              </div>
+            `).join('')}
+          </div>` : ''}
+          <div class="review-helpful">
+            <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+            <button class="helpful-btn">Có (${review.HelpfulCount || 0})</button>
+            <button class="not-helpful-btn">Không (${review.NotHelpfulCount || 0})</button>
+          </div>
         </div>
       `;
       reviewsList.appendChild(reviewItem);
     });
+
+    // Add load more button
+    const loadMoreDiv = document.createElement("div");
+    loadMoreDiv.className = "load-more-reviews";
+    loadMoreDiv.innerHTML = `
+      <button class="load-more-btn">Xem Thêm Đánh Giá</button>
+    `;
+    reviewsList.appendChild(loadMoreDiv);
+
+  } catch (error) {
+    console.error("Lỗi khi tải đánh giá:", error);
+    document.querySelector(".reviews-list").innerHTML = "<p>Không thể tải đánh giá.</p>";
   }
-
-  function displaySummary(reviews) {
-    const total = reviews.length;
-    const sum = reviews.reduce((acc, r) => acc + parseInt(r.Rating), 0);
-    const avg = total > 0 ? (sum / total).toFixed(1) : 0;
-
-    avgRatingEl.textContent = avg;
-    totalReviewsEl.textContent = total;
-
-    const counts = [0, 0, 0, 0, 0, 0]; // index 1–5
-    reviews.forEach(r => counts[r.Rating]++);
-
-    ratingBreakdownEl.innerHTML = "";
-    for (let i = 5; i >= 1; i--) {
-      const percent = total > 0 ? (counts[i] / total * 100).toFixed(1) : 0;
-      const bar = `
-        <div class="rating-bar">
-          <span class="rating-label">${i} sao</span>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${percent}%"></div>
-          </div>
-          <span class="rating-count">${counts[i]}</span>
-        </div>
-      `;
-      ratingBreakdownEl.innerHTML += bar;
-    }
-  }
-
-  function renderStars(count) {
-    return "★".repeat(count) + "☆".repeat(5 - count);
-  }
-
-  function formatDate(datetime) {
-    const date = new Date(datetime);
-    return date.toLocaleDateString("vi-VN");
-  }
-
-  // Gửi đánh giá mới
-  reviewForm.addEventListener("submit", e => {
-    e.preventDefault();
-
-    const rating = parseInt(reviewRatingInput.value);
-    const comment = reviewContentInput.value.trim();
-    const userId = 1; // TODO: thay bằng ID người dùng thực (lấy từ session nếu cần)
-
-    if (!rating || !comment) {
-      alert("Vui lòng chọn sao và nhập nội dung.");
-      return;
-    }
-
-    fetch("http://localhost/webproject/tech-store-web/back-end/php/api/reviews/add_review.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ productId, userId, rating, comment })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("Đánh giá đã được gửi.");
-          reviewForm.reset();
-          reviewRatingInput.value = 0;
-          updateStarDisplay(0);
-          loadReviews(); // Tải lại danh sách đánh giá
-        } else {
-          alert(data.error || "Có lỗi xảy ra.");
-        }
-      })
-      .catch(err => {
-        console.error("Lỗi khi gửi đánh giá:", err);
-        alert("Không thể gửi đánh giá.");
-      });
-  });
-
-  // Khởi chạy
-  loadReviews();
-=======
-  });
->>>>>>> 199057146137f53d5f281b32629c923f36066ded
-});
-    
+}
