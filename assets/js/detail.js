@@ -111,9 +111,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           const imgContainer = document.createElement("div");
           imgContainer.className = "uploaded-image";
           imgContainer.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button class="remove-image-btn">&times;</button>
-                    `;
+            <img src="${e.target.result}" alt="Preview">
+            <button class="remove-image-btn">&times;</button>
+          `;
           uploadPreview.appendChild(imgContainer);
 
           imgContainer
@@ -122,11 +122,11 @@ document.addEventListener("DOMContentLoaded", async function () {
               imgContainer.remove();
               if (uploadPreview.children.length === 0) {
                 uploadPreview.innerHTML = `
-                                <div class="upload-placeholder">
-                                    <i class="fas fa-camera"></i>
-                                    <span>Thêm ảnh</span>
-                                </div>
-                            `;
+                  <div class="upload-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <span>Thêm ảnh</span>
+                  </div>
+                `;
               }
             });
         };
@@ -146,11 +146,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const uploadPreview = document.querySelector(".upload-preview");
     uploadPreview.innerHTML = `
-            <div class="upload-placeholder">
-                <i class="fas fa-camera"></i>
-                <span>Thêm ảnh</span>
-            </div>
-        `;
+      <div class="upload-placeholder">
+        <i class="fas fa-camera"></i>
+        <span>Thêm ảnh</span>
+      </div>
+    `;
   });
 
   // Helpful buttons
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
 
-  // Detail product fetch
+  // Fetch product details
   const params = new URLSearchParams(window.location.search);
   const productId = params.get("id");
 
@@ -195,54 +195,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const { product, productSpecifications, variants, gallery } = data;
 
+    // Update product images
     if (gallery.length > 0) {
       mainImage.src = gallery[0].Thumbnail;
+      
+      const galleryContainer = document.querySelector(".thumbnail-gallery");
+      galleryContainer.innerHTML = "";
+      gallery.forEach((imgObj, index) => {
+        const thumbnailDiv = document.createElement("div");
+        thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
+        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${imgObj.Thumbnail}" alt="Ảnh ${index + 1}">`;
+        galleryContainer.appendChild(thumbnailDiv);
+      });
     }
 
-    const galleryContainer = document.querySelector(".thumbnail-gallery");
-    galleryContainer.innerHTML = "";
-    gallery.forEach((imgObj, index) => {
-      const thumbnailDiv = document.createElement("div");
-      thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-      thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${
-        imgObj.Thumbnail
-      }" alt="Ảnh ${index + 1}">`;
-      galleryContainer.appendChild(thumbnailDiv);
-    });
-
-    galleryContainer.addEventListener("click", (e) => {
-      const img = e.target.closest("img");
-      if (img) {
-        mainImage.src = img.dataset.large;
-        galleryContainer
-          .querySelectorAll(".thumbnail")
-          .forEach((th) => th.classList.remove("active"));
-        img.parentElement.classList.add("active");
-      }
-    });
-
-    document.getElementById("productTitle").textContent =
-      product.Title || "Không tên";
-    document.getElementById("currentPrice").textContent =
+    // Update product info
+    document.getElementById("productTitle").textContent = product.Title || "Không tên";
+    document.getElementById("currentPrice").textContent = 
       Number(product.Price).toLocaleString("vi-VN") + "₫";
     document.getElementById("oldPrice").textContent = product.OldPrice
       ? Number(product.OldPrice).toLocaleString("vi-VN") + "₫"
       : "";
     document.getElementById("soldCount").textContent = product.SoldCount || 0;
     document.getElementById("stockInfo").textContent = product.Stock || 0;
-    document.querySelector("#description .description-content").innerHTML = `
-  <h2 class="section-title">${product.Title}</h2>
-  <div class="detailed-description">${
-    product.Description || "Không có mô tả."
-  }</div>
-`;
 
-    const capacityContainer = document
-      .querySelectorAll(".variant-section")[0]
-      ?.querySelector(".variant-options");
-    const colorContainer = document
-      .querySelectorAll(".variant-section")[1]
-      ?.querySelector(".variant-options");
+    // Update variants
+    const capacityContainer = document.querySelector("#capacityVariants");
+    const colorContainer = document.querySelector("#colorVariants");
 
     if (capacityContainer && variants.length > 0) {
       const capacities = [...new Set(variants.map((v) => v.Capacity))];
@@ -266,25 +245,103 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
 
+    // Update description
     document.querySelector("#description .description-content").innerHTML = `
-            <h2 class="section-title">${product.Title}</h2>
-            <div class="detailed-description">${
-              product.Description || "Không có mô tả."
-            }</div>
-        `;
+      <h2 class="section-title">${product.Title}</h2>
+      <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
+    `;
 
+    // Update specifications
     const specsContainer = document.querySelector("#specs .specs-table");
     specsContainer.innerHTML = "";
     productSpecifications.forEach((spec) => {
       const row = document.createElement("div");
       row.className = "spec-row";
       row.innerHTML = `
-                <div class="spec-name">${spec.SpecKey}</div>
-                <div class="spec-value">${spec.SpecValue}</div>`;
+        <div class="spec-name">${spec.SpecKey}</div>
+        <div class="spec-value">${spec.SpecValue}</div>
+      `;
       specsContainer.appendChild(row);
     });
+
+    // Load reviews
+    await loadReviews(productId);
+
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
   }
 });
+
+async function loadReviews(productId) {
+  try {
+    const res = await fetch(
+      `http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`
+    );
+    const reviews = await res.json();
+
+    const reviewsList = document.querySelector(".reviews-list");
+    
+    if (!reviews || reviews.length === 0) {
+      reviewsList.innerHTML = "<p>Chưa có đánh giá nào cho sản phẩm này.</p>";
+      return;
+    }
+
+    // Clear existing reviews except the header
+    const header = reviewsList.querySelector(".reviews-header");
+    reviewsList.innerHTML = "";
+    if (header) reviewsList.appendChild(header);
+
+    // Add each review
+    reviews.forEach(review => {
+      const reviewItem = document.createElement("div");
+      reviewItem.className = "review-item";
+      reviewItem.innerHTML = `
+        <div class="reviewer-info">
+          <div class="reviewer-avatar">
+            <img src="${review.Avatar || 'https://via.placeholder.com/50x50'}" alt="${review.FullName}">
+          </div>
+          <div class="reviewer-details">
+            <div class="reviewer-name">${review.FullName}</div>
+            <div class="review-date">${new Date(review.CreatedAt).toLocaleDateString('vi-VN')}</div>
+          </div>
+        </div>
+        <div class="review-content">
+          <div class="review-rating">
+            <div class="stars">${'★'.repeat(review.Rating)}${'☆'.repeat(5 - review.Rating)}</div>
+            <div class="review-title">${review.Title || ''}</div>
+          </div>
+          <div class="review-text">
+            <p>${review.Comment}</p>
+          </div>
+          ${review.Images ? `
+          <div class="review-images">
+            ${review.Images.map(img => `
+              <div class="review-image">
+                <img src="${img}" alt="Hình ảnh đánh giá">
+              </div>
+            `).join('')}
+          </div>` : ''}
+          <div class="review-helpful">
+            <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+            <button class="helpful-btn">Có (${review.HelpfulCount || 0})</button>
+            <button class="not-helpful-btn">Không (${review.NotHelpfulCount || 0})</button>
+          </div>
+        </div>
+      `;
+      reviewsList.appendChild(reviewItem);
+    });
+
+    // Add load more button
+    const loadMoreDiv = document.createElement("div");
+    loadMoreDiv.className = "load-more-reviews";
+    loadMoreDiv.innerHTML = `
+      <button class="load-more-btn">Xem Thêm Đánh Giá</button>
+    `;
+    reviewsList.appendChild(loadMoreDiv);
+
+  } catch (error) {
+    console.error("Lỗi khi tải đánh giá:", error);
+    document.querySelector(".reviews-list").innerHTML = "<p>Không thể tải đánh giá.</p>";
+  }
+}

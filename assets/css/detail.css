@@ -112,14 +112,19 @@ body {
 .rating {
     display: flex;
     align-items: center;
+    gap: 8px;
     margin-right: 15px;
+    line-height: 1;
 }
 
 .stars {
+    font-size: 16px;
+    line-height: 1;
     color: #ffce3d;
-    font-size: 1rem;
-    margin-right: 5px;
+    display: flex;
+    align-items: center;
 }
+
 
 .rating-count, .sold-count {
     color: var(--gray);
@@ -430,10 +435,11 @@ body {
 }
 
 .rating-count {
-    width: 50px;
-    text-align: right;
-    color: #666;
     font-size: 14px;
+    color: var(--gray);
+    line-height: 1;
+    display: flex;
+    align-items: center;
 }
 
 /* Phần viết đánh giá */
