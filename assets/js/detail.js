@@ -171,10 +171,124 @@ document.addEventListener("DOMContentLoaded", async function () {
     tab.addEventListener("click", function () {
       tabs.forEach((t) => t.classList.remove("active"));
       tabContents.forEach((c) => c.classList.remove("active"));
-
       this.classList.add("active");
       const tabId = this.getAttribute("data-tab");
       document.getElementById(tabId).classList.add("active");
+    });
+  });
+
+  // Detail product fetch
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("id");
+
+  if (!productId) {
+    alert("Không tìm thấy ID sản phẩm!");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `http://localhost/webproject/tech-store-web/back-end/php/api/product_detail.php?id=${productId}`
+    );
+    const data = await res.json();
+
+    const { product, productSpecifications, variants, gallery } = data;
+
+    if (gallery.length > 0) {
+      mainImage.src = gallery[0].ImageURL;
+    }
+
+    const galleryContainer = document.querySelector(".thumbnail-gallery");
+    galleryContainer.innerHTML = "";
+    gallery.forEach((imgObj, index) => {
+      const thumbnailDiv = document.createElement("div");
+      thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
+      thumbnailDiv.innerHTML = `<img src="${imgObj.ImageURL}" data-large="${imgObj.ImageURL}" alt="Ảnh ${index + 1}">`;
+      galleryContainer.appendChild(thumbnailDiv);
+    });
+
+    galleryContainer.addEventListener("click", (e) => {
+      const img = e.target.closest("img");
+      if (img) {
+        mainImage.src = img.dataset.large;
+        galleryContainer.querySelectorAll(".thumbnail").forEach(th => th.classList.remove("active"));
+        img.parentElement.classList.add("active");
+      }
+    });
+
+    document.querySelector(".product-title").textContent = product.Name || "Không tên";
+    document.querySelector(".current-price").textContent = `${parseInt(product.Price).toLocaleString()}₫`;
+    document.querySelector(".old-price").textContent = `${parseInt(product.OldPrice).toLocaleString()}₫`;
+    document.querySelector(".sold-count span").textContent = product.Sold || 0;
+    document.querySelector(".stock-info").textContent = `Còn ${product.Stock || 0} sản phẩm`;
+
+    const capacityContainer = document.querySelectorAll(".variant-section")[0]?.querySelector(".variant-options");
+    const colorContainer = document.querySelectorAll(".variant-section")[1]?.querySelector(".variant-options");
+
+    if (capacityContainer && variants.length > 0) {
+      const capacities = [...new Set(variants.map(v => v.Capacity))];
+      capacityContainer.innerHTML = "";
+      capacities.forEach(cap => {
+        const div = document.createElement("div");
+        div.className = "variant-option";
+        div.textContent = cap;
+        capacityContainer.appendChild(div);
+      });
+    }
+
+    if (colorContainer && variants.length > 0) {
+      const colors = [...new Set(variants.map(v => v.Color))];
+      colorContainer.innerHTML = "";
+      colors.forEach(color => {
+        const div = document.createElement("div");
+        div.className = "variant-option";
+        div.textContent = color;
+        colorContainer.appendChild(div);
+      });
+    }
+
+    document.querySelector("#description .description-content").innerHTML = `
+            <h2 class="section-title">${product.Name}</h2>
+            <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
+        `;
+
+    const specsContainer = document.querySelector("#specs .specs-table");
+    specsContainer.innerHTML = "";
+    productSpecifications.forEach(spec => {
+      const row = document.createElement("div");
+      row.className = "spec-row";
+      row.innerHTML = `
+                <div class="spec-name">${spec.SpecKey}</div>
+                <div class="spec-value">${spec.SpecValue}</div>`;
+      specsContainer.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+    alert("Không thể tải dữ liệu sản phẩm.");
+  }
+  //Reviewer
+  const reviewContainer = document.querySelector(".product-reviews-container");
+  
+
+  const reviewsList = document.getElementById("reviewsList");
+  const avgRatingEl = document.getElementById("avg-rating");
+  const totalReviewsEl = document.getElementById("total-reviews");
+  const ratingBreakdownEl = document.getElementById("rating-breakdown");
+
+  const starsInput = document.querySelectorAll("#ratingStars .star");
+  const reviewRatingInput = document.getElementById("reviewRating");
+  const reviewContentInput = document.getElementById("reviewContent");
+ 
+
+  let currentRating = 0;
+
+  // Gán sự kiện chọn sao
+  starsInput.forEach(star => {
+    star.addEventListener("click", () => {
+      currentRating = parseInt(star.dataset.value);
+      reviewRatingInput.value = currentRating;
+      updateStarDisplay(currentRating);
     });
   });
 
@@ -374,4 +488,81 @@ async function loadReviews(productId) {
     document.querySelector(".reviews-list").innerHTML =
       "<p>Không thể tải đánh giá.</p>";
   }
-}
+
+  function displaySummary(reviews) {
+    const total = reviews.length;
+    const sum = reviews.reduce((acc, r) => acc + parseInt(r.Rating), 0);
+    const avg = total > 0 ? (sum / total).toFixed(1) : 0;
+
+    avgRatingEl.textContent = avg;
+    totalReviewsEl.textContent = total;
+
+    const counts = [0, 0, 0, 0, 0, 0]; // index 1–5
+    reviews.forEach(r => counts[r.Rating]++);
+
+    ratingBreakdownEl.innerHTML = "";
+    for (let i = 5; i >= 1; i--) {
+      const percent = total > 0 ? (counts[i] / total * 100).toFixed(1) : 0;
+      const bar = `
+        <div class="rating-bar">
+          <span class="rating-label">${i} sao</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${percent}%"></div>
+          </div>
+          <span class="rating-count">${counts[i]}</span>
+        </div>
+      `;
+      ratingBreakdownEl.innerHTML += bar;
+    }
+  }
+
+  function renderStars(count) {
+    return "★".repeat(count) + "☆".repeat(5 - count);
+  }
+
+  function formatDate(datetime) {
+    const date = new Date(datetime);
+    return date.toLocaleDateString("vi-VN");
+  }
+
+  // Gửi đánh giá mới
+  reviewForm.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const rating = parseInt(reviewRatingInput.value);
+    const comment = reviewContentInput.value.trim();
+    const userId = 1; // TODO: thay bằng ID người dùng thực (lấy từ session nếu cần)
+
+    if (!rating || !comment) {
+      alert("Vui lòng chọn sao và nhập nội dung.");
+      return;
+    }
+
+    fetch("http://localhost/webproject/tech-store-web/back-end/php/api/reviews/add_review.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ productId, userId, rating, comment })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Đánh giá đã được gửi.");
+          reviewForm.reset();
+          reviewRatingInput.value = 0;
+          updateStarDisplay(0);
+          loadReviews(); // Tải lại danh sách đánh giá
+        } else {
+          alert(data.error || "Có lỗi xảy ra.");
+        }
+      })
+      .catch(err => {
+        console.error("Lỗi khi gửi đánh giá:", err);
+        alert("Không thể gửi đánh giá.");
+      });
+  });
+
+  // Khởi chạy
+  loadReviews();
+  };
