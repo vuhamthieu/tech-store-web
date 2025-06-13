@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
+      `http://localhost/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
     );
     const data = await res.json();
 
@@ -198,20 +198,33 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Update product images
     if (gallery.length > 0) {
       mainImage.src = gallery[0].Thumbnail;
-      
+
       const galleryContainer = document.querySelector(".thumbnail-gallery");
       galleryContainer.innerHTML = "";
       gallery.forEach((imgObj, index) => {
         const thumbnailDiv = document.createElement("div");
         thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${imgObj.Thumbnail}" alt="Ảnh ${index + 1}">`;
+        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${
+          imgObj.Thumbnail
+        }" alt="Ảnh ${index + 1}">`;
         galleryContainer.appendChild(thumbnailDiv);
+      });
+
+      const newThumbnails = galleryContainer.querySelectorAll(".thumbnail");
+      newThumbnails.forEach((thumb) => {
+        thumb.addEventListener("click", function () {
+          newThumbnails.forEach((t) => t.classList.remove("active"));
+          this.classList.add("active");
+          const imgSrc = this.querySelector("img").getAttribute("data-large");
+          mainImage.src = imgSrc;
+        });
       });
     }
 
     // Update product info
-    document.getElementById("productTitle").textContent = product.Title || "Không tên";
-    document.getElementById("currentPrice").textContent = 
+    document.getElementById("productTitle").textContent =
+      product.Title || "Không tên";
+    document.getElementById("currentPrice").textContent =
       Number(product.Price).toLocaleString("vi-VN") + "₫";
     document.getElementById("oldPrice").textContent = product.OldPrice
       ? Number(product.OldPrice).toLocaleString("vi-VN") + "₫"
@@ -248,7 +261,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Update description
     document.querySelector("#description .description-content").innerHTML = `
       <h2 class="section-title">${product.Title}</h2>
-      <div class="detailed-description">${product.Description || "Không có mô tả."}</div>
+      <div class="detailed-description">${
+        product.Description || "Không có mô tả."
+      }</div>
     `;
 
     // Update specifications
@@ -266,7 +281,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Load reviews
     await loadReviews(productId);
-
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
@@ -276,12 +290,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`
+      `http://localhost/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`
     );
     const reviews = await res.json();
 
     const reviewsList = document.querySelector(".reviews-list");
-    
+
     if (!reviews || reviews.length === 0) {
       reviewsList.innerHTML = "<p>Chưa có đánh giá nào cho sản phẩm này.</p>";
       return;
@@ -293,39 +307,55 @@ async function loadReviews(productId) {
     if (header) reviewsList.appendChild(header);
 
     // Add each review
-    reviews.forEach(review => {
+    reviews.forEach((review) => {
       const reviewItem = document.createElement("div");
       reviewItem.className = "review-item";
       reviewItem.innerHTML = `
         <div class="reviewer-info">
           <div class="reviewer-avatar">
-            <img src="${review.Avatar || 'https://via.placeholder.com/50x50'}" alt="${review.FullName}">
+            <img src="${
+              review.Avatar || "https://via.placeholder.com/50x50"
+            }" alt="${review.FullName}">
           </div>
           <div class="reviewer-details">
             <div class="reviewer-name">${review.FullName}</div>
-            <div class="review-date">${new Date(review.CreatedAt).toLocaleDateString('vi-VN')}</div>
+            <div class="review-date">${new Date(
+              review.CreatedAt
+            ).toLocaleDateString("vi-VN")}</div>
           </div>
         </div>
         <div class="review-content">
           <div class="review-rating">
-            <div class="stars">${'★'.repeat(review.Rating)}${'☆'.repeat(5 - review.Rating)}</div>
-            <div class="review-title">${review.Title || ''}</div>
+            <div class="stars">${"★".repeat(review.Rating)}${"☆".repeat(
+        5 - review.Rating
+      )}</div>
+            <div class="review-title">${review.Title || ""}</div>
           </div>
           <div class="review-text">
             <p>${review.Comment}</p>
           </div>
-          ${review.Images ? `
+          ${
+            review.Images
+              ? `
           <div class="review-images">
-            ${review.Images.map(img => `
+            ${review.Images.map(
+              (img) => `
               <div class="review-image">
                 <img src="${img}" alt="Hình ảnh đánh giá">
               </div>
-            `).join('')}
-          </div>` : ''}
+            `
+            ).join("")}
+          </div>`
+              : ""
+          }
           <div class="review-helpful">
             <span class="helpful-text">Đánh giá này có hữu ích không?</span>
-            <button class="helpful-btn">Có (${review.HelpfulCount || 0})</button>
-            <button class="not-helpful-btn">Không (${review.NotHelpfulCount || 0})</button>
+            <button class="helpful-btn">Có (${
+              review.HelpfulCount || 0
+            })</button>
+            <button class="not-helpful-btn">Không (${
+              review.NotHelpfulCount || 0
+            })</button>
           </div>
         </div>
       `;
@@ -339,9 +369,9 @@ async function loadReviews(productId) {
       <button class="load-more-btn">Xem Thêm Đánh Giá</button>
     `;
     reviewsList.appendChild(loadMoreDiv);
-
   } catch (error) {
     console.error("Lỗi khi tải đánh giá:", error);
-    document.querySelector(".reviews-list").innerHTML = "<p>Không thể tải đánh giá.</p>";
+    document.querySelector(".reviews-list").innerHTML =
+      "<p>Không thể tải đánh giá.</p>";
   }
 }
