@@ -1,0 +1,7 @@
+{
+    "name": "admin/tech-store-web",
+    "require": {
+        "phpmailer/phpmailer": "^6.10",
+        "twilio/sdk": "^8.6"
+    }
+}
