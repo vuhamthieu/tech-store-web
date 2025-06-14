@@ -1,7 +1,7 @@
 <?php
     include __DIR__ . '/../connect.php';
-    include __DIR__ . '/mail_helper.php';
-    include __DIR__ . '/sms_helper.php';
+    include __DIR__ . '/../mail_helper.php';
+    include __DIR__ . '/../sms_helper.php';
 
     $data = json_decode(file_get_contents("php://input"), true);
     $contact = trim($data['contact'] ?? '');
