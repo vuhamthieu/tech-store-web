@@ -26,18 +26,18 @@ document
 
     const loginBtn = document.querySelector(".login-btn");
     const originalText = loginBtn.textContent;
-    const username = document.getElementById("user").value.trim();
+    const userInput = document.getElementById("user").value.trim();
     const password = document.getElementById("password").value;
 
-    // Debug - kiểm tra giá trị
-    console.log("Sending:", { user: username, password });
-
-    if (!username || !password) {
+    if (!userInput || !password) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    if (!validateUserInput(userInput)) {
+    // Validate email hoặc số điện thoại
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^0\d{9,10}$/;
+    if (!emailRegex.test(userInput) && !phoneRegex.test(userInput)) {
       alert("Vui lòng nhập đúng định dạng email hoặc số điện thoại!");
       return;
     }
@@ -46,22 +46,15 @@ document
       loginBtn.disabled = true;
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
-      // Xác định gửi email hay phone cho API
-      let payload = { password };
-      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userInput)) {
-        payload.email = userInput;
-      } else {
-        payload.phone = userInput;
-      }
-
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login.php",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user: userInput,
+            password: password,
+          }),
         }
       );
 
@@ -75,7 +68,6 @@ document
         alert(data.message || "Đăng nhập thất bại!");
       }
     } catch (error) {
-      console.error("Login error:", error);
       alert("Lỗi kết nối server!");
     } finally {
       loginBtn.disabled = false;
