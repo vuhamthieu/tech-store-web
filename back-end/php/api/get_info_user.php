@@ -1,9 +1,11 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
-    $userId = intval($_GET['user_id']);
+    $user = authenticate();
+    $userId = $user['UserID'];
 
-    $query = "SELECT FullName, Phone, Address FROM Users WHERE UserID = ? LIMIT 1";
+    $query = "SELECT FullName, Phone, Email, Avatar, Gender, Address FROM Users WHERE UserID = ? LIMIT 1";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "i", $userId);

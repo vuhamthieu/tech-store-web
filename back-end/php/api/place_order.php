@@ -1,7 +1,9 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
-    $userId = intval($_POST['user_id']);
+    $user = authenticate();
+    $userId = $user['UserID'];
     $shippingName = $_POST['shipping_name'];
     $shippingPhone = $_POST['shipping_phone'];
     $shippingAddress = $_POST['shipping_address'];

@@ -87,6 +87,54 @@
             require 'api/store_payment_token.php';
             break;
 
+        case 'api/logout':
+            require 'api/logout.php';
+            break;
+
+        case 'api/update-info-user':
+            require 'api/update_info_user.php';
+            break;
+        
+        case 'api/update-password-user':
+            require 'api/update_password_user.php';
+            break;
+
+        case 'api/update-avatar-user':
+            require 'api/update_avatar_user.php';
+            break;
+
+        case 'api/add-favorite-product':
+            require 'api/add_favorite_product.php';
+            break;  
+
+        case 'api/remove-favorite-product':
+            require 'api/remove_favorite_product.php';
+            break;
+
+        case 'api/get-orders-with-detail':
+            require 'api/get_orders_with_detail.php';
+            break;
+        
+        case 'api/get-favorite-products':
+            require 'api/get_favorite_products.php';
+            break;
+
+        case 'api/get-notification':
+            require 'api/get_notification.php';
+            break;
+
+        case 'api/delete-noti':
+            require 'api/delete_noti.php';
+            break;
+        
+        case 'api/mark-noti-is-read':
+            require 'api/mark_noti_is_read.php';
+            break;
+        
+        case 'api/send-otp':
+            require 'api/send_otp.php';
+            break;
+
         case 'me':
             require 'me.php';
             break;
