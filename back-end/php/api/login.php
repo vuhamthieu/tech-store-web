@@ -3,7 +3,7 @@
 
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $inputUser = $data['user'] ?? '';    //username hoặc email
+    $inputUser = $data['user'] ?? '';    //phone hoặc email
     $password  = $data['password'] ?? '';
 
     if (!$inputUser || !$password) {
@@ -14,7 +14,7 @@
         exit;
     }
 
-    $query = "SELECT * FROM Users WHERE FullName = ? OR Email = ? LIMIT 1";
+    $query = "SELECT * FROM Users WHERE Phone = ? OR Email = ? LIMIT 1";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "ss", $inputUser, $inputUser);
