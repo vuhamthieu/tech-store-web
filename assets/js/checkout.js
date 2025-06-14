@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
       
         // Gửi đến API
-        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/save-address.php", {
+        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/save-address", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
