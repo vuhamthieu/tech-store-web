@@ -12,24 +12,24 @@
     $offset     = ($page - 1) * $limit;
 
     if ($category) {
-    $stmt = $conn->prepare("SELECT CategoryID FROM Categories WHERE CategoryName = ?");
-    $stmt->bind_param("s", $category);
-    $stmt->execute();
-    $stmt->bind_result($categoryId);
-    if ($stmt->fetch()) {
-        $category = $categoryId; 
-    } else {
-        echo json_encode([
-            "page" => 1,
-            "limit" => 0,
-            "total" => 0,
-            "total_pages" => 0,
-            "products" => []
-        ]);
-        exit;
+        $stmt = $conn->prepare("SELECT CategoryID FROM Categories WHERE CategoryName = ?");
+        $stmt->bind_param("s", $category);
+        $stmt->execute();
+        $stmt->bind_result($categoryId);
+        if ($stmt->fetch()) {
+            $category = $categoryId; 
+        } else {
+            echo json_encode([
+                "page" => 1,
+                "limit" => 0,
+                "total" => 0,
+                "total_pages" => 0,
+                "products" => []
+            ]);
+            exit;
+        }
+        $stmt->close();
     }
-    $stmt->close();
-}
 
 
     // Xây dựng điều kiện truy vấn

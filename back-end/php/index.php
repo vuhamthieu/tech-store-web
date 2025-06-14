@@ -23,6 +23,18 @@
             require 'api/register.php';
             break;
 
+        case 'api/logout':
+            require 'api/logout.php';
+            break;
+
+        case 'api/send-otp':
+            require 'api/send_otp.php';
+            break;
+
+        case 'api/reset-password':
+            require 'api/reset_password.php';
+            break;
+
         case 'api/products':
             require 'api/products.php';
             break;
@@ -87,10 +99,6 @@
             require 'api/store_payment_token.php';
             break;
 
-        case 'api/logout':
-            require 'api/logout.php';
-            break;
-
         case 'api/update-info-user':
             require 'api/update_info_user.php';
             break;
@@ -131,8 +139,40 @@
             require 'api/mark_noti_is_read.php';
             break;
         
-        case 'api/send-otp':
-            require 'api/send_otp.php';
+        case 'api/get-dashboard-overview':
+            require 'api/get_dashboard_overview.php';
+            break;
+
+        case 'api/get-all-orders':
+            require 'api/get_all_orders.php';
+            break;
+
+        case 'api/get-all-products':
+            require 'api/get_all_products.php';
+            break;
+
+        case 'api/get-all-users':
+            require 'api/get_all_users.php';
+            break;
+
+        case 'api/update-info-product':
+            require 'api/update_info_product.php';
+            break;
+
+        case 'api/add-product':
+            require 'api/add_product.php';
+            break;
+
+        case 'api/delete-product':
+            require 'api/delete_product.php';
+            break;
+
+        case 'api/delete-order':
+            require 'api/delete_order.php';
+            break;
+
+        case 'api/disable-user':
+            require 'api/disable_user.php';
             break;
 
         case 'me':
