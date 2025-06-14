@@ -83,32 +83,111 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   
     // 7. Nút Thanh Toán
-    checkoutBtn.addEventListener("click", () => {
+    checkoutBtn.addEventListener("click", async () => {
       const fullname = document.getElementById("fullname").value.trim();
       const phone = document.getElementById("phone").value.trim();
       const street = document.getElementById("street").value.trim();
       const provinceText = provinceSelect.options[provinceSelect.selectedIndex]?.text || "";
       const districtText = districtSelect.options[districtSelect.selectedIndex]?.text || "";
       const wardText = wardSelect.options[wardSelect.selectedIndex]?.text || "";
-  
+
       if (!fullname || !phone || !provinceText || !districtText || !wardText || !street) {
         alert("Vui lòng điền đầy đủ thông tin địa chỉ.");
         return;
       }
-  
+
+      // Lấy thông tin giỏ hàng và user
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      if (!user.UserID || !cart.length) {
+        alert("Vui lòng đăng nhập và có sản phẩm trong giỏ hàng!");
+        return;
+      }
+
+      // Lấy phương thức thanh toán
+      let paymentMethod = "cod";
+      document.querySelectorAll('.payment-option').forEach((opt, idx) => {
+        if (opt.classList.contains('selected')) {
+          if (idx === 0) paymentMethod = "cod";
+          if (idx === 1) paymentMethod = "momo";
+          if (idx === 2) paymentMethod = "visa";
+        }
+      });
+
+      // Tính tổng tiền
+      let shippingFee = 20000;
+      let discount = 0;
+      let totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0) + shippingFee - discount;
+
       // Loading
       btnText.style.display = 'none';
       loadingSpinner.style.display = 'inline-block';
-  
-      setTimeout(() => {
+
+      // Gọi API đặt hàng
+      try {
+        const orderRes = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/place_order.php", {
+          method: "POST",
+          body: new URLSearchParams({
+            user_id: user.UserID,
+            shipping_name: fullname,
+            shipping_phone: phone,
+            shipping_address: `${street}, ${wardText}, ${districtText}, ${provinceText}`,
+            total_amount: totalAmount,
+            payment_method: paymentMethod,
+            // Thêm các trường khác nếu cần
+          })
+        });
+        const orderData = await orderRes.json();
+        if (!orderData.success) {
+          alert(orderData.message || "Đặt hàng thất bại!");
+          btnText.style.display = 'inline';
+          loadingSpinner.style.display = 'none';
+          return;
+        }
+
+        // Nếu là COD, hiển thị modal thành công
+        if (paymentMethod === "cod") {
+          btnText.style.display = 'inline';
+          loadingSpinner.style.display = 'none';
+          successModal.style.display = 'flex';
+          localStorage.removeItem("cart");
+          return;
+        }
+
+        // Nếu là MOMO hoặc VISA, gọi API thanh toán
+        let payApi = paymentMethod === "momo"
+          ? "momo_payment.php"
+          : "visa_payment.php";
+        const payRes = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
+          method: "POST",
+          body: new URLSearchParams({
+            amount: totalAmount,
+            order_info: `Thanh toán đơn hàng #${orderData.order_id}`
+          })
+        });
+        const payData = await payRes.json();
+        if (payData.success && payData.pay_url) {
+          await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/store_payment_token.php", {
+            method: "POST",
+            body: new URLSearchParams({
+              payment_token: payData.payment_token,
+              order_id: orderData.order_id,
+              user_id: user.UserID,
+              amount: totalAmount
+            })
+          });
+          // Chuyển hướng sang trang thanh toán
+          window.location.href = payData.pay_url;
+        } else {
+          alert(payData.message || "Lỗi thanh toán!");
+          btnText.style.display = 'inline';
+          loadingSpinner.style.display = 'none';
+        }
+      } catch (error) {
+        alert("Có lỗi xảy ra khi đặt hàng hoặc thanh toán!");
         btnText.style.display = 'inline';
         loadingSpinner.style.display = 'none';
-        successModal.style.display = 'flex';
-  
-        console.log("Họ tên:", fullname);
-        console.log("SĐT:", phone);
-        console.log("Địa chỉ:", `${street}, ${wardText}, ${districtText}, ${provinceText}`);
-      }, 1500);
+      }
     });
   
     // 8. Đóng modal
@@ -168,4 +247,49 @@ document.addEventListener('DOMContentLoaded', function () {
       option.classList.add('selected');
     });
   });
+  
+    // Hiển thị sản phẩm trong đơn hàng
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const productList = document.querySelector(".product-list");
+      if (!productList) return;
+      productList.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        productList.innerHTML += `
+          <div class="product-item">
+            <img src="${item.image}" alt="${item.name}" class="product-image">
+            <div class="product-details">
+              <div class="product-name">${item.name}</div>
+              <div class="product-variant">${item.variant || ""}</div>
+              <div class="product-variant">Số lượng: ${item.quantity}</div>
+              <div class="product-price">${item.price.toLocaleString()}đ</div>
+            </div>
+          </div>
+        `;
+      });
+      // Hiển thị tổng tiền tạm tính
+      const priceRows = document.querySelectorAll(".price-row");
+      if (priceRows[0]) priceRows[0].lastElementChild.textContent = `${total.toLocaleString()}đ`;
+      updateTotal();
+    }
+
+    // Tính tổng cộng
+    let shippingFee = 20000;
+    let discount = 0;
+    function updateTotal() {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const priceRows = document.querySelectorAll(".price-row");
+      if (priceRows[0]) priceRows[0].lastElementChild.textContent = `${total.toLocaleString()}đ`;
+      if (priceRows[1]) priceRows[1].lastElementChild.textContent = `${shippingFee.toLocaleString()}đ`;
+      if (priceRows[2]) priceRows[2].lastElementChild.textContent = `-${discount.toLocaleString()}đ`;
+      const totalRows = document.querySelectorAll(".total-row");
+      if (totalRows[0]) totalRows[0].lastElementChild.textContent = `${(total + shippingFee - discount).toLocaleString()}đ`;
+    }
+
+    // Gọi khi load trang
+    renderCart();
+    updateTotal();
   });
