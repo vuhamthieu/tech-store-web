@@ -122,6 +122,10 @@
         case 'api/get-notification':
             require 'api/get_notification.php';
             break;
+
+        case 'api/delete-noti':
+            require 'api/delete_noti.php';
+            break;
         
         case 'api/mark-noti-is-read':
             require 'api/mark_noti_is_read.php';
