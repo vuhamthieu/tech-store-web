@@ -79,7 +79,7 @@ document
 
     try {
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/register.php",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
