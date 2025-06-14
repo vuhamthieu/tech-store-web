@@ -48,6 +48,8 @@
     } else {
         echo json_encode([
             "success" => false,
+            "order_id" => $orderId,
+            "payment_token" => $paymentToken,
             "message" => $result['message'] ?? 'Lỗi khởi tạo thanh toán Visa'
         ]);
     }
