@@ -13,6 +13,12 @@ function togglePassword() {
   }
 }
 
+function validateUserInput(input) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^0\d{9,10}$/;
+  return emailRegex.test(input) || phoneRegex.test(input);
+}
+
 document
   .getElementById("loginForm")
   .addEventListener("submit", async function (e) {
@@ -31,9 +37,22 @@ document
       return;
     }
 
+    if (!validateUserInput(userInput)) {
+      alert("Vui lòng nhập đúng định dạng email hoặc số điện thoại!");
+      return;
+    }
+
     try {
       loginBtn.disabled = true;
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
+
+      // Xác định gửi email hay phone cho API
+      let payload = { password };
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userInput)) {
+        payload.email = userInput;
+      } else {
+        payload.phone = userInput;
+      }
 
       const res = await fetch(
         "http://localhost/webproject/tech-store-web/back-end/php/api/login",
@@ -42,12 +61,11 @@ document
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user: username, password }),
+          body: JSON.stringify(payload),
         }
       );
 
       const data = await res.json();
-      console.log("Response:", data); // Debug - kiểm tra response
 
       if (data.success) {
         localStorage.setItem("user", JSON.stringify(data.data));
