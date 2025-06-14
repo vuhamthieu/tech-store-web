@@ -1,7 +1,9 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
-    $userId = intval($_GET['userId'] ?? 0);
+    $user = authenticate();
+    $userId = $user['UserID'];
     if ($userId <= 0) {
         echo json_encode(["error" => "Thiếu userId"]);
         exit;

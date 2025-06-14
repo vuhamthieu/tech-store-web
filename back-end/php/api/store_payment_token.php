@@ -1,9 +1,11 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
     $token = $_POST['payment_token'] ?? null;
     $orderId = $_POST['order_id'] ?? null;
-    $userId = $_POST['user_id'] ?? null;
+    $user = authenticate();
+    $userId = $user['UserID'];
     $amount = $_POST['amount'] ?? null;
 
     if (!$token || !$orderId || !$userId || !$amount) {

@@ -1,7 +1,9 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
-    $userId    = intval($_POST['userId'] ?? 0);
+    $user = authenticate();
+    $userId = $user['UserID'];
     $productId = intval($_POST['productId'] ?? 0);
 
     if ($userId <= 0 || $productId <= 0) {
