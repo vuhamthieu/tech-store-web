@@ -47,7 +47,7 @@ document
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/login.php",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
