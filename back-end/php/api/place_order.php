@@ -14,7 +14,9 @@
     $status = isset($_POST['status']) ? intval($_POST['status']) : 0;
     $paymentStatus = isset($_POST['payment_status']) ? intval($_POST['payment_status']) : 0;
 
-    // Bắt đầu transaction
+    $itemsJson = $_POST['items'] ?? '[]';
+    $items = json_decode($itemsJson, true);
+
     $conn->begin_transaction();
 
     try {
@@ -26,7 +28,20 @@
         $stmt->execute();
         $orderId = $stmt->insert_id;
 
-        // 2. Nếu có mã giảm giá
+        // 2. Ghi vào OrderDetails
+        $detailStmt = $conn->prepare("INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) VALUES (?, ?, ?, ?)");
+        foreach ($items as $item) {
+            $productId  = intval($item['product_id']);
+            $quantity   = intval($item['quantity']);
+            $unitPrice  = floatval($item['unit_price']);
+
+            if ($productId && $quantity > 0 && $unitPrice >= 0) {
+                $detailStmt->bind_param("iiid", $orderId, $productId, $quantity, $unitPrice);
+                $detailStmt->execute();
+            }
+        }
+
+    // 3. Nếu có mã giảm giá
         if (!empty($couponCode)) {
             $couponStmt = $conn->prepare("SELECT CouponID, UsageLimit FROM Coupons WHERE Code = ? LIMIT 1");
             $couponStmt->bind_param("s", $couponCode);
