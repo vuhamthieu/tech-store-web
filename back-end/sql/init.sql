@@ -14,6 +14,7 @@ CREATE TABLE Users (
     Email VARCHAR(100) UNIQUE NOT NULL,
     Phone VARCHAR(20) DEFAULT NULL,
     Address VARCHAR(200) DEFAULT NULL,
+    Gender VARCHAR(10) DEFAULT NULL,
     Password VARCHAR(100) NOT NULL,
     Avatar VARCHAR(500) DEFAULT NULL,
     RoleID INT NOT NULL,
@@ -33,6 +34,27 @@ CREATE TABLE UserTokens (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     IsRevoked TINYINT DEFAULT 0,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Bảng Favorites
+CREATE TABLE Favorites (
+    FavoriteID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    UNIQUE KEY (UserID, ProductID) -- Mỗi sản phẩm chỉ được yêu thích 1 lần bởi 1 user
+);
+
+CREATE TABLE Notifications (
+    NotificationID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL,
+    IsRead TINYINT DEFAULT 0,  -- 0: chưa đọc, 1: đã đọc
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
 

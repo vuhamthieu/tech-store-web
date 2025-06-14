@@ -1,10 +1,12 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
     $data = json_decode(file_get_contents("php://input"), true);
 
     $productId = isset($data['productId']) ? intval($data['productId']) : 0;
-    $userId = isset($data['userId']) ? intval($data['userId']) : 0;
+    $user = authenticate();
+    $userId = $user['UserID'];
     $rating = isset($data['rating']) ? intval($data['rating']) : 0;
     $comment = isset($data['comment']) ? trim($data['comment']) : '';
 

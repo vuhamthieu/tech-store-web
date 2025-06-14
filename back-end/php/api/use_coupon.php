@@ -1,9 +1,11 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
     $data = json_decode(file_get_contents("php://input"), true);
     $code = $data['code'] ?? '';
-    $userId = $data['user_id'] ?? 0;
+    $user = authenticate();
+    $userId = $user['UserID'];
     $orderAmount = $data['order_amount'] ?? 0;
     $productIds = $data['product_ids'] ?? [];
 

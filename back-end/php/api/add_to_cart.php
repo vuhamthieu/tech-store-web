@@ -1,7 +1,9 @@
 <?php
     include __DIR__ . '/../connect.php';
+    include __DIR__ . '/../auth.php';
 
-    $userId    = intval($_POST['userId'] ?? 0);
+    $user = authenticate();
+    $userId = $user['UserID'];
     $productId = intval($_POST['productId'] ?? 0);
     $options = intval($_POST['options'] ?? ""); //Ví dụ: 256GB, Trắng
     $quantity  = max(1, intval($_POST['quantity'] ?? 1));
