@@ -2,11 +2,12 @@
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth.php';
 
-    $token = $_POST['payment_token'] ?? null;
-    $orderId = $_POST['order_id'] ?? null;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $token = $data['payment_token'] ?? null;
+    $orderId = $data['order_id'] ?? null;
     $user = authenticate();
     $userId = $user['UserID'];
-    $amount = $_POST['amount'] ?? null;
+    $amount = $data['amount'] ?? null;
 
     if (!$token || !$orderId || !$userId || !$amount) {
         echo json_encode([

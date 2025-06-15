@@ -4,8 +4,8 @@
 
     $user = authenticate();
     $userId = $user['UserID'];
-    $productId = intval($_POST['productId'] ?? 0);
-
+    $data = json_decode(file_get_contents('php://input'), true);
+    $productId = $data['product_id'] ?? 0;
     if ($userId <= 0 || $productId <= 0) {
         echo json_encode(["error" => "Thiếu userId hoặc productId"]);
         exit;

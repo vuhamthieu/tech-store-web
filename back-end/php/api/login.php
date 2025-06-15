@@ -33,6 +33,7 @@
             $accessToken = bin2hex(random_bytes(32));  
             $refreshToken = bin2hex(random_bytes(32));
 
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $accessTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
             $refreshTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));
 

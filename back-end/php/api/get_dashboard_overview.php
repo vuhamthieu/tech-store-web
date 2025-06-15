@@ -2,7 +2,7 @@
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth_admin.php';
 
-    $admin = authenticateAdmin(); // RoleID >= 2
+    $admin = authenticateAdmin();
     
     // 1. 5 đơn hàng mới nhất
     $recentOrders = [];
@@ -43,7 +43,7 @@
         $monthlyRevenue = floatval($row['revenue'] ?? 0);
     }
 
-    // 4. Tổng số khách hàng (RoleID = 1)
+    // 4. Tổng số khách hàng
     $totalCustomers = 0;
     $res = $conn->query("SELECT COUNT(*) as total FROM Users WHERE RoleID = 1");
     if ($row = $res->fetch_assoc()) {
@@ -57,7 +57,6 @@
         $totalProducts = intval($row['total']);
     }
 
-    // Trả về
     echo json_encode([
         "success" => true,
         "overview" => [

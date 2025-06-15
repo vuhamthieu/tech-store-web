@@ -48,6 +48,7 @@ CREATE TABLE Favorites (
     UNIQUE KEY (UserID, ProductID) -- Mỗi sản phẩm chỉ được yêu thích 1 lần bởi 1 user
 );
 
+-- Bảng Notifications
 CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY AUTO_INCREMENT,
     UserID INT NOT NULL,
@@ -161,6 +162,7 @@ CREATE TABLE OrderDetails (
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
+-- Bảng tạm  
 CREATE TABLE payment_tokens (
     TokenID INT AUTO_INCREMENT PRIMARY KEY,
     Token VARCHAR(100) NOT NULL UNIQUE,
@@ -169,7 +171,6 @@ CREATE TABLE payment_tokens (
     Amount DECIMAL(12,2),
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
 
 -- Bảng đánh giá
 CREATE TABLE Reviews (

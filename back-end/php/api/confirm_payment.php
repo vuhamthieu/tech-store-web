@@ -1,23 +1,22 @@
 <?php
     include __DIR__ . '/../connect.php';
 
-    $tokenSuccess = $_POST['token_success'] ?? null;
-    $paymentMethod = $_POST['payment_method'] ?? null;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $tokenSuccess = $data['payment_token'] ?? null;
+    $paymentMethod = $data['payment_method'] ?? null;
 
     if (!$paymentMethod) {
         echo json_encode(["success" => false, "message" => "Thiếu phương thức thanh toán"]);
         exit;
     }
 
-    // Mặc định
     $status = 0;
     $paymentStatus = 0;
 
     if (strtolower($paymentMethod) === 'cod') {
         $status = 1;
         $paymentStatus = 0;
-    } elseif ($tokenSuccess) {
-        // Kiểm tra trong bảng tạm (ví dụ: payment_tokens)
+    } elseif ($tokenSuccess) { //nếu người dùng chọn thanh toán online
         $stmt = $conn->prepare("SELECT * FROM payment_tokens WHERE token = ? LIMIT 1");
         $stmt->bind_param("s", $tokenSuccess);
         $stmt->execute();
@@ -27,7 +26,6 @@
             $status = 1;
             $paymentStatus = 1;
 
-            // Option: Xoá token sau khi dùng
             $delete = $conn->prepare("DELETE FROM payment_tokens WHERE token = ?");
             $delete->bind_param("s", $tokenSuccess);
             $delete->execute();

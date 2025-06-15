@@ -29,6 +29,7 @@
 
     // Tạo OTP và lưu
     $otp = random_int(100000, 999999);
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $expiresAt = date('Y-m-d H:i:s', strtotime('+10 minutes'));
 
     $insert = $conn->prepare("

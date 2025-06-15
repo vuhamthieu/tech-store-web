@@ -3,7 +3,7 @@
 
     $data = json_decode(file_get_contents("php://input"), true);
     $contact = trim($data['contact'] ?? '');
-    $otp = trim($data['otp'] ?? '');
+    $otp = $data['otp'] ?? '';
     $newPassword = $data['newPassword'] ?? '';
 
     if (empty($contact) || empty($otp) || empty($newPassword)) {

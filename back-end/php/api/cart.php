@@ -9,20 +9,19 @@
         exit;
     }
 
-    $sql = "
-        SELECT 
+    $sql = "SELECT 
             c.ProductID,
             c.Quantity,
             c.Options,
-            p.ProductName,
+            p.Title,
             p.Price,
             p.Thumbnail,
             p.Stock
         FROM Cart c
         JOIN Products p ON c.ProductID = p.ProductID
         WHERE c.UserID = ?
-        ORDER BY c.CreatedAt DESC
-    ";
+        ORDER BY c.CreatedAt DESC";
+
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);

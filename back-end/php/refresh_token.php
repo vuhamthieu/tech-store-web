@@ -1,5 +1,4 @@
 <?php
-    header('Content-Type: application/json');
     include __DIR__ . '/connect.php';
 
     $data = json_decode(file_get_contents('php://input'), true);
@@ -37,6 +36,7 @@
     }
 
     // Tạo access token mới
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $newAccessToken = bin2hex(random_bytes(32));
     $accessTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 
