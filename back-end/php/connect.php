@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1:3307";
 $user = "root";
 $pass = "";
 $database = "db_tech_store_web";
