@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
     );
     const data = await res.json();
 
@@ -375,11 +375,18 @@ async function loadReviews(productId) {
       "<p>Không thể tải đánh giá.</p>";
   }
 }
-
 document
   .getElementById("addToCartBtn")
   ?.addEventListener("click", async function (e) {
     e.preventDefault();
+
+    // Lấy user từ localStorage
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const userId = user.UserID || user.id || 0;
+    if (!userId) {
+      alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+      return;
+    }
 
     // Lấy productId từ URL
     const params = new URLSearchParams(window.location.search);
@@ -393,7 +400,7 @@ document
     const quantity = Number(document.getElementById("productQty").value) || 1;
 
     // Lấy variantId nếu có
-    let variantId = null;
+    let options = "";
     if (window.variants && window.variants.length > 0) {
       const selectedCapacity = document.querySelector(
         "#capacityVariants .variant-option.selected"
@@ -401,19 +408,12 @@ document
       const selectedColor = document.querySelector(
         "#colorVariants .variant-option.selected"
       );
-      const found = window.variants.find((v) => {
-        const rom = v.Specifications?.find(
-          (s) => s.SpecKey === "ROM"
-        )?.SpecValue;
-        const color = v.Specifications?.find(
-          (s) => s.SpecKey === "Color"
-        )?.SpecValue;
-        return (
-          (!selectedCapacity || rom === selectedCapacity.textContent) &&
-          (!selectedColor || color === selectedColor.textContent)
-        );
-      });
-      if (found) variantId = found.VariantID;
+      options = [
+        selectedCapacity ? selectedCapacity.textContent : "",
+        selectedColor ? selectedColor.textContent : "",
+      ]
+        .filter(Boolean)
+        .join(", ");
     }
 
     try {
@@ -421,12 +421,15 @@ document
         "http://localhost/webproject/tech-store-web/back-end/php/api/add_to_cart",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: 1,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${user.accessToken || user.token || ""}`,
+          },
+          body: new URLSearchParams({
+            userId,
             productId,
             quantity,
-            options: variantId, // Đổi thành options để khớp với PHP
+            options,
           }),
         }
       );
