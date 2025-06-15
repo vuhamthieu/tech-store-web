@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sản phẩm yêu thích | TechsphereShop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/user.css">
-    <link rel="stylesheet" href="../assets/css/wishlist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <link rel="stylesheet" href="../assets/css/user.css"/>
+    <link rel="stylesheet" href="../assets/css/wishlist.css"/>
 </head>
 <body>
     <header>
@@ -26,14 +26,14 @@
                 <div class="user-info">
                     <div class="avatar-container">
                         <div class="avatar-wrapper">
-                            <img id="avatarImage" src="../images/default-avatar.jpg" alt="User Avatar">
+                            <img id="avatarImage" src="../images/default-avatar.jpg" alt="User Avatar"/>
                             <div class="avatar-overlay">
                                 <button class="change-avatar-btn" id="changeAvatarBtn">
                                     <i class="fas fa-camera"></i> Đổi ảnh
                                 </button>
                             </div>
                         </div>
-                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;"/>
                     </div>
                     <h3 id="userName">Nguyễn Văn A</h3>
                     <p id="memberSince">Thành viên từ: 12/2022</p>
@@ -41,7 +41,7 @@
 
                 <nav class="profile-menu">
                     <ul>
-                        <li ><a href="../pages/user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+                        <li><a href="../pages/user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
                         <li><a href="../pages/product_of_user.html"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
                         <li class="active"><a href="../pages/product-favorite.html"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
                         <li><a href="../pages/notify.html"><i class="fas fa-bell"></i> Thông báo</a></li>
@@ -81,10 +81,10 @@
                 </div>
 
                 <div class="wishlist-grid" id="wishlistItems">
-                    <!-- Sản phẩm sẽ được thêm bằng JavaScript -->
+                    <!-- Các sản phẩm sẽ được render tại đây -->
                 </div>
 
-                <div class="empty-wishlist" id="emptyWishlist">
+                <div class="empty-wishlist" id="emptyWishlist" style="display: none;">
                     <i class="fas fa-heart"></i>
                     <p>Danh sách yêu thích của bạn đang trống</p>
                     <a href="../pages/product.html" class="btn btn-primary">Khám phá sản phẩm</a>
@@ -127,9 +127,9 @@
             </div>
         </div>
     </footer>
-    
 
+    <!-- Script -->
     <script src="../assets/js/user.js"></script>
-    <script src="../assets/js/wishlist.js"></script>
+    <script src="../assets/js/product-favorite.js"></script>
 </body>
 </html>
