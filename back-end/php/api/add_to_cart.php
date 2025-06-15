@@ -2,11 +2,12 @@
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth.php';
 
+    $data = json_decode(file_get_contents('php://input'), true);
     $user = authenticate();
     $userId = $user['UserID'];
-    $productId = intval($_POST['productId'] ?? 0);
-    $options = intval($_POST['options'] ?? ""); //Ví dụ: 256GB, Trắng
-    $quantity  = max(1, intval($_POST['quantity'] ?? 1));
+    $productId = $data['product_id'] ?? 0;
+    $options = trim($data['options']) ?? ''; //Ví dụ: 256GB Trắng
+    $quantity = max(1, $data['quantity'] ?? 1);
 
     if ($userId <= 0 || $productId <= 0) {
         echo json_encode(["error" => "Thiếu userId hoặc productId"]);
@@ -28,7 +29,7 @@
         //thêm mới
         $stmt->close();
         $stmt = $conn->prepare("INSERT INTO Cart (UserID, ProductID, Quantity, Options) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("iii", $userId, $productId, $quantity, $options);
+        $stmt->bind_param("iiis", $userId, $productId, $quantity, $options);
         $stmt->execute();
     }
 
