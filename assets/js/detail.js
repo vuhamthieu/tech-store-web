@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/reviews/get_reviews.php?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/get_reviews.php?productId=${productId}`
     );
     const reviews = await res.json();
 
