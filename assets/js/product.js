@@ -1,5 +1,47 @@
 // GERNERATE PRODUCT
 
+// Kiểm tra đăng nhập
+document.addEventListener("DOMContentLoaded", function() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const accessToken = localStorage.getItem("access_token");
+  
+  // Chỉ chuyển hướng nếu cả token và trạng thái đều hợp lệ
+  if (isLoggedIn && accessToken) {
+    // Thêm kiểm tra token hợp lệ trước khi chuyển hướng
+    verifyToken(accessToken).then(isValid => {
+      if (isValid) {
+        window.location.href = "product.html";
+      } else {
+        clearAuthData();
+      }
+    }).catch(() => clearAuthData());
+  }
+});
+
+// Hàm kiểm tra token
+async function verifyToken(token) {
+  try {
+    const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/verify-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return res.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
+// Hàm xóa dữ liệu đăng nhập
+function clearAuthData() {
+  localStorage.removeItem("user");
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+}
+
 // Làm nổi bật widget khi scroll đến
 document.addEventListener("DOMContentLoaded", function () {
   const sidebarWidgets = document.querySelectorAll(".sidebar-widget");

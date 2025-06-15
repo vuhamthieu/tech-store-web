@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Gọi API đặt hàng
       try {
-        const orderRes = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/place_order.php", {
+        const orderRes = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/place_order", {
           method: "POST",
           body: new URLSearchParams({
             user_id: user.UserID,
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         const payData = await payRes.json();
         if (payData.success && payData.pay_url) {
-          await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/store_payment_token.php", {
+          await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/store_payment_token", {
             method: "POST",
             body: new URLSearchParams({
               payment_token: payData.payment_token,

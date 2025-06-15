@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
   
         // Gửi lên API thật sự
-        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update_user.php', {
+        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update_user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

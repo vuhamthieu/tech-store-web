@@ -16,7 +16,7 @@
             c.Options,
             p.ProductName,
             p.Price,
-            p.Thumbnail
+            p.Thumbnail,
             p.Stock
         FROM Cart c
         JOIN Products p ON c.ProductID = p.ProductID
