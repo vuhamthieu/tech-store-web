@@ -8,13 +8,42 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="../assets/css/index.css" />
     <link rel="icon" type="image/png" href="../assets/img/logo.png" />
   </head>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (isLoggedIn && user.UserID) {
+        // Thêm class logged-in vào header
+        document.querySelector("header").classList.add("logged-in");
+
+        // Tạo hiển thị user
+        const userInfoContainer = document.querySelector(
+          ".user-info-container"
+        );
+        userInfoContainer.innerHTML = `
+      <div class="user-info">
+        <img src="${
+          user.Avatar ||
+          "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6"
+        }"
+             alt="Avatar"
+             style="width:40px;height:40px;border-radius:50%;">
+        <span class="user-name">${user.FullName}</span>
+      </div>
+    `;
+      }
+    });
+  </script>
+
   <body>
     <header>
       <div class="logo">Techsphere</div>
       <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+
       <div class="nav-container" id="navContainer">
         <nav>
           <a href="#">Trang chủ</a>
@@ -22,11 +51,14 @@
           <a href="#about">Về chúng tôi</a>
           <a href="#contact">Liên hệ</a>
         </nav>
-        <div class="auth-buttons">
-          <a href="../pages/login.html" class="btn-login">Đăng nhập</a>
-          <a href="../pages/register.html" class="btn-register">Đăng ký</a>
-        </div>
       </div>
+
+      <div class="auth-buttons">
+        <a href="../pages/login.html" class="login-btn">Đăng nhập</a>
+        <a href="../pages/register.html" class="register-btn">Đăng ký</a>
+      </div>
+
+      <div class="user-info-container"></div>
     </header>
 
     <section class="hero">
@@ -171,20 +203,5 @@
         </div>
       </div>
     </section>
-
-    <script>
-      function toggleMobileMenu() {
-        const navContainer = document.getElementById("navContainer");
-        navContainer.classList.toggle("active");
-      }
-
-      // Close mobile menu when clicking on a link
-      document.querySelectorAll("nav a").forEach((link) => {
-        link.addEventListener("click", () => {
-          const navContainer = document.getElementById("navContainer");
-          navContainer.classList.remove("active");
-        });
-      });
-    </script>
   </body>
 </html>

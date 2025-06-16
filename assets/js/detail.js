@@ -418,7 +418,7 @@ document
 
     try {
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add_to_cart",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
         {
           method: "POST",
           headers: {
