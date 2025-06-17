@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product_details.php?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
     );
     const data = await res.json();
 
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/get_reviews.php?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
     const reviews = await res.json();
 
@@ -418,7 +418,7 @@ document
 
     try {
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add_to_cart",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
         {
           method: "POST",
           headers: {

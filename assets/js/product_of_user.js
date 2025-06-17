@@ -38,7 +38,7 @@ function loadFiltersFromLocal() {
 // Fetch orders from API
 async function fetchOrders() {
   try {
-    const res = await fetch("../back-end/php/api/orders_of_user.php");
+    const res = await fetch("../back-end/php/api/orders_of_user");
     const data = await res.json();
     if (data.success) {
       allOrders = data.data;
@@ -150,6 +150,7 @@ searchBtn.addEventListener("click", () => {
 });
 
 prevPageBtn.addEventListener("click", () => {
+
   currentPage--;
   applyFilters();
 });
@@ -162,5 +163,55 @@ nextPageBtn.addEventListener("click", () => {
 // Init
 loadFiltersFromLocal();
 fetchOrders();
+
+//
+ // === AVATAR UPLOAD ===
+ const avatarInput = document.getElementById('avatarInput');
+ const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+ const avatarImage = document.getElementById('avatarImage');
+
+ changeAvatarBtn.addEventListener('click', function () {
+   avatarInput.click();
+ });
+
+ avatarInput.addEventListener('change', function (e) {
+   if (e.target.files && e.target.files[0]) {
+     const file = e.target.files[0];
+     if (file.size > 2 * 1024 * 1024) return alert('Ảnh không được quá 2MB');
+     if (!file.type.match('image.*')) return alert('Chỉ chấp nhận ảnh');
+
+     const reader = new FileReader();
+     reader.onload = function (event) {
+       avatarImage.src = event.target.result;
+       uploadAvatarToServer(file);
+     };
+     reader.readAsDataURL(file);
+   }
+ });
+
+ function uploadAvatarToServer(file) {
+   const formData = new FormData();
+   formData.append('avatar', file);
+
+   fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+     method: 'POST',
+     headers: {
+       'Authorization': 'Bearer ' + token
+     },
+     body: formData
+   })
+     .then(res => res.json())
+     .then(result => {
+       if (result.success) {
+         alert('Cập nhật ảnh thành công!');
+       } else {
+         alert('Lỗi: ' + result.message);
+       }
+     })
+     .catch(error => {
+       console.error('Upload avatar error:', error);
+       alert('Không thể tải lên ảnh đại diện!');
+     });
+ }
 
 });

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchNotifications() {
         try {
-            const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/notifications/get.php');
+            const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-notification');
             const data = await res.json();
 
             if (data.success) {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function markAsRead(id) {
         try {
-            await fetch('http://localhost/webproject/tech-store-web/back-end/php/notifications/mark-read.php', {
+            await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/mark-noti-is-read', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ notification_id: id })
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function deleteNotification(id) {
         try {
-            const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/notifications/delete.php', {
+            const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/delete-noti', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ notification_id: id })
@@ -109,6 +109,53 @@ document.addEventListener('DOMContentLoaded', () => {
     clearNotificationsBtn.addEventListener('click', async () => {
         await Promise.all(notifications.map(n => deleteNotification(n.NotificationID)));
     });
-
+     // === AVATAR UPLOAD ===
+     const avatarInput = document.getElementById('avatarInput');
+     const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+     const avatarImage = document.getElementById('avatarImage');
+   
+     changeAvatarBtn.addEventListener('click', function () {
+       avatarInput.click();
+     });
+   
+     avatarInput.addEventListener('change', function (e) {
+       if (e.target.files && e.target.files[0]) {
+         const file = e.target.files[0];
+         if (file.size > 2 * 1024 * 1024) return alert('Ảnh không được quá 2MB');
+         if (!file.type.match('image.*')) return alert('Chỉ chấp nhận ảnh');
+   
+         const reader = new FileReader();
+         reader.onload = function (event) {
+           avatarImage.src = event.target.result;
+           uploadAvatarToServer(file);
+         };
+         reader.readAsDataURL(file);
+       }
+     });
+   
+     function uploadAvatarToServer(file) {
+       const formData = new FormData();
+       formData.append('avatar', file);
+   
+       fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+         method: 'POST',
+         headers: {
+           'Authorization': 'Bearer ' + token
+         },
+         body: formData
+       })
+         .then(res => res.json())
+         .then(result => {
+           if (result.success) {
+             alert('Cập nhật ảnh thành công!');
+           } else {
+             alert('Lỗi: ' + result.message);
+           }
+         })
+         .catch(error => {
+           console.error('Upload avatar error:', error);
+           alert('Không thể tải lên ảnh đại diện!');
+         });
+     }
     fetchNotifications();
 });

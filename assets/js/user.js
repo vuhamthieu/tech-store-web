@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
       formActions.classList.add('hidden');
       editProfileBtn.classList.remove('hidden');
     });
+    //LOG OUT
     
   });
   

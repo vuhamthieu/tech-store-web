@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Tải danh sách sản phẩm yêu thích từ API
     function loadWishlist() {
-        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get_favorites_products.php")
+        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products")
             .then(res => res.json())
             .then(data => {
                 if (data.success && Array.isArray(data.data)) {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Xóa một sản phẩm khỏi danh sách yêu thích
     function removeFavorite(productId, element) {
-        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove_favorite_product.php", {
+        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ product_id: productId })
@@ -128,6 +128,54 @@ document.addEventListener("DOMContentLoaded", function () {
             style: "currency",
             currency: "VND"
         }).format(value);
+    }
+      // === AVATAR UPLOAD ===
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+    const avatarImage = document.getElementById('avatarImage');
+  
+    changeAvatarBtn.addEventListener('click', function () {
+      avatarInput.click();
+    });
+  
+    avatarInput.addEventListener('change', function (e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        if (file.size > 2 * 1024 * 1024) return alert('Ảnh không được quá 2MB');
+        if (!file.type.match('image.*')) return alert('Chỉ chấp nhận ảnh');
+  
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          avatarImage.src = event.target.result;
+          uploadAvatarToServer(file);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    function uploadAvatarToServer(file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+  
+      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        body: formData
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert('Cập nhật ảnh thành công!');
+          } else {
+            alert('Lỗi: ' + result.message);
+          }
+        })
+        .catch(error => {
+          console.error('Upload avatar error:', error);
+          alert('Không thể tải lên ảnh đại diện!');
+        });
     }
 
     // Khởi động
