@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
     // === FETCH USER INFO ===
     function fetchUserData() {
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get_info_user', {
+      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-info-user', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
           birthday: document.getElementById('birthday').value
         };
   
-        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update_info_user', {
+        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-info-user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
   
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update_password_user', {
+      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-password-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -134,23 +134,104 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
   });
-
   // Submit review
   const reviewForm = document.getElementById("reviewForm");
-  reviewForm?.addEventListener("submit", function (e) {
+  reviewForm?.addEventListener("submit", async function (e) {
     e.preventDefault();
-    alert("Cảm ơn bạn đã đánh giá sản phẩm!");
-    this.reset();
-    stars.forEach((star) => star.classList.remove("active"));
-    ratingInput.value = "0";
 
-    const uploadPreview = document.querySelector(".upload-preview");
-    uploadPreview.innerHTML = `
-      <div class="upload-placeholder">
-        <i class="fas fa-camera"></i>
-        <span>Thêm ảnh</span>
-      </div>
-    `;
+    // Get the rating and comment
+    const rating = document.getElementById("reviewRating")?.value;
+    const comment = document.getElementById("reviewContent")?.value;
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    // Validate input
+    if (!rating || rating === "0") {
+      alert("Vui lòng chọn số sao đánh giá!");
+      return;
+    }
+
+    if (!comment?.trim()) {
+      alert("Vui lòng nhập nội dung đánh giá!");
+      return;
+    }
+
+    // Check if user is logged in and get token
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    console.log("Debug Info:", {
+      token: token,
+      user: user,
+      isLoggedIn: isLoggedIn,
+    });
+
+    if (!token) {
+      alert("Vui lòng đăng nhập để đánh giá sản phẩm!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      console.log("Request headers:", headers);
+
+      const requestBody = {
+        productId: productId,
+        rating: parseInt(rating),
+        comment: comment.trim(),
+      };
+      console.log("Request body:", requestBody);
+
+      const response = await fetch(
+        "http://localhost/webproject/tech-store-web/back-end/php/api/add-review",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      if (data.success) {
+        alert("Cảm ơn bạn đã đánh giá sản phẩm!");
+
+        // Reset form
+        this.reset();
+
+        // Reset stars
+        const stars = document.querySelectorAll(".rating-input .star");
+        stars?.forEach((star) => star.classList.remove("active"));
+        const ratingInput = document.getElementById("reviewRating");
+        if (ratingInput) {
+          ratingInput.value = "0";
+        }
+
+        // Reload reviews
+        if (productId) {
+          await loadReviews(productId);
+        }
+      } else {
+        if (data.message === "Token không hợp lệ hoặc đã hết hạn") {
+          console.log("Token validation failed. Current token:", token);
+          alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
+          localStorage.clear();
+          window.location.href = "login.html";
+        } else {
+          alert(data.error || "Có lỗi xảy ra khi gửi đánh giá!");
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Có lỗi xảy ra khi gửi đánh giá!");
+    }
   });
 
   // Helpful buttons
@@ -204,9 +285,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       gallery.forEach((imgObj, index) => {
         const thumbnailDiv = document.createElement("div");
         thumbnailDiv.className = "thumbnail" + (index === 0 ? " active" : "");
-        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${
-          imgObj.Thumbnail
-        }" alt="Ảnh ${index + 1}">`;
+        thumbnailDiv.innerHTML = `<img src="${imgObj.Thumbnail}" data-large="${imgObj.Thumbnail
+          }" alt="Ảnh ${index + 1}">`;
         galleryContainer.appendChild(thumbnailDiv);
       });
 
@@ -232,6 +312,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("soldCount").textContent = product.SoldCount || 0;
     document.getElementById("stockInfo").textContent = product.Stock || 0;
 
+    // Show average rating
+    // Show average rating in the review summary
+    // --- Update review summary section (already working) ---
+    const avgRating = product.Rating ? parseFloat(product.Rating) : 0;
+    const avgRatingSpan = document.getElementById("avg-rating");
+    const avgStarsDiv = document.getElementById("avg-stars");
+
+    if (avgRatingSpan) avgRatingSpan.textContent = avgRating.toFixed(1);
+    if (avgStarsDiv) avgStarsDiv.innerHTML = "★".repeat(Math.round(avgRating)) + "☆".repeat(5 - Math.round(avgRating));
+
+    // --- Update product meta section (lines 92-95) ---
+    const productStarsDiv = document.getElementById("productStars");
+    const ratingCountDiv = document.getElementById("ratingCount");
+    if (productStarsDiv) productStarsDiv.innerHTML = "★".repeat(Math.round(avgRating)) + "☆".repeat(5 - Math.round(avgRating));
+    if (ratingCountDiv) ratingCountDiv.textContent = `${product.TotalReviews || 0} đánh giá`;
     // Update variants
     const capacityContainer = document.querySelector("#capacityVariants");
     const colorContainer = document.querySelector("#colorVariants");
@@ -262,8 +357,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.querySelector("#description .description-content").innerHTML = `
   <h2 class="section-title">${product.Title}</h2>
   <div class="detailed-description">${(
-    product.Description || "Không có mô tả."
-  ).replace(/\n/g, "<br>")}</div>
+        product.Description || "Không có mô tả."
+      ).replace(/\n/g, "<br>")}</div>
 `;
 
     // Update specifications
@@ -294,6 +389,11 @@ async function loadReviews(productId) {
     );
     const reviews = await res.json();
 
+    const totalReviewsSpan = document.getElementById("total-reviews");
+    const ratingCountDiv = document.getElementById("ratingCount");
+    if (totalReviewsSpan) totalReviewsSpan.textContent = reviews.length;
+    if (ratingCountDiv) ratingCountDiv.textContent = `${reviews.length} đánh giá`;
+
     const reviewsList = document.querySelector(".reviews-list");
 
     if (!reviews || reviews.length === 0) {
@@ -313,49 +413,45 @@ async function loadReviews(productId) {
       reviewItem.innerHTML = `
         <div class="reviewer-info">
           <div class="reviewer-avatar">
-            <img src="${
-              review.Avatar || "https://via.placeholder.com/50x50"
-            }" alt="${review.FullName}">
+            <img src="${review.Avatar || "https://via.placeholder.com/50x50"
+        }" alt="${review.FullName}">
           </div>
           <div class="reviewer-details">
             <div class="reviewer-name">${review.FullName}</div>
             <div class="review-date">${new Date(
-              review.CreatedAt
-            ).toLocaleDateString("vi-VN")}</div>
+          review.CreatedAt
+        ).toLocaleDateString("vi-VN")}</div>
           </div>
         </div>
         <div class="review-content">
           <div class="review-rating">
             <div class="stars">${"★".repeat(review.Rating)}${"☆".repeat(
-        5 - review.Rating
-      )}</div>
+          5 - review.Rating
+        )}</div>
             <div class="review-title">${review.Title || ""}</div>
           </div>
           <div class="review-text">
             <p>${review.Comment}</p>
           </div>
-          ${
-            review.Images
-              ? `
+          ${review.Images
+          ? `
           <div class="review-images">
             ${review.Images.map(
-              (img) => `
+            (img) => `
               <div class="review-image">
                 <img src="${img}" alt="Hình ảnh đánh giá">
               </div>
             `
-            ).join("")}
+          ).join("")}
           </div>`
-              : ""
-          }
+          : ""
+        }
           <div class="review-helpful">
             <span class="helpful-text">Đánh giá này có hữu ích không?</span>
-            <button class="helpful-btn">Có (${
-              review.HelpfulCount || 0
-            })</button>
-            <button class="not-helpful-btn">Không (${
-              review.NotHelpfulCount || 0
-            })</button>
+            <button class="helpful-btn">Có (${review.HelpfulCount || 0
+        })</button>
+            <button class="not-helpful-btn">Không (${review.NotHelpfulCount || 0
+        })</button>
           </div>
         </div>
       `;
