@@ -15,7 +15,6 @@
         exit;
     }
 
-    // Xóa mềm: cập nhật IsDeleted = 1
     $stmt = $conn->prepare("UPDATE Products SET IsDeleted = 1 WHERE ProductID = ?");
     $stmt->bind_param("i", $productId);
 

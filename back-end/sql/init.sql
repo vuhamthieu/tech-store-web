@@ -45,7 +45,7 @@ CREATE TABLE Favorites (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
-    UNIQUE KEY (UserID, ProductID) -- Mỗi sản phẩm chỉ được yêu thích 1 lần bởi 1 user
+    UNIQUE KEY (UserID, ProductID)
 );
 
 -- Bảng Notifications
@@ -184,17 +184,17 @@ CREATE TABLE Reviews (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- Bảng Coupons: lưu thông tin mã giảm giá
+-- Bảng Coupons
 CREATE TABLE Coupons (
     CouponID INT PRIMARY KEY AUTO_INCREMENT,
-    Code VARCHAR(50) UNIQUE NOT NULL,                -- Mã giảm giá
-    DiscountType ENUM('percent','fixed') NOT NULL,    -- % hay tiền cố định
-    DiscountValue DECIMAL(10,2) NOT NULL,             -- 10 = 10% hoặc 10 = 10đ
-    MinOrderAmount DECIMAL(12,2) DEFAULT 0,           -- Đơn hàng tối thiểu
+    Code VARCHAR(50) UNIQUE NOT NULL,              
+    DiscountType ENUM('percent','fixed') NOT NULL,  
+    DiscountValue DECIMAL(10,2) NOT NULL,       
+    MinOrderAmount DECIMAL(12,2) DEFAULT 0,      
     MaxDiscountAmount DECIMAL(12,2) DEFAULT NULL,     -- Giới hạn giảm tối đa (chỉ với percent)
-    StartDate DATETIME NOT NULL,                      -- Bắt đầu hiệu lực
-    EndDate DATETIME NOT NULL,                        -- Hết hạn
-    UsageLimit INT DEFAULT NULL,                      -- Tổng số lần được dùng (NULL = không giới hạn)
+    StartDate DATETIME NOT NULL,                  
+    EndDate DATETIME NOT NULL,                     
+    UsageLimit INT DEFAULT NULL,                      -- NULL = không giới hạn
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -213,7 +213,7 @@ CREATE TABLE OrderCoupons (
     OrderCouponID INT PRIMARY KEY AUTO_INCREMENT,
     OrderID INT NOT NULL,
     CouponID INT NOT NULL,
-    DiscountApplied DECIMAL(12,2) NOT NULL,           -- Số tiền đã được giảm
+    DiscountApplied DECIMAL(12,2) NOT NULL,          
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
     UNIQUE (OrderID, CouponID)
@@ -224,7 +224,7 @@ CREATE TABLE CouponUsage (
     UsageID INT PRIMARY KEY AUTO_INCREMENT,
     CouponID INT NOT NULL,
     UserID INT NOT NULL,
-    OrderID INT,                                      -- có thể NULL nếu chỉ check, chưa đặt order
+    OrderID INT,                                    
     UsedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),

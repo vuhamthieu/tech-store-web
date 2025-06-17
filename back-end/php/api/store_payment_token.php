@@ -31,7 +31,6 @@
         exit;
     }
 
-    // Lưu vào bảng
     $stmt = $conn->prepare("INSERT INTO payment_tokens (Token, OrderID, UserID, Amount) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssii", $token, $orderId, $userId, $amount);
 

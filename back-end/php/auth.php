@@ -26,7 +26,6 @@
 
         $accessToken = $matches[1];
 
-        // Truy vấn kiểm tra token hợp lệ
         global $conn;
         $query = "SELECT Users.* FROM UserTokens 
                 JOIN Users ON UserTokens.UserID = Users.UserID

@@ -4,7 +4,6 @@
 
     $admin = authenticateAdmin();
 
-    // Lấy tất cả người dùng
     $query = "SELECT 
             UserID, 
             FullName, 

@@ -16,7 +16,6 @@
         exit;
     }
 
-    // Xác minh quyền sở hữu thông báo
     $checkQuery = "SELECT NotificationID FROM Notifications WHERE NotificationID = ? AND UserID = ?";
     $stmt = mysqli_prepare($conn, $checkQuery);
     mysqli_stmt_bind_param($stmt, "ii", $notificationId, $userId);
@@ -31,7 +30,6 @@
         exit;
     }
 
-    // Thực hiện xóa thông báo
     $deleteQuery = "DELETE FROM Notifications WHERE NotificationID = ? AND UserID = ?";
     $stmt = mysqli_prepare($conn, $deleteQuery);
     mysqli_stmt_bind_param($stmt, "ii", $notificationId, $userId);
