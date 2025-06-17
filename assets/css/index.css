@@ -20,7 +20,7 @@ header {
   top: 0;
   z-index: 100;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; /* 3 cột: logo | menu | auth/user */
+  grid-template-columns: 1fr auto 1fr; 
   align-items: center;
   border-bottom: 2px solid #ff4655;
   backdrop-filter: blur(10px);
@@ -715,3 +715,55 @@ section {
     gap: 30px;
   }
 }
+
+/* Thêm vào index.css */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+}
+
+.user-info:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.user-dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  z-index: 1000;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.user-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #ff4655;
+  color: #fff;
+}
+
+
