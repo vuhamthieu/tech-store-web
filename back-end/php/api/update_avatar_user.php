@@ -2,11 +2,9 @@
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth.php';
 
-    // Xác thực người dùng
     $user = authenticate();
     $userId = $user['UserID'];
 
-    // Đọc dữ liệu từ request body
     $data = json_decode(file_get_contents("php://input"), true);
     $avatar = $data['avatar'] ?? '';
 
@@ -18,7 +16,6 @@
         exit;
     }
 
-    // Cập nhật avatar trong bảng Users
     $query = "UPDATE Users SET Avatar = ? WHERE UserID = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "si", $avatar, $userId);

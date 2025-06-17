@@ -4,7 +4,6 @@
 
     $admin = authenticateAdmin(); // RoleID >= 2
 
-    // Lấy tất cả đơn hàng
     $query = "SELECT * FROM Orders ORDER BY OrderDate DESC";
     $result = mysqli_query($conn, $query);
 
@@ -13,7 +12,6 @@
     while ($order = mysqli_fetch_assoc($result)) {
         $orderId = $order['OrderID'];
 
-        // Lấy chi tiết sản phẩm trong đơn hàng
         $detailQuery = "
             SELECT od.OrderDetailID, od.ProductID, od.Quantity, od.UnitPrice,
                 p.Title, p.Thumbnail
@@ -36,7 +34,6 @@
         $orders[] = $order;
     }
 
-    // Trả về JSON
     echo json_encode([
         "success" => true,
         "data" => $orders

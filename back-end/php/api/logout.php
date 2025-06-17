@@ -5,7 +5,6 @@
     $user = authenticate();
     $userId = $user['UserID'];
 
-    // Lấy access token từ header
     $headers = getallheaders();
     if (!isset($headers['Authorization']) || 
         !preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {

@@ -4,7 +4,6 @@
 
     $admin = authenticateAdmin();
 
-    // Nhận dữ liệu từ FE
     $data = json_decode(file_get_contents("php://input"), true);
 
     $productId    = $data['product_id'] ?? null;
@@ -16,7 +15,6 @@
     $brand        = $data['brand'] ?? '';
     $thumbnail    = $data['thumbnail'] ?? '';
 
-    // Kiểm tra
     if (!$productId || !$title || $price <= 0) {
         echo json_encode([
             "success" => false,
@@ -42,7 +40,6 @@
         $stmt->close();
     }
 
-    // Cập nhật sản phẩm
     $stmt = $conn->prepare("UPDATE Products 
                             SET CategoryID = ?, Title = ?, Price = ?, Description = ?, Stock = ?, Brand = ?, Thumbnail = ?
                             WHERE ProductID = ?");

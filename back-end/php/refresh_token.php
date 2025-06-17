@@ -35,7 +35,6 @@
         exit;
     }
 
-    // Tạo access token mới
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $newAccessToken = bin2hex(random_bytes(32));
     $accessTokenExpiresAt = date('Y-m-d H:i:s', strtotime('+15 minutes'));

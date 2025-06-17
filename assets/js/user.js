@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const formData = new FormData();
       formData.append('avatar', file);
   
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update_avatar_user', {
+      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + token
@@ -289,6 +289,6 @@ document.addEventListener('DOMContentLoaded', function () {
       editProfileBtn.classList.remove('hidden');
     });
     //LOG OUT
-    
+
   });
   

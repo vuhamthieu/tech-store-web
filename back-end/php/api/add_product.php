@@ -4,7 +4,6 @@
 
     $admin = authenticateAdmin();
 
-    // Nhận dữ liệu từ FE
     $data = json_decode(file_get_contents("php://input"), true);
 
     $category   = $data['category'] ?? null;
@@ -32,7 +31,6 @@
         $stmt->close();
     }
 
-    // Kiểm tra dữ liệu bắt buộc
     if (!$title || $price <= 0) {
         echo json_encode([
             "success" => false,
@@ -41,7 +39,6 @@
         exit;
     }
 
-    // Thêm vào bảng Products
     $stmt = $conn->prepare("INSERT INTO Products (CategoryID, Title, Price, Description, Stock, Brand, Thumbnail) 
                             VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param(

@@ -17,7 +17,6 @@
         exit;
     }
 
-    // Thêm thông báo vào bảng
     $stmt = $conn->prepare("INSERT INTO Notifications (UserID, Title, Message) VALUES (?, ?, ?)");
     $stmt->bind_param("iss", $userId, $title, $message);
 

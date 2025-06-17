@@ -24,7 +24,6 @@
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    // Response
     if ($user = mysqli_fetch_assoc($result)) {
         if (password_verify($password, $user['Password'])) {
             unset($user['Password']);

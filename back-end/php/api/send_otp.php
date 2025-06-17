@@ -14,7 +14,6 @@
     $isEmail = filter_var($contact, FILTER_VALIDATE_EMAIL);
     $isPhone = preg_match('/^[0-9]{9,12}$/', $contact);
 
-    // Tìm user theo email hoặc phone
     $stmt = $conn->prepare("SELECT UserID FROM Users WHERE Email = ? OR Phone = ?");
     $stmt->bind_param("ss", $contact, $contact);
     $stmt->execute();
@@ -39,7 +38,6 @@
     $insert->bind_param("iss", $userId, $otp, $expiresAt);
     $insert->execute();
 
-    // Gửi OTP
     if ($isEmail) {
         if (sendOtpEmail($contact, $otp)) {
             echo json_encode(["success" => true, "message" => "Đã gửi OTP đến email.", "otp" => $otp]);

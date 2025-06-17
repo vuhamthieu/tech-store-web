@@ -57,7 +57,6 @@
         $params[] = $price_max;
     }
 
-    // Xây dựng chuỗi WHERE
     $where = count($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
 
     // Sắp xếp
