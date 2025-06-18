@@ -21,116 +21,119 @@
 
     <main class="container">
         <div class="profile-container">
-            <aside class="profile-sidebar">
-                <div class="user-info">
-                    <div class="avatar-container">
-                        <div class="avatar-wrapper">
-                            <img id="avatarImage" src="images/default-avatar.jpg" alt="User Avatar">
-                            <div class="avatar-overlay">
-                                <button class="change-avatar-btn" id="changeAvatarBtn">
-                                    <i class="fas fa-camera"></i> Đổi ảnh
-                                </button>
-                            </div>
-                        </div>
-                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+          <aside class="profile-sidebar">
+            <div class="user-info">
+                <div class="avatar-container">
+                  <div class="avatar-wrapper" id="avatarWrapper" style="cursor: pointer;">
+                    <!-- Avatar sẽ được cập nhật từ API hoặc localStorage -->
+                    <img id="avatarImage" src="../assets/img/logo.png" alt="Ảnh đại diện người dùng" title="Ảnh đại diện của bạn">
+                    <div class="avatar-overlay">
+                      <button type="button" class="change-avatar-btn" id="changeAvatarBtn">
+                        <i class="fas fa-camera"></i> Đổi ảnh
+                      </button>
                     </div>
-                    <h3 id="userName">Nguyễn Văn A</h3>
-                    <p id="memberSince">Thành viên từ: 7/2025</p>
+                  </div>
+                  <!-- Input upload ảnh (ẩn) -->
+                  <input type="file" id="avatarInput" accept="image/*" style="display: none;">
                 </div>
-
-                <nav class="profile-menu">
-                    <ul>
-                        <li class="active"><a href="../pages/user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
-                        <li><a href="../pages/product_of_user.html"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
-                        <li><a href="../pages/product-favorite.html"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
-                        <li><a href="../pages/notify.html"><i class="fas fa-bell"></i> Thông báo</a></li>
-                        <li><a href="../pages/index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <section class="profile-content">
-                <div class="profile-header">
-                    <h2 class="section-title">Thông tin cá nhân</h2>
-                    <button type="button" class="btn btn-edit" id="editProfileBtn">
-                        <i class="fas fa-edit"></i> Sửa
-                    </button>
+              
+                <!-- Thông tin người dùng -->
+                <h3 id="userName">Nguyễn Văn A</h3>
+                <p id="memberSince">Thành viên từ: 7/2025</p>
+              </div>
+      
+            <nav class="profile-menu">
+              <ul>
+                <li class="active"><a href="user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+                <li><a href="product_of_user.html"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
+                <li><a href="product-favorite.html"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
+                <li><a href="notify.html"><i class="fas fa-bell"></i> Thông báo</a></li>
+                <li><a href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+              </ul>
+            </nav>
+          </aside>
+      
+          <section class="profile-content">
+            <div class="profile-header">
+              <h2 class="section-title">Thông tin cá nhân</h2>
+              <button type="button" class="btn btn-edit" id="editProfileBtn">
+                <i class="fas fa-edit"></i> Sửa
+              </button>
+            </div>
+      
+            <form class="profile-form" id="profileForm">
+              <div class="form-group">
+                <label for="fullname">Họ và tên</label>
+                <input type="text" id="fullname" name="fullname" readonly>
+              </div>
+      
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" readonly>
                 </div>
-
-                <form class="profile-form" id="profileForm">
-                    <div class="form-group">
-                        <label for="fullname">Họ và tên</label>
-                        <input type="text" id="fullname" name="fullname" readonly>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="tel" id="phone" name="phone" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="gender">Giới tính</label>
-                            <select id="gender" name="gender" disabled>
-                                <option value="male">Nam</option>
-                                <option value="female">Nữ</option>
-                                <option value="other">Khác</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="birthday">Ngày sinh</label>
-                            <input type="date" id="birthday" name="birthday" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-actions hidden" id="formActions">
-                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
-                        <button type="button" class="btn btn-secondary" id="cancelEditBtn">Hủy bỏ</button>
-                    </div>
+                <div class="form-group">
+                  <label for="phone">Số điện thoại</label>
+                  <input type="tel" id="phone" name="phone" readonly>
+                </div>
+              </div>
+      
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="gender">Giới tính</label>
+                  <select id="gender" name="gender" disabled>
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                    <option value="other">Khác</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="birthday">Ngày sinh</label>
+                  <input type="date" id="birthday" name="birthday" readonly>
+                </div>
+              </div>
+      
+              <div class="form-actions hidden" id="formActions">
+                <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Hủy bỏ</button>
+              </div>
+            </form>
+      
+            <div class="security-section">
+              <h3><i class="fas fa-shield-alt"></i> Bảo mật tài khoản</h3>
+              <div class="security-item" id="passwordSection">
+                <div>
+                  <h4>Mật khẩu</h4>
+                  <p>••••••••</p>
+                </div>
+                <button class="btn btn-outline" id="changePasswordBtn">Đổi mật khẩu</button>
+              </div>
+      
+              <div class="change-password-form hidden" id="changePasswordForm">
+                <h4>Đổi mật khẩu</h4>
+                <form id="passwordForm">
+                  <div class="form-group">
+                    <label for="currentPassword">Mật khẩu hiện tại</label>
+                    <input type="password" id="currentPassword" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPassword">Mật khẩu mới</label>
+                    <input type="password" id="newPassword" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+                    <input type="password" id="confirmNewPassword" required>
+                  </div>
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu mật khẩu</button>
+                    <button type="button" class="btn btn-secondary" id="cancelChangePassword">Hủy bỏ</button>
+                  </div>
                 </form>
-
-                <div class="security-section">
-                    <h3><i class="fas fa-shield-alt"></i> Bảo mật tài khoản</h3>
-                    <div class="security-item" id="passwordSection">
-                        <div>
-                            <h4>Mật khẩu</h4>
-                            <p>••••••••</p>
-                        </div>
-                        <button class="btn btn-outline" id="changePasswordBtn">Đổi mật khẩu</button>
-                    </div>
-
-                    <div class="change-password-form hidden" id="changePasswordForm">
-                        <h4>Đổi mật khẩu</h4>
-                        <form id="passwordForm">
-                            <div class="form-group">
-                                <label for="currentPassword">Mật khẩu hiện tại</label>
-                                <input type="password" id="currentPassword" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="newPassword">Mật khẩu mới</label>
-                                <input type="password" id="newPassword" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
-                                <input type="password" id="confirmNewPassword" required>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Lưu mật khẩu</button>
-                                <button type="button" class="btn btn-secondary" id="cancelChangePassword">Hủy bỏ</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
+              </div>
+            </div>
+          </section>
         </div>
-    </main>
-
+      </main>
     <footer>
         <div class="container">
             <div class="footer-content">

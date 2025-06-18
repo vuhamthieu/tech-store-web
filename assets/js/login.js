@@ -62,6 +62,7 @@ document
 
       if (data.success) {
         localStorage.setItem("user", JSON.stringify(data.data));
+        
         localStorage.setItem("isLoggedIn", "true");
         window.location.href = "product.html";
       } else {

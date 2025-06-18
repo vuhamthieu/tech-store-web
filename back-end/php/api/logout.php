@@ -1,7 +1,7 @@
 <?php
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth.php';
-
+   
     $user = authenticate();
     $userId = $user['UserID'];
 
