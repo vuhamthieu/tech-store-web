@@ -60,14 +60,30 @@ document
 
       const data = await res.json();
 
+      // ... existing code ...
       if (data.success) {
+        // Make sure data.access_token exists and is not undefined
+        if (!data.access_token) {
+          console.error('No token received from server');
+          alert('Đăng nhập thất bại: Không nhận được token');
+          return;
+        }
+
+        // Store the token
+        localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.data));
         
         localStorage.setItem("isLoggedIn", "true");
+
+        console.log('Login successful!');
+        console.log('Stored token:', data.access_token);
+        console.log('Stored user:', data.data);
+
         window.location.href = "product.html";
       } else {
         alert(data.message || "Đăng nhập thất bại!");
       }
+      // ... existing code ...
     } catch (error) {
       alert("Lỗi kết nối server!");
     } finally {

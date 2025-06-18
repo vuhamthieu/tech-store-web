@@ -15,17 +15,17 @@
     $path = trim($path, '/');
 
     switch ($path) {
-        //đăng nhập
+        //đăng nhập
         case 'api/login':   
             require 'api/login.php';
             break;
 
-        //đăng ký
+        //đăng ký
         case 'api/register':
             require 'api/register.php';
             break;
 
-        //đăng xuất
+        //đăng xuất
         case 'api/logout':
             require 'api/logout.php';
             break;
@@ -35,7 +35,7 @@
             require 'api/send_otp.php';
             break;
 
-        //cập nhật mật khâu
+        //cập nhật mật khẩu
         case 'api/reset-password':
             require 'api/reset_password.php';
             break;
@@ -75,7 +75,7 @@
             require 'api/remove_from_cart.php';
             break;
 
-        //câp nhật số lượng trong giỏ hàng
+        //cập nhật số lượng trong giỏ hàng
         case 'api/update-cart-quantity':
             require 'api/update_cart_quantity.php';
             break;
@@ -90,7 +90,7 @@
             require 'api/use_coupon.php';
             break;
 
-        //lấy thống tin người dùng
+        //lấy thông tin người dùng
         case 'api/get-info-user':
             require 'api/get_info_user.php';
             break;
@@ -175,7 +175,7 @@
             require 'api/mark_noti_is_read.php';
             break;
         
-        //lấy thống tin tổng quan dashboard
+        //lấy thông tin tổng quan dashboard
         case 'api/get-dashboard-overview':
             require 'api/get_dashboard_overview.php';
             break;

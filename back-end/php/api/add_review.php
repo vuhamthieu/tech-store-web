@@ -19,6 +19,13 @@
     $stmt->bind_param("iiis", $productId, $userId, $rating, $comment);
 
     if ($stmt->execute()) {
+        $updateStmt = $conn->prepare("
+            UPDATE Products 
+            SET Rating = (SELECT AVG(Rating) FROM Reviews WHERE ProductID = ?)
+            WHERE ProductID = ?
+        ");
+        $updateStmt->bind_param("ii", $productId, $productId);
+        $updateStmt->execute();
         echo json_encode(["success" => true, "message" => "Đánh giá đã được thêm"]);
     } else {
         echo json_encode(["error" => "Không thể thêm đánh giá"]);
