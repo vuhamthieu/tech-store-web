@@ -289,6 +289,45 @@ document.addEventListener('DOMContentLoaded', function () {
       editProfileBtn.classList.remove('hidden');
     });
     //LOG OUT
-
+    document.addEventListener("DOMContentLoaded", function () {
+      const logoutBtn = document.getElementById("logoutBtn");
+    
+      logoutBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Ngăn chuyển trang ngay lập tức
+    
+        const token = localStorage.getItem("accessToken"); // Lấy access token từ localStorage
+    
+        if (!token) {
+          alert("Bạn chưa đăng nhập!");
+          window.location.href = "../pages/login.html"; // Hoặc trang chính
+          return;
+        }
+    
+        fetch("http://localhost/webproject/tech-store-web/back-end/php/logout.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Xoá token khỏi localStorage
+            localStorage.removeItem("accessToken");
+    
+            alert("Đăng xuất thành công!");
+            window.location.href = "../pages/login.html"; // Hoặc trang chính
+          } else {
+            alert("Đăng xuất thất bại: " + data.message);
+          }
+        })
+        .catch(error => {
+          console.error("Lỗi đăng xuất:", error);
+          alert("Đã xảy ra lỗi trong quá trình đăng xuất.");
+        });
+      });
+    });
+    
   });
   
