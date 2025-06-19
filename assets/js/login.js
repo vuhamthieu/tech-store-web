@@ -46,8 +46,9 @@ document
       loginBtn.disabled = true;
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
+      console.log('Sending login request...');
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login.php",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,9 +59,28 @@ document
         }
       );
 
-      const data = await res.json();
+      console.log('Response status:', res.status);
+      console.log('Response headers:', res.headers);
 
-      // ... existing code ...
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const responseText = await res.text();
+      console.log('Raw response:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        console.error('Response text:', responseText);
+        alert('Lỗi phản hồi từ server!');
+        return;
+      }
+
+      console.log('Parsed response:', data);
+
       if (data.success) {
         // Make sure data.access_token exists and is not undefined
         if (!data.access_token) {
@@ -72,7 +92,7 @@ document
         // Store the token
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.data));
-        
+
         localStorage.setItem("isLoggedIn", "true");
 
         console.log('Login successful!');
@@ -83,9 +103,9 @@ document
       } else {
         alert(data.message || "Đăng nhập thất bại!");
       }
-      // ... existing code ...
     } catch (error) {
-      alert("Lỗi kết nối server!");
+      console.error('Login error:', error);
+      alert("Lỗi kết nối server: " + error.message);
     } finally {
       loginBtn.disabled = false;
       loginBtn.textContent = originalText;
