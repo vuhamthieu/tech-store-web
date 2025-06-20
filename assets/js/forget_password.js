@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/send-otp', {
+        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contact })
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
     
-        fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/send-otp', {
+        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contact })
@@ -163,7 +163,7 @@ resetPasswordForm.addEventListener('submit', function (e) {
     }
 
     // Gửi yêu cầu cập nhật mật khẩu
-    fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/reset-password', {
+    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
