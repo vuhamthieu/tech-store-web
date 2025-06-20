@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('memberSince').textContent =
               'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
           }
+          const userObj = JSON.parse(localStorage.getItem('user') || '{}');
+          if (userObj.Avatar) {
+            document.getElementById('avatarImage').src = 'http://localhost/webproject/tech-store-web/assets/img/' + userObj.Avatar;
+          }
         } else {
           alert('Không thể tải thông tin người dùng: ' + data.message);
         }
@@ -121,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(result => {
           if (result.success) {
             alert('Cập nhật ảnh thành công!');
+            // Update localStorage user object
+            let user = JSON.parse(localStorage.getItem('user') || '{}');
+            user.Avatar = result.avatar; // or user.avatar if you use lowercase
+            localStorage.setItem('user', JSON.stringify(user));
+            location.reload(); // Optional: reload to update avatar everywhere
           } else {
             alert('Lỗi: ' + result.message);
           }
