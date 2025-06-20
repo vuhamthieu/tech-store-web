@@ -208,4 +208,74 @@ document.addEventListener('DOMContentLoaded', function () {
       location.reload(); // Reload lại trang sau logout
     }
   });
+
+  const changePasswordBtn = document.getElementById('changePasswordBtn');
+  const changePasswordForm = document.getElementById('changePasswordForm');
+  const cancelChangePasswordBtn = document.getElementById('cancelChangePassword');
+
+  if (changePasswordBtn && changePasswordForm) {
+    changePasswordBtn.addEventListener('click', function () {
+      changePasswordForm.classList.remove('hidden');
+      changePasswordBtn.classList.add('hidden');
+    });
+  }
+
+  if (cancelChangePasswordBtn && changePasswordForm && changePasswordBtn) {
+    cancelChangePasswordBtn.addEventListener('click', function () {
+      changePasswordForm.classList.add('hidden');
+      changePasswordBtn.classList.remove('hidden');
+    });
+  }
+
+  // === CHANGE PASSWORD ===
+  const passwordForm = document.getElementById('passwordForm');
+  if (passwordForm) {
+    passwordForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+      if (!currentPassword || !newPassword || !confirmNewPassword) {
+        alert('Vui lòng nhập đầy đủ thông tin!');
+        return;
+      }
+      if (newPassword !== confirmNewPassword) {
+        alert('Mật khẩu mới và xác nhận không khớp!');
+        return;
+      }
+      if (newPassword.length < 6) {
+        alert('Mật khẩu mới phải có ít nhất 6 ký tự!');
+        return;
+      }
+
+      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-password-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword
+        })
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert('Đổi mật khẩu thành công!');
+            passwordForm.reset();
+            document.getElementById('changePasswordForm').classList.add('hidden');
+            document.getElementById('changePasswordBtn').classList.remove('hidden');
+          } else {
+            alert('Thất bại: ' + result.message);
+          }
+        })
+        .catch(error => {
+          console.error('Lỗi:', error);
+          alert('Không thể đổi mật khẩu!');
+        });
+    });
+  }
 });
