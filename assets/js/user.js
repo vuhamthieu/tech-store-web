@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
   
-<<<<<<< HEAD
 
   const avatarInput = document.getElementById('avatarInput');
   const changeAvatarBtn = document.getElementById('changeAvatarBtn');
@@ -20,7 +19,6 @@ const mobileMenu = document.querySelector('.mobile-menu');
 if (mobileMenuToggle && mobileMenu) {
   mobileMenuToggle.addEventListener('click', function () {
     mobileMenu.classList.toggle('active');
-=======
     // === CART COUNT ===
     const cartIcon = document.querySelector('.cart-icon');
     if (cartIcon) {
@@ -342,7 +340,6 @@ if (mobileMenuToggle && mobileMenu) {
       });
     });
     
->>>>>>> ef096354bc59073a4ecc063be94635567f066923
   });
 }
 
