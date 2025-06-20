@@ -704,6 +704,12 @@ body {
     color: #333;
 }
 
+.reviews-list .review-item {
+    display: block;
+    width: 100%;
+    max-width: none;
+}
+
 .load-more-reviews {
     text-align: center;
     margin-top: 30px;

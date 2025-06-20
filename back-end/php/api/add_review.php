@@ -15,6 +15,17 @@ if ($productId <= 0 || $userId <= 0 || $rating < 1 || $rating > 5) {
     exit;
 }
 
+// Check if user has already reviewed this product
+$checkStmt = $conn->prepare("SELECT ReviewID FROM Reviews WHERE ProductID = ? AND UserID = ?");
+$checkStmt->bind_param("ii", $productId, $userId);
+$checkStmt->execute();
+$result = $checkStmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo json_encode(["error" => "Bạn đã đánh giá sản phẩm này rồi."]);
+    exit;
+}
+
 $stmt = $conn->prepare("INSERT INTO Reviews (ProductID, UserID, Rating, Comment) VALUES (?, ?, ?, ?)");
 $stmt->bind_param("iiis", $productId, $userId, $rating, $comment);
 
