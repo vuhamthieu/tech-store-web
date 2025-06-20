@@ -23,13 +23,25 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         if (data.success) {
           const user = data.data;
-          fullnameInput.value = user.fullname;
-          emailInput.value = user.email;
-          phoneInput.value = user.phone;
-          genderSelect.value = user.gender;
-          birthdayInput.value = user.birthday;
-          if (user.avatar) {
-            avatarImage.src = 'http://localhost/webproject/tech-store-web/assets/img/' + user.avatar;
+          fullnameInput.value = user.FullName;
+          emailInput.value = user.Email;
+          phoneInput.value = user.Phone;
+          genderSelect.value = user.Gender;
+          if (user.Birthday) {
+            birthdayInput.value = user.Birthday;
+          }
+          if (user.Avatar) {
+            avatarImage.src = 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar;
+          }
+          document.getElementById('userName').textContent = user.FullName;
+          if (user.CreatedAt) {
+            const date = new Date(user.CreatedAt);
+            document.getElementById('memberSince').textContent =
+              'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
+          }
+          const userObj = JSON.parse(localStorage.getItem('user') || '{}');
+          if (userObj.Avatar) {
+            document.getElementById('avatarImage').src = 'http://localhost/webproject/tech-store-web/assets/img/' + userObj.Avatar;
           }
         } else {
           alert('Không thể tải thông tin người dùng: ' + data.message);
@@ -48,10 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
     profileForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const formData = {
-        fullname: fullnameInput.value,
+        full_name: fullnameInput.value,
         phone: phoneInput.value,
         gender: genderSelect.value,
-        birthday: birthdayInput.value
+        birthday: birthdayInput.value,
+        email: emailInput.value
       };
 
       fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-info-user', {
@@ -112,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(result => {
           if (result.success) {
             alert('Cập nhật ảnh thành công!');
+            // Update localStorage user object
+            let user = JSON.parse(localStorage.getItem('user') || '{}');
+            user.Avatar = result.avatar; // or user.avatar if you use lowercase
+            localStorage.setItem('user', JSON.stringify(user));
+            location.reload(); // Optional: reload to update avatar everywhere
           } else {
             alert('Lỗi: ' + result.message);
           }

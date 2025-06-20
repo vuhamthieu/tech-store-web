@@ -9,14 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const userEmailOrPhoneSpan = document.getElementById('userEmailOrPhone');
     const resendOtpLink = document.getElementById('resendOtp');
+    const backBtn = document.getElementById('backToStep1');
 
+    let otp = null;
     let contact = '';
-    let otp = '';
-
+ 
+    function autoFillOtp(otpValue) {
+        otpValue = String(otpValue);  // Ép kiểu ở đây ✅
+    
+        if (!otpValue || otpValue.length !== 6) return;
+    
+        const otpInputs = document.querySelectorAll('.otp-input');
+        for (let i = 0; i < 6; i++) {
+            otpInputs[i].value = otpValue.charAt(i);
+        }
+    }
     // Bước 1: Gửi OTP
     requestOtpForm.addEventListener('submit', function (e) {
         e.preventDefault();
-
         contact = document.getElementById('emailOrPhone').value.trim();
 
         if (!contact) {
@@ -24,32 +34,53 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
+        fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/send-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contact })
         })
         .then(res => res.json())
         .then(data => {
-            if (data.success) {
-                otp = data.otp; // Lưu OTP để xác minh ở bước 3
-                userEmailOrPhoneSpan.textContent = contact;
-                step1.classList.add('hidden');
-                step2.classList.remove('hidden');
-            } else {
-                alert(data.message || 'Không thể gửi OTP.');
-            }
+            otp = data.otp ?? null;
+            console.log('OTP từ server (debug):', otp);
+            // ✅ Hiện OTP bằng alert
+               
+            // Dù gửi được hay không vẫn chuyển bước, in thông báo
+            alert(data.message || 'Đã xử lý yêu cầu OTP.');
+            userEmailOrPhoneSpan.textContent = contact;
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            setTimeout(() => {
+                if (otp) {
+                    alert(`Mã OTP (test): ${otp}`);
+                }
+            }, 500); // delay 500ms cho DOM cập nhật xong
+               // Đợi giao diện cập nhật xong
+    setTimeout(() => {
+       
+        autoFillOtp(otp);
+    }, 1000); // chờ 1 giây
+           
         })
+        
         .catch(err => {
-            console.error(err);
+            console.error('Lỗi khi gửi OTP:', err);
             alert('Lỗi kết nối máy chủ.');
         });
     });
 
+    // Quay lại bước 1
+    if (backBtn) {
+        backBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            step2.classList.add('hidden');
+            step1.classList.remove('hidden');
+        });
+    }
+
     // Bước 2: Nhập OTP
     verifyOtpForm.addEventListener('submit', function (e) {
         e.preventDefault();
-
         const otpInputs = document.querySelectorAll('.otp-input');
         const enteredOtp = Array.from(otpInputs).map(input => input.value).join('');
 
@@ -58,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (enteredOtp !== otp) {
+        if (enteredOtp !== String(otp)) {
             alert('OTP không đúng.');
             return;
         }
@@ -70,24 +101,35 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gửi lại OTP
     resendOtpLink.addEventListener('click', function (e) {
         e.preventDefault();
-
+    
         if (!contact) {
             alert('Thiếu thông tin người dùng.');
             return;
         }
-
-        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
+    
+        fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/send-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contact })
         })
         .then(res => res.json())
         .then(data => {
-            if (data.success) {
-                otp = data.otp;
-                alert('Đã gửi lại mã OTP.');
-            } else {
-                alert(data.message || 'Gửi lại OTP thất bại.');
+            otp = data.otp ?? null;
+            console.log("OTP mới từ server:", otp);
+    
+            
+                if (otp) {
+                    alert(`Mã OTP mới (test): ${otp}`);
+                }
+                setTimeout(() => {
+       
+                    autoFillOtp(otp);
+                }, 1000); // chờ 1 giây
+                
+    
+            // ✅ Có thể thông báo gửi lại thành công bên dưới hoặc bỏ nếu không cần
+            if (data.message) {
+                console.log(data.message); // hoặc alert nếu bạn vẫn muốn
             }
         })
         .catch(err => {
@@ -95,65 +137,58 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Lỗi kết nối khi gửi lại OTP.');
         });
     });
-    // Bước 3: Đặt lại mật khẩu
-    resetPasswordForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+    
 
-        const newPassword = document.getElementById('newPassword').value.trim();
-        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+   // Bước 3: Đặt lại mật khẩu
+resetPasswordForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-        const passwordValid =
-            newPassword.length >= 8 &&
-            /\d/.test(newPassword) &&
-            /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+    const newPassword = document.getElementById('newPassword').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
-        if (!passwordValid) {
-            alert('Mật khẩu không đủ mạnh. Vui lòng kiểm tra lại.');
-            return;
-        }
+    // Kiểm tra điều kiện mật khẩu
+    const passwordValid =
+        newPassword.length >= 8 &&
+        /\d/.test(newPassword) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
-        if (newPassword !== confirmPassword) {
-            alert('Mật khẩu xác nhận không khớp.');
-            return;
-        }
+    if (!passwordValid) {
+        alert('Mật khẩu không đủ mạnh. Vui lòng kiểm tra lại:\n- Tối thiểu 8 ký tự\n- Ít nhất 1 số\n- Ít nhất 1 ký tự đặc biệt');
+        return;
+    }
 
-        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/reset-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contact: contact,
-                otp: otp,
-                newPassword: newPassword
-            })
+    if (newPassword !== confirmPassword) {
+        alert('Mật khẩu xác nhận không khớp.');
+        return;
+    }
+
+    // Gửi yêu cầu cập nhật mật khẩu
+    fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            contact: contact,
+            otp: otp,
+            newPassword: newPassword
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                alert('Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.');
-                window.location.href = 'login.html';
-            } else {
-                alert(data.message || 'Đặt lại mật khẩu thất bại.');
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Lỗi kết nối máy chủ.');
-        });
+    })
+    .then(res => {
+        // Kiểm tra HTTP status
+        if (!res.ok) throw new Error(`Lỗi HTTP ${res.status}`);
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('✅ Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.');
+            window.location.href = 'login.html';
+        } else {
+            alert(`❌ ${data.message || 'Đặt lại mật khẩu thất bại.'}`);
+        }
+    })
+    .catch(err => {
+        console.error('Lỗi kết nối hoặc xử lý:', err);
+        alert('❌ Không thể kết nối đến máy chủ. Vui lòng thử lại sau.');
     });
+});
 
-    // Tự động chuyển focus giữa các ô nhập OTP
-    const otpInputs = document.querySelectorAll('.otp-input');
-    otpInputs.forEach((input, index) => {
-        input.addEventListener('input', () => {
-            if (input.value && index < otpInputs.length - 1) {
-                otpInputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && !input.value && index > 0) {
-                otpInputs[index - 1].focus();
-            }
-        });
-    });
 });
