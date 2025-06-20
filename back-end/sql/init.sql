@@ -19,7 +19,7 @@ CREATE TABLE Users (
     Avatar VARCHAR(500) DEFAULT NULL,
     RoleID INT NOT NULL,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    IsDisabled TINYINT DEFAULT 0 COMMENT '0: Active, 1: Disabled'
+    IsDisabled TINYINT DEFAULT 0 COMMENT '0: Active, 1: Disabled',
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
 
@@ -118,8 +118,7 @@ CREATE TABLE Gallery (
     GalleryID INT PRIMARY KEY AUTO_INCREMENT,
     ProductID INT NOT NULL,
     Thumbnail VARCHAR(500) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
-    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID)
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
 -- Bảng Giỏ hàng
@@ -146,7 +145,7 @@ CREATE TABLE Orders (
     OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     TotalAmount DECIMAL(12, 2) NOT NULL,
     Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved',
-    PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid'
+    PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid',
     PaymentMethod VARCHAR(50),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
