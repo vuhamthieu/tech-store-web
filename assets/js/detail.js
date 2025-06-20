@@ -413,7 +413,9 @@ async function loadReviews(productId) {
       reviewItem.innerHTML = `
         <div class="reviewer-info">
           <div class="reviewer-avatar">
-            <img src="${review.Avatar || "https://via.placeholder.com/50x50"
+            <img src="${review.Avatar
+          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
+          : 'https://via.placeholder.com/50x50'
         }" alt="${review.FullName}">
           </div>
           <div class="reviewer-details">
