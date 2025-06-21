@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // Hàm kiểm tra token
 async function verifyToken(token) {
   try {
-    const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/verify-token', {
+    const res = await fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

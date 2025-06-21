@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log("Request body:", requestBody);
 
       const response = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add-review",
+        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-review",
         {
           method: "POST",
           headers: headers,
@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
     );
     const data = await res.json();
 
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
     const reviews = await res.json();
 
@@ -414,7 +414,7 @@ async function loadReviews(productId) {
         <div class="reviewer-info">
           <div class="reviewer-avatar">
             <img src="${review.Avatar
-          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
+          ? 'http://localhost:8080/webproject/tech-store-web/assets/img/' + review.Avatar
           : 'https://via.placeholder.com/50x50'
         }" alt="${review.FullName}">
           </div>
@@ -516,7 +516,7 @@ document
 
     try {
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
+        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-to-cart",
         {
           method: "POST",
           headers: {
