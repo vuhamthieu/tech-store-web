@@ -480,9 +480,11 @@ document
 
     // Lấy user từ localStorage
     const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = localStorage.getItem("token") || user.accessToken;
     const userId = user.UserID || user.id || 0;
     if (!userId) {
       alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+      window.location.href = 'login.html';
       return;
     }
 
@@ -499,20 +501,18 @@ document
 
     // Lấy variantId nếu có
     let options = "";
-    if (window.variants && window.variants.length > 0) {
-      const selectedCapacity = document.querySelector(
-        "#capacityVariants .variant-option.selected"
-      );
-      const selectedColor = document.querySelector(
-        "#colorVariants .variant-option.selected"
-      );
-      options = [
-        selectedCapacity ? selectedCapacity.textContent : "",
-        selectedColor ? selectedColor.textContent : "",
-      ]
-        .filter(Boolean)
-        .join(", ");
-    }
+    const selectedCapacity = document.querySelector(
+      "#capacityVariants .variant-option.selected"
+    );
+    const selectedColor = document.querySelector(
+      "#colorVariants .variant-option.selected"
+    );
+    options = [
+      selectedCapacity ? selectedCapacity.textContent : "",
+      selectedColor ? selectedColor.textContent : "",
+    ]
+      .filter(Boolean)
+      .join(", ");
 
     try {
       const res = await fetch(
@@ -520,14 +520,13 @@ document
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${user.accessToken || user.token || ""}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: new URLSearchParams({
-            userId,
-            productId,
-            quantity,
-            options,
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity,
+            options: options,
           }),
         }
       );
