@@ -53,8 +53,32 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Buy now button
   const buyNowBtn = document.querySelector(".buy-now");
-  buyNowBtn?.addEventListener("click", function () {
-    alert("Chuyển đến trang thanh toán!");
+  buyNowBtn?.addEventListener("click", function (e) {
+    e.preventDefault();
+    // Gather product info as in your add-to-cart logic
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = localStorage.getItem("token") || user.accessToken;
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+    const quantity = Number(document.getElementById("productQty").value) || 1;
+    let options = "";
+    const selectedCapacity = document.querySelector("#capacityVariants .variant-option.selected");
+    const selectedColor = document.querySelector("#colorVariants .variant-option.selected");
+    options = [
+      selectedCapacity ? selectedCapacity.textContent : "",
+      selectedColor ? selectedColor.textContent : "",
+    ].filter(Boolean).join(", ");
+
+    const product = {
+      product_id: productId,
+      name: document.getElementById("productTitle").textContent,
+      image: document.getElementById("mainProductImage").src,
+      price: Number(document.getElementById("currentPrice").textContent.replace(/[^\d]/g, "")),
+      quantity: quantity,
+      options: options
+    };
+    localStorage.setItem("checkout", JSON.stringify([product]));
+    window.location.href = "checkout.html";
   });
 
   // Rating stars
