@@ -23,40 +23,28 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         if (data.success) {
           const user = data.data;
-
-          // Only set form values if elements exist (for profile page)
-          if (fullnameInput) fullnameInput.value = user.FullName;
-          if (emailInput) emailInput.value = user.Email;
-          if (phoneInput) phoneInput.value = user.Phone;
-          if (genderSelect) genderSelect.value = user.Gender;
-          if (birthdayInput && user.Birthday) {
+          fullnameInput.value = user.FullName;
+          emailInput.value = user.Email;
+          phoneInput.value = user.Phone;
+          genderSelect.value = user.Gender;
+          if (user.Birthday) {
             birthdayInput.value = user.Birthday;
           }
-
-          // Set user info for any page
-          const userNameElement = document.getElementById('userName');
-          if (userNameElement) {
-            userNameElement.textContent = user.FullName;
+          if (user.Avatar) {
+            avatarImage.src = 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar;
           }
-
+          document.getElementById('userName').textContent = user.FullName;
           if (user.CreatedAt) {
             const date = new Date(user.CreatedAt);
-            const memberSinceElement = document.getElementById('memberSince');
-            if (memberSinceElement) {
-              memberSinceElement.textContent = 'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
-            }
+            document.getElementById('memberSince').textContent =
+              'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
           }
-
-          // Set avatar
-          const avatarImageElement = document.getElementById('avatarImage');
-          if (avatarImageElement && user.Avatar) {
-            avatarImageElement.src = 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar;
+          const userObj = JSON.parse(localStorage.getItem('user') || '{}');
+          if (userObj.Avatar) {
+            document.getElementById('avatarImage').src = 'http://localhost/webproject/tech-store-web/assets/img/' + userObj.Avatar;
           }
-
-          // Update localStorage
-          localStorage.setItem('user', JSON.stringify(user));
         } else {
-          console.error('Không thể tải thông tin người dùng: ' + data.message);
+          alert('Không thể tải thông tin người dùng: ' + data.message);
         }
       })
       .catch(error => {

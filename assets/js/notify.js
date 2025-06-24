@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
        fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
          method: 'POST',
          headers: {
-           'Authorization': 'Bearer ' + token
+           'Authorization': 'Bearer ' + localStorage.getItem("access_token")
          },
          body: formData
        })
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener("click", function (e) {
           e.preventDefault(); // Ngăn chuyển trang ngay lập tức
       
-          const token = localStorage.getItem("accessToken"); // Lấy access token từ localStorage
+          const token = localStorage.getItem("access_token"); // Lấy access token từ localStorage
       
           if (!token) {
             alert("Bạn chưa đăng nhập!");
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .then(data => {
             if (data.success) {
               // Xoá token khỏi localStorage
-              localStorage.removeItem("accessToken");
+              localStorage.removeItem("access_token");
       
               alert("Đăng xuất thành công!");
               window.location.href = "../pages/login.html"; // Hoặc trang chính
