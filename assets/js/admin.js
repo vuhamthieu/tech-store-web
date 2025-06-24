@@ -8,31 +8,31 @@ async function fetchData(endpoint) {
 
 // Load dashboard data
 async function loadDashboard() {
-  const data = await fetchData("dashboard");
-  if (data) {
-    document.getElementById("totalOrders").textContent =
-      data.totalOrders.toLocaleString();
-    document.getElementById(
-      "totalRevenue"
-    ).textContent = `₫${data.totalRevenue.toLocaleString()}`;
-    document.getElementById("totalCustomers").textContent =
-      data.totalCustomers.toLocaleString();
-    document.getElementById("totalProducts").textContent =
-      data.totalProducts.toLocaleString();
+  const token = localStorage.getItem("access_token");
+  const res = await fetch("../back-end/php/api/get-dashboard-overview", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (result.success && result.overview) {
+    const data = result.overview;
+    document.getElementById("totalOrders").textContent = data.total_orders;
+    document.getElementById("totalRevenue").textContent = `₫${data.monthly_revenue.toLocaleString()}`;
+    document.getElementById("totalCustomers").textContent = data.total_customers;
+    document.getElementById("totalProducts").textContent = data.total_products;
 
     let html = "";
-    data.recentOrders.forEach((order) => {
+    data.recent_orders.forEach(order => {
       html += `
-                        <tr>
-                            <td>${order.id}</td>
-                            <td>${order.customer}</td>
-                            <td>${order.date}</td>
-                            <td class="text-red">₫${order.total.toLocaleString()}</td>
-                            <td><span class="status ${order.status}">${
-        order.status === "approved" ? "Đã duyệt" : "Chờ xử lý"
-      }</span></td>
-                        </tr>
-                    `;
+        <tr>
+          <td>${order.order_id}</td>
+          <td>${order.customer}</td>
+          <td>${order.order_date}</td>
+          <td class="text-red">₫${order.total.toLocaleString()}</td>
+          <td><span class="status ${order.status === 1 ? "approved" : "pending"}">
+            ${order.status === 1 ? "Đã duyệt" : "Chờ xử lý"}
+          </span></td>
+        </tr>
+      `;
     });
     document.querySelector("#recentOrders tbody").innerHTML = html;
   }
@@ -40,29 +40,29 @@ async function loadDashboard() {
 
 // Load orders data
 async function loadOrders() {
-  const orders = await fetchData("orders");
-  if (orders) {
+  const token = localStorage.getItem("access_token");
+  const res = await fetch("../back-end/php/api/get-all-orders", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (result.success && Array.isArray(result.data)) {
     let html = "";
-    orders.forEach((order) => {
+    result.data.forEach(order => {
       html += `
-                        <tr>
-                            <td>${order.id}</td>
-                            <td>${order.customer}</td>
-                            <td>${order.date}</td>
-                            <td class="text-red">₫${order.total.toLocaleString()}</td>
-                            <td><span class="status ${order.status}">${
-        order.status === "approved" ? "Đã duyệt" : "Chờ xử lý"
-      }</span></td>
-                            <td>
-                                <button class="btn btn-success btn-sm">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+        <tr>
+          <td>${order.OrderID}</td>
+          <td>${order.ShippingName}</td>
+          <td>${order.OrderDate}</td>
+          <td class="text-red">₫${order.TotalAmount.toLocaleString()}</td>
+          <td><span class="status ${order.Status === 1 ? "approved" : "pending"}">
+            ${order.Status === 1 ? "Đã duyệt" : "Chờ xử lý"}
+          </span></td>
+          <td>
+            <button class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
+            <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+          </td>
+        </tr>
+      `;
     });
     document.querySelector("#ordersTable tbody").innerHTML = html;
   }
@@ -70,26 +70,26 @@ async function loadOrders() {
 
 // Load product data
 async function loadProducts() {
-  const products = await fetchData("products");
-  if (products) {
+  const token = localStorage.getItem("access_token");
+  const res = await fetch("../back-end/php/api/get-all-products", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (result.success && Array.isArray(result.data)) {
     let html = "";
-    products.forEach((product) => {
+    result.data.forEach(product => {
       html += `
-                        <tr>
-                            <td>${product.id}</td>
-                            <td>${product.name}</td>
-                            <td class="text-red">₫${product.price.toLocaleString()}</td>
-                            <td>${product.stock}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+        <tr>
+          <td>${product.ProductID}</td>
+          <td>${product.Title}</td>
+          <td class="text-red">₫${parseFloat(product.Price).toLocaleString()}</td>
+          <td>${product.Stock}</td>
+          <td>
+            <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      `;
     });
     document.querySelector("#productsTable tbody").innerHTML = html;
   }
@@ -97,19 +97,23 @@ async function loadProducts() {
 
 // Load user data
 async function loadUsers() {
-  const users = await fetchData("users");
-  if (users) {
+  const token = localStorage.getItem("access_token");
+  const res = await fetch("../back-end/php/api/get-all-users", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (result.success && Array.isArray(result.data)) {
     let html = "";
-    users.forEach((user) => {
+    result.data.forEach(user => {
       html += `
-                        <tr>
-                            <td>${user.id}</td>
-                            <td>${user.name}</td>
-                            <td>${user.email}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.joinDate}</td>
-                        </tr>
-                    `;
+        <tr>
+          <td>${user.user_id}</td>
+          <td>${user.full_name}</td>
+          <td>${user.email}</td>
+          <td>${user.phone}</td>
+          <td>${user.created_at || ""}</td>
+        </tr>
+      `;
     });
     document.querySelector("#usersTable tbody").innerHTML = html;
   }
@@ -138,6 +142,11 @@ function showSection(sectionId) {
   if (sectionId === "users") loadUsers();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  if (!user.RoleID || user.RoleID != 2) {
+    window.location.href = "index.html";
+    return;
+  }
   loadDashboard();
 });

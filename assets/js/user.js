@@ -23,21 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         if (data.success) {
           const user = data.data;
-          fullnameInput.value = user.FullName;
-          emailInput.value = user.Email;
-          phoneInput.value = user.Phone;
-          genderSelect.value = user.Gender;
-          if (user.Birthday) {
-            birthdayInput.value = user.Birthday;
-          }
-          if (user.Avatar) {
+          if (fullnameInput) fullnameInput.value = user.FullName;
+          if (emailInput) emailInput.value = user.Email;
+          if (phoneInput) phoneInput.value = user.Phone;
+          if (genderSelect) genderSelect.value = user.Gender;
+          if (birthdayInput && user.Birthday) birthdayInput.value = user.Birthday;
+          if (avatarImage && user.Avatar) {
             avatarImage.src = 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar;
           }
-          document.getElementById('userName').textContent = user.FullName;
-          if (user.CreatedAt) {
+          const userNameElem = document.getElementById('userName');
+          if (userNameElem) userNameElem.textContent = user.FullName;
+          const memberSinceElem = document.getElementById('memberSince');
+          if (memberSinceElem && user.CreatedAt) {
             const date = new Date(user.CreatedAt);
-            document.getElementById('memberSince').textContent =
-              'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            memberSinceElem.textContent = 'Thành viên từ: ' + (date.getMonth() + 1) + '/' + date.getFullYear();
           }
           const userObj = JSON.parse(localStorage.getItem('user') || '{}');
           if (userObj.Avatar) {
