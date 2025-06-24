@@ -82,19 +82,24 @@ document
       console.log('Parsed response:', data);
 
       if (data.success) {
-        // Store tokens
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
+        // Make sure data.access_token exists and is not undefined
+        if (!data.access_token) {
+          console.error('No token received from server');
+          alert('Đăng nhập thất bại: Không nhận được token');
+          return;
+        }
+
+        // Store the token
+        localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.data));
 
-        // Check if user is admin and redirect accordingly
-        if (data.data.RoleID >= 2) {
-          // Admin user - redirect to dashboard
-          window.location.href = "dashboard.html";
-        } else {
-          // Regular user - redirect to home page
-          window.location.href = "index.html";
-        }
+        localStorage.setItem("isLoggedIn", "true");
+
+        console.log('Login successful!');
+        console.log('Stored token:', data.access_token);
+        console.log('Stored user:', data.data);
+
+        window.location.href = "product.html";
       } else {
         alert(data.message || "Đăng nhập thất bại!");
       }
