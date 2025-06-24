@@ -99,7 +99,11 @@ document
         console.log('Stored token:', data.access_token);
         console.log('Stored user:', data.data);
 
-        window.location.href = "product.html";
+        if (data.data.RoleID === 2) {
+          window.location.href = 'dashboard.html';
+        } else {
+          window.location.href = 'index.html';
+        }
       } else {
         alert(data.message || "Đăng nhập thất bại!");
       }

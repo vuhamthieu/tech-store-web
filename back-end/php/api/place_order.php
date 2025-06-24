@@ -65,6 +65,11 @@
             }
         }
 
+        // Clear cart after successful order
+        $clearCartStmt = $conn->prepare("DELETE FROM Cart WHERE UserID = ?");
+        $clearCartStmt->bind_param("i", $userId);
+        $clearCartStmt->execute();
+
         $conn->commit();
 
         echo json_encode([

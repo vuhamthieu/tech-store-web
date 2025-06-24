@@ -106,6 +106,7 @@ header {
 /* Cart column titles */
 .cart-column-titles {
   display: flex;
+  align-items: center;
   padding: 0.8rem 1rem;
   background: #f9f9f9;
   border-bottom: 1px solid #eee;
@@ -114,6 +115,13 @@ header {
   font-size: 0.9rem;
   text-transform: uppercase;
 }
+
+.cart-column-titles .col-select    { width: 5%;  text-align: center; flex-shrink: 0; }
+.cart-column-titles .col-product   { width: 45%; }
+.cart-column-titles .col-price     { width: 15%; text-align: center; flex-shrink: 0; }
+.cart-column-titles .col-quantity  { width: 15%; text-align: center; flex-shrink: 0; }
+.cart-column-titles .col-total     { width: 15%; text-align: center; flex-shrink: 0; }
+.cart-column-titles .col-action    { width: 5%;  text-align: center; flex-shrink: 0; }
 
 /* THIS IS THE CORE FIX FOR THE LAYOUT */
 .cart-item {
