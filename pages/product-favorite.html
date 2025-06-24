@@ -12,7 +12,8 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">Techsphere<span>Shop</span></a>
+                <a href="index.html" class="logo">Techsphere<span>Shop</span></a
+                <a href="../pages/product.html" class="logo">Techsphere<span>Shop</span></a>
                 <div class="user-nav">
                     <a href="../pages/cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
                 </div>
@@ -26,7 +27,7 @@
                 <div class="user-info">
                     <div class="avatar-container">
                         <div class="avatar-wrapper">
-                            <img id="avatarImage" src="../images/default-avatar.jpg" alt="User Avatar"/>
+                            <img id="avatarImage" src="../assets/img/avatar_685552e55f318_cfa9e723458ab505fa9c0d934a7cc6f5.jpg" alt="User Avatar"/>
                             <div class="avatar-overlay">
                                 <button class="change-avatar-btn" id="changeAvatarBtn">
                                     <i class="fas fa-camera"></i> Đổi ảnh
@@ -49,47 +50,49 @@
                     </ul>
                 </nav>
             </aside>
-
             <section class="profile-content">
                 <div class="profile-header">
-                    <h2 class="section-title">Sản phẩm yêu thích</h2>
-                    <button class="btn btn-outline" id="clearWishlist">
-                        <i class="fas fa-trash"></i> Xóa tất cả
-                    </button>
+                  <h2 class="section-title ">Sản phẩm yêu thích</h2>
+                  <button class="btn btn-outline" id="clearWishlist">
+                    <i class="fas fa-trash"></i> Xóa tất cả
+                  </button>
                 </div>
-
+              
                 <div class="wishlist-filters">
-                    <div class="filter-group">
-                        <label for="categoryFilter">Danh mục:</label>
-                        <select id="categoryFilter">
-                            <option value="all">Tất cả</option>
-                            <option value="smartphone">Điện thoại</option>
-                            <option value="laptop">Laptop</option>
-                            <option value="tablet">Máy tính bảng</option>
-                            <option value="accessory">Phụ kiện</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="sortBy">Sắp xếp:</label>
-                        <select id="sortBy">
-                            <option value="newest">Mới nhất</option>
-                            <option value="oldest">Cũ nhất</option>
-                            <option value="price_asc">Giá tăng dần</option>
-                            <option value="price_desc">Giá giảm dần</option>
-                        </select>
-                    </div>
+                  <div class="filter-group">
+                    <label for="categoryFilter" style="color: red;">Danh mục:</label>
+                    <select id="categoryFilter">
+                      <option value="all">Tất cả</option>
+                      <option value="Dell">Camera</option>
+                      <option value="laptop">Laptop</option>
+                      <option value="accessory">Thiết bị</option>
+                    </select>
+                  </div>
+              
+                  <div class="filter-group">
+                    <label for="sortBy">Sắp xếp:</label>
+                    <select id="sortBy">
+                      <option value="newest">Mới nhất</option>
+                      <option value="oldest">Cũ nhất</option>
+                      <option value="price_asc">Giá tăng dần</option>
+                      <option value="price_desc">Giá giảm dần</option>
+                    </select>
+                  </div>
                 </div>
-
+              
+                <!-- Danh sách sản phẩm sẽ hiển thị ở đây -->
                 <div class="wishlist-grid" id="wishlistItems">
-                    <!-- Các sản phẩm sẽ được render tại đây -->
+                  <!-- JavaScript sẽ render sản phẩm tại đây -->
                 </div>
-
+              
+                <!-- Hiển thị khi danh sách trống -->
                 <div class="empty-wishlist" id="emptyWishlist" style="display: none;">
-                    <i class="fas fa-heart"></i>
-                    <p>Danh sách yêu thích của bạn đang trống</p>
-                    <a href="../pages/product.html" class="btn btn-primary">Khám phá sản phẩm</a>
+                  <i class="fas fa-heart"></i>
+                  <p>Danh sách yêu thích của bạn đang trống</p>
+                  <a href="../pages/product.html" class="btn btn-primary">Khám phá sản phẩm</a>
                 </div>
-            </section>
+              </section>
+              
         </div>
     </main>
 
@@ -129,7 +132,7 @@
     </footer>
 
     <!-- Script -->
-    <script src="../assets/js/user.js"></script>
+   
     <script src="../assets/js/product-favorite.js"></script>
 </body>
 </html>

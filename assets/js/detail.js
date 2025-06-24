@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log("Request body:", requestBody);
 
       const response = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add-review",
+        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-review",
         {
           method: "POST",
           headers: headers,
@@ -294,12 +294,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
     );
     const data = await res.json();
 
     const { product, productSpecifications, variants, gallery } = data;
-
+    window.variants = variants;
     // Update product images
     if (gallery.length > 0) {
       mainImage.src = gallery[0].Thumbnail;
@@ -376,6 +376,54 @@ document.addEventListener("DOMContentLoaded", async function () {
         colorContainer.appendChild(div);
       });
     }
+    // Hàm cập nhật tồn kho theo biến thể được chọn
+function updateStockAndQuantityLimit() {
+  const selectedCapacity = document.querySelector(
+    "#capacityVariants .variant-option.selected"
+  )?.textContent;
+  const selectedColor = document.querySelector(
+    "#colorVariants .variant-option.selected"
+  )?.textContent;
+
+  if (!selectedCapacity || !selectedColor) {
+    document.getElementById("stockInfo").textContent = 0;
+    document.getElementById("productQty").setAttribute("max", 1);
+    return;
+  }
+
+  const selectedVariant = window.variants.find((v) => {
+    const ram = v.Specifications.find((s) => s.SpecKey === "RAM")?.SpecValue;
+    const color = v.Specifications.find((s) => s.SpecKey === "Màu sắc")?.SpecValue;
+    return ram === selectedCapacity && color === selectedColor;
+  });
+
+  if (selectedVariant) {
+    const stock = selectedVariant.Stock || 0;
+    document.getElementById("stockInfo").textContent = stock;
+    document.getElementById("productQty").setAttribute("max", stock);
+
+    const qtyInput = document.getElementById("productQty");
+    if (parseInt(qtyInput.value) > stock) {
+      qtyInput.value = stock;
+    }
+  } else {
+    document.getElementById("stockInfo").textContent = 0;
+    document.getElementById("productQty").setAttribute("max", 1);
+  }
+}
+
+// Gán sự kiện click để chọn biến thể và cập nhật tồn kho
+document.querySelectorAll("#capacityVariants .variant-option, #colorVariants .variant-option")
+  .forEach((option) => {
+    option.addEventListener("click", function () {
+      const container = this.parentElement;
+      container.querySelectorAll(".variant-option").forEach((opt) =>
+        opt.classList.remove("selected")
+      );
+      this.classList.add("selected");
+      updateStockAndQuantityLimit(); // Gọi lại mỗi lần chọn
+    });
+  });
 
     // Update description
     document.querySelector("#description .description-content").innerHTML = `
@@ -404,12 +452,85 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
   }
-});
+
+  const favoriteBtn = document.getElementById('favoriteBtn');
+  const heartPath = document.getElementById('heartPath');
+  let isFavorite = false;
+  const token = localStorage.getItem("token"); // ✅ Đặt đầu tiên
+  // Kiểm tra yêu thích khi load trang
+  if (token && favoriteBtn && heartPath && productId) {
+    try {
+      const res = await fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      console.log("get-favorite-products response:", data.data);
+      if (data.success && Array.isArray(data.data)) {
+        const favorited = data.data.some(p => String(p.ProductID) === String(productId));
+        isFavorite = favorited;
+        console.log("isFavorite:", isFavorite);
+        updateHeartIcon(); // cập nhật trái tim khi đã load
+      }
+    } catch (err) {
+      console.error("Lỗi khi kiểm tra yêu thích:", err);
+    }
+    
+    // Xử lý click thêm/xóa yêu thích
+    favoriteBtn.addEventListener("click", async () => {
+      const url = isFavorite
+        ? "http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
+        : "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-favorite-product";
+  
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ product_id: productId })
+        });
+  
+        const data = await res.json();
+        if (data.success) {
+          isFavorite = !isFavorite;
+          updateHeartIcon();
+        } else {
+          alert("Không thể cập nhật yêu thích!");
+        }
+      } catch (err) {
+        console.error("Lỗi yêu thích:", err);
+      }
+    });
+  }
+  
+  // Hàm cập nhật giao diện trái tim
+  function updateHeartIcon() {
+    if (!heartPath) return;
+    if (isFavorite) {
+      heartPath.setAttribute("fill", "#ff4d4f");
+      heartPath.setAttribute("stroke", "#ff4d4f");
+    } else {
+      heartPath.setAttribute("fill", "none");
+      heartPath.setAttribute("stroke", "#ccc");
+    }
+  }
+  console.log("token:", token);
+console.log("productId:", productId);
+
+
+
+  
+  });
+  
+
 
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
     const reviews = await res.json();
 
@@ -438,7 +559,7 @@ async function loadReviews(productId) {
         <div class="reviewer-info">
           <div class="reviewer-avatar">
             <img src="${review.Avatar
-          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
+          ? 'http://localhost:8080/webproject/tech-store-web/assets/img/' + review.Avatar
           : 'https://via.placeholder.com/50x50'
         }" alt="${review.FullName}">
           </div>
@@ -540,7 +661,7 @@ document
 
     try {
       const res = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
+        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-to-cart",
         {
           method: "POST",
           headers: {

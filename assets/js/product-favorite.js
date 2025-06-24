@@ -5,95 +5,235 @@ document.addEventListener("DOMContentLoaded", function () {
     const categoryFilter = document.getElementById("categoryFilter");
     const sortBy = document.getElementById("sortBy");
 
-    let allProducts = [];
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'pagination-container';
+    document.querySelector('.profile-content').appendChild(paginationContainer);
 
-    // Tải danh sách sản phẩm yêu thích từ API
-    function loadWishlist() {
-        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products")
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && Array.isArray(data.data)) {
-                    allProducts = data.data;
-                    renderWishlist(allProducts);
-                } else {
-                    allProducts = [];
-                    renderWishlist([]);
-                }
-            })
-            .catch(err => {
-                console.error("Lỗi tải wishlist:", err);
-                renderWishlist([]);
-            });
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Vui lòng đăng nhập để xem danh sách yêu thích!");
+        window.location.href = "login.html";
+        return;
     }
 
-    // Hiển thị danh sách sản phẩm
+    let allProducts = [];
+    let currentPage = 1;
+    const productsPerPage = 6; // 2 hàng x 3 cột
+
+    async function loadWishlist() {
+        try {
+            const res = await fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            if (data.success && Array.isArray(data.data)) {
+                allProducts = data.data.map(p => ({
+                    ProductID: p.ProductID,
+                    Name: p.Title,
+                    MainImage: p.MainImage || "https://via.placeholder.com/150",
+                    Price: parseFloat(p.Price),
+                    CreatedAt: p.CreatedAt,
+                    Category: p.Category || "khac"
+                }));
+            } else {
+                allProducts = [];
+            }
+
+            renderWishlist(allProducts);
+        } catch (err) {
+            console.error("Lỗi tải wishlist:", err);
+            allProducts = [];
+            renderWishlist([]);
+        }
+    }
+
     function renderWishlist(products) {
         wishlistContainer.innerHTML = "";
+
         if (products.length === 0) {
             emptyWishlist.style.display = "block";
+            paginationContainer.style.display = "none";
             return;
         }
 
         emptyWishlist.style.display = "none";
+        paginationContainer.style.display = "flex";
 
-        products.forEach(product => {
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const paginatedProducts = products.slice(startIndex, endIndex);
+
+        const gridContainer = document.createElement('div');
+        gridContainer.className = 'wishlist-grid';
+
+        paginatedProducts.forEach(product => {
             const item = document.createElement("div");
             item.className = "wishlist-item";
+            const name = product.Name || "Không tên";
+            const price = parseFloat(product.Price) || 0;
+            const image = product.MainImage || "https://via.placeholder.com/150";
+
             item.innerHTML = `
-                <img src="${product.MainImage}" alt="${product.Name}">
+              
                 <div class="wishlist-info">
-                    <h4>${product.Name}</h4>
-                    <p>Giá: ${formatCurrency(product.Price)}</p>
-                    <button class="btn btn-remove" data-id="${product.ProductID}">
-                        <i class="fas fa-times"></i> Xóa
-                    </button>
+                    <h4>${name}</h4>
+                    <p class="wishlist-price">${formatCurrency(price)}</p>
                 </div>
+                <button class="btn-remove" data-id="${product.ProductID}">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
+
             item.querySelector(".btn-remove").addEventListener("click", function () {
-                removeFavorite(product.ProductID, item);
+                removeFavorite(product.ProductID);
             });
-            wishlistContainer.appendChild(item);
+
+            gridContainer.appendChild(item);
         });
+
+        wishlistContainer.appendChild(gridContainer);
+        renderPagination(products.length);
     }
 
-    // Xóa một sản phẩm khỏi danh sách yêu thích
-    function removeFavorite(productId, element) {
-        fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ product_id: productId })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    element.remove();
-                    allProducts = allProducts.filter(p => p.ProductID !== productId);
-                    if (allProducts.length === 0) {
-                        renderWishlist([]);
-                    }
-                } else {
-                    alert("Lỗi khi xóa sản phẩm yêu thích.");
-                }
-            })
-            .catch(err => {
-                console.error("Lỗi khi gửi yêu cầu xóa:", err);
+    function renderPagination(totalProducts) {
+        paginationContainer.innerHTML = "";
+
+        const totalPages = Math.ceil(totalProducts / productsPerPage);
+        if (totalPages <= 1) {
+            paginationContainer.style.display = "none";
+            return;
+        }
+
+        const prevButton = document.createElement('button');
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevButton.className = 'pagination-btn';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                filterAndSort();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            const firstPageButton = document.createElement('button');
+            firstPageButton.textContent = '1';
+            firstPageButton.className = 'pagination-btn';
+            firstPageButton.addEventListener('click', () => {
+                currentPage = 1;
+                filterAndSort();
             });
+            paginationContainer.appendChild(firstPageButton);
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.textContent = '...';
+                ellipsis.className = 'pagination-ellipsis';
+                paginationContainer.appendChild(ellipsis);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                filterAndSort();
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.textContent = '...';
+                ellipsis.className = 'pagination-ellipsis';
+                paginationContainer.appendChild(ellipsis);
+            }
+
+            const lastPageButton = document.createElement('button');
+            lastPageButton.textContent = totalPages;
+            lastPageButton.className = 'pagination-btn';
+            lastPageButton.addEventListener('click', () => {
+                currentPage = totalPages;
+                filterAndSort();
+            });
+            paginationContainer.appendChild(lastPageButton);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextButton.className = 'pagination-btn';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                filterAndSort();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
     }
 
-    // Xóa tất cả sản phẩm yêu thích
-    clearBtn.addEventListener("click", function () {
+    async function removeFavorite(productId) {
+        try {
+            const res = await fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ product_id: productId })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                allProducts = allProducts.filter(p => p.ProductID !== productId);
+                if (allProducts.length <= (currentPage - 1) * productsPerPage && currentPage > 1) {
+                    currentPage--;
+                }
+                renderWishlist(allProducts);
+            } else {
+                alert("Lỗi khi xóa sản phẩm yêu thích.");
+            }
+        } catch (err) {
+            console.error("Lỗi khi gửi yêu cầu xóa:", err);
+        }
+    }
+
+    clearBtn.addEventListener("click", async function () {
         if (allProducts.length === 0) return;
         if (!confirm("Bạn có chắc muốn xóa tất cả sản phẩm yêu thích?")) return;
 
-        allProducts.forEach(product => {
-            removeFavorite(product.ProductID, document.querySelector(`.btn-remove[data-id="${product.ProductID}"]`)?.closest(".wishlist-item"));
-        });
+        await Promise.all(allProducts.map(p =>
+            fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ product_id: p.ProductID })
+            })
+        ));
+
+        allProducts = [];
+        currentPage = 1;
+        renderWishlist([]);
     });
 
-    // Lọc và sắp xếp
     function filterAndSort() {
+        currentPage = 1;
         let filtered = [...allProducts];
-
         const category = categoryFilter.value;
         const sort = sortBy.value;
 
@@ -122,62 +262,12 @@ document.addEventListener("DOMContentLoaded", function () {
     categoryFilter.addEventListener("change", filterAndSort);
     sortBy.addEventListener("change", filterAndSort);
 
-    // Hàm định dạng tiền tệ
     function formatCurrency(value) {
         return new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND"
         }).format(value);
     }
-      // === AVATAR UPLOAD ===
-    const avatarInput = document.getElementById('avatarInput');
-    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
-    const avatarImage = document.getElementById('avatarImage');
-  
-    changeAvatarBtn.addEventListener('click', function () {
-      avatarInput.click();
-    });
-  
-    avatarInput.addEventListener('change', function (e) {
-      if (e.target.files && e.target.files[0]) {
-        const file = e.target.files[0];
-        if (file.size > 2 * 1024 * 1024) return alert('Ảnh không được quá 2MB');
-        if (!file.type.match('image.*')) return alert('Chỉ chấp nhận ảnh');
-  
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          avatarImage.src = event.target.result;
-          uploadAvatarToServer(file);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  
-    function uploadAvatarToServer(file) {
-      const formData = new FormData();
-      formData.append('avatar', file);
-  
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + token
-        },
-        body: formData
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            alert('Cập nhật ảnh thành công!');
-          } else {
-            alert('Lỗi: ' + result.message);
-          }
-        })
-        .catch(error => {
-          console.error('Upload avatar error:', error);
-          alert('Không thể tải lên ảnh đại diện!');
-        });
-    }
 
-    // Khởi động
     loadWishlist();
 });

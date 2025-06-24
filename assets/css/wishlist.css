@@ -1,0 +1,220 @@
+/* === WISHLIST STYLES === */
+
+
+/* Grid Layout */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cột đều nhau */
+  gap: 24px;
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Wishlist Item */
+.wishlist-item {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--light-gray);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+/* Product Image */
+.wishlist-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+/* Product Info */
+.wishlist-info {
+  padding: 1.5rem;
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.wishlist-info h4 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--black);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.wishlist-price {
+  color: var(--primary-red) !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+}
+
+/* Remove Button */
+.btn-remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--primary-red);
+  border: 1px solid var(--primary-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-remove:hover {
+  background: var(--primary-red);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.btn-remove i {
+  font-size: 14px;
+}
+
+/* Empty State */
+.empty-wishlist {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 2rem 0;
+  display: none;
+}
+
+.empty-wishlist i {
+  font-size: 3rem;
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+}
+
+.empty-wishlist p {
+  font-size: 1.1rem;
+  color: var(--dark-gray);
+  margin-bottom: 1.5rem;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  padding: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  background: var(--white);
+  color: var(--black);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--light-gray);
+  border-color: var(--gray);
+}
+
+.pagination-btn.active {
+  background: var(--primary-red);
+  color: var(--white);
+  border-color: var(--primary-red);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+  padding: 0 0.5rem;
+  color: var(--gray);
+}
+
+/* Filters */
+.wishlist-filters {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: var(--primary-red);
+  font-size: 0.9rem;
+}
+
+.filter-group select {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 6px;
+  background-color: var(--white);
+  color: var(--black);
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--primary-red);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .wishlist-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wishlist-item img {
+    height: 220px;
+  }
+}
