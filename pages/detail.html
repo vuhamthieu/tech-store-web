@@ -20,6 +20,121 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
+    <style> 
+ /* Reset và font chung */
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Phần chung */
+  .image-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .share-label, .favorite-text {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #333;
+  }
+  
+  /* Phần chia sẻ */
+  .share-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .icon-group {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .social-icon i, .social-icon svg {
+    font-size: 14px;
+    color: white;
+  }
+  
+  .fb-icon {
+    background-color: #3b5998;
+  }
+  
+  .fb-icon:hover {
+    background-color: #344e86;
+    transform: translateY(-2px);
+  }
+  
+  .zalo-icon {
+    background-color: #039be5;
+  }
+  
+  .zalo-icon:hover {
+    background-color: #0288d1;
+    transform: translateY(-2px);
+  }
+  
+  .insta-icon {
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+  }
+  
+  .insta-icon:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  /* Phần yêu thích */
+  .favorite-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .favorite-btn:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .heart-icon {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Trạng thái active */
+  .favorite-btn.active .heart-icon path {
+    fill: #ff0000;
+    stroke: #ff0000;
+  }
+  
+  .favorite-btn.active .favorite-text {
+    color: #ff0000;
+  }
+    </style>
   </head>
 
   <body>
@@ -27,7 +142,7 @@
     <header class="main-header">
       <div class="container">
         <div class="logo">
-          <a href="index.html">
+          <a href="../pages/product.html">
 
             <span>TECHBLACK</span>
           </a>
@@ -39,7 +154,7 @@
         </div>
 
         <div class="header-icons">
-          <a href="#"><i class="fas fa-user"></i></a>
+          <a href="user.html"><i class="fas fa-user"></i></a>
           <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
         </div>
       </div>
@@ -76,12 +191,53 @@
 <div class="product-detail-container">
     <!-- Product Images -->
     <div class="product-images">
-        <div class="main-image">
-            <img src="" alt="Sản phẩm" id="mainProductImage">
+      <div class="main-image">
+        <img src="" alt="Sản phẩm" id="mainProductImage">
+      </div>
+    
+      <div class="thumbnail-gallery" id="thumbnailGallery">
+        <!-- Thumbnails sẽ được thêm bằng JS -->
+      </div>
+    
+      <div class="image-actions">
+        <!-- Share icons bên trái -->
+        <div class="share-icons">
+          <span class="share-label">CHIA SẺ</span>
+          <div class="icon-group">
+            <a href="#" class="social-icon fb-icon" title="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon zalo-icon" title="Zalo">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24">
+                <path fill="#039be5" d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"/>
+                <path fill="#fff" d="M12 19H16V29H12zM20.033 19H24V29H20.033zM28.068 19H32V29H28.068z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-icon insta-icon" title="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
         </div>
-        <div class="thumbnail-gallery" id="thumbnailGallery">
-            <!-- Thumbnails sẽ được thêm bằng JS -->
-        </div>
+      
+        <!-- Favorite button bên phải -->
+<button id="favoriteBtn" class="favorite-btn" title="Yêu thích" aria-label="Yêu thích sản phẩm">
+  <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path
+      id="heartPath"
+      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+         2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09 
+         C13.09 3.81 14.76 3 16.5 3 
+         19.58 3 22 5.42 22 8.5 
+         c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+      fill="none"
+      stroke="#ccc"
+      stroke-width="2"
+    />
+  </svg>
+  <span class="favorite-text">YÊU THÍCH</span>
+</button>
+
+      </div>
     </div>
 
     <!-- Product Info -->
@@ -95,12 +251,12 @@
             </div>
             <div class="sold-count">Đã bán <span id="soldCount">0</span></div>
         </div>
-
+       
         <div class="price-container">
             <span class="current-price" id="currentPrice">0₫</span>
             <span class="old-price" id="oldPrice">0₫</span>
         </div>
-
+        
         <!-- ROM -->
         <div class="variant-section" id="capacityVariantsSection">
             <div class="variant-title">Dung lượng</div>
@@ -266,10 +422,11 @@
         </div>
       </div>
     </footer>
-
+   
   
    <script src="../assets/js/detail.js"></script>
-        
+    
+
 </body>
 </html>
 
