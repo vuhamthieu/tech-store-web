@@ -94,20 +94,55 @@ document.addEventListener('DOMContentLoaded', function () {
     const fullname = document.getElementById("fullname").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const street = document.getElementById("street").value.trim();
-    const provinceText = provinceSelect.options[provinceSelect.selectedIndex]?.text || "";
-    const districtText = districtSelect.options[districtSelect.selectedIndex]?.text || "";
-    const wardText = wardSelect.options[wardSelect.selectedIndex]?.text || "";
+    const provinceValue = provinceSelect.value;
+    const districtValue = districtSelect.value;
+    const wardValue = wardSelect.value;
 
-    if (!fullname || !phone || !provinceText || !districtText || !wardText || !street) {
+    // Debug: Log all values to see what's happening
+    console.log("Form validation debug:", {
+      fullname,
+      phone,
+      street,
+      provinceValue,
+      districtValue,
+      wardValue,
+      provinceSelectedIndex: provinceSelect.selectedIndex,
+      districtSelectedIndex: districtSelect.selectedIndex,
+      wardSelectedIndex: wardSelect.selectedIndex
+    });
+
+    if (!fullname || !phone || !provinceValue || !districtValue || !wardValue || !street) {
+      console.log("Validation failed for:", {
+        fullname: !fullname,
+        phone: !phone,
+        provinceValue: !provinceValue,
+        districtValue: !districtValue,
+        wardValue: !wardValue,
+        street: !street
+      });
       alert("Vui lòng điền đầy đủ thông tin địa chỉ.");
       return;
     }
 
+    // Get the text values for the address
+    const provinceText = provinceSelect.options[provinceSelect.selectedIndex]?.text || "";
+    const districtText = districtSelect.options[districtSelect.selectedIndex]?.text || "";
+    const wardText = wardSelect.options[wardSelect.selectedIndex]?.text || "";
+
     // Lấy thông tin giỏ hàng và user
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    if (!user.UserID || !cart.length) {
-      alert("Vui lòng đăng nhập và có sản phẩm trong giỏ hàng!");
+    let checkoutList = JSON.parse(localStorage.getItem("checkout") || "[]");
+
+    if (!user.UserID) {
+      alert("Vui lòng đăng nhập để đặt hàng!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (!cart.length && !checkoutList.length) {
+      alert("Vui lòng có sản phẩm trong giỏ hàng!");
+      window.location.href = "cart.html";
       return;
     }
 
@@ -131,10 +166,18 @@ document.addEventListener('DOMContentLoaded', function () {
     loadingSpinner.style.display = 'inline-block';
 
     // Use checkout list for order
-    let checkoutList = JSON.parse(localStorage.getItem("checkout") || "[]");
     if (!checkoutList.length) {
       checkoutList = JSON.parse(localStorage.getItem("cart") || "[]");
     }
+
+    // Validate that we have products to order
+    if (!checkoutList.length) {
+      alert("Không có sản phẩm nào để đặt hàng!");
+      btnText.style.display = 'inline';
+      loadingSpinner.style.display = 'none';
+      return;
+    }
+
     console.log("checkoutList", checkoutList);
     // Prepare items for API
     const items = checkoutList.map(item => ({
@@ -169,13 +212,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      // Clear cart and checkout data after successful order
+      localStorage.removeItem("cart");
+      localStorage.removeItem("checkout");
+
       // Nếu là COD, hiển thị modal thành công
       if (paymentMethod === "cod") {
         btnText.style.display = 'inline';
         loadingSpinner.style.display = 'none';
         successModal.style.display = 'flex';
-        localStorage.removeItem("cart");
-        localStorage.removeItem("checkout");
         return;
       } else if (paymentMethod === "momo" || paymentMethod === "visa") {
         let payApi = paymentMethod === "momo"
@@ -185,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const payRes = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
           method: "POST",
           body: new URLSearchParams({
-            amount: totalAmount,
+            amount: window._checkoutTotal + 20000,
             order_info: `Thanh toán đơn hàng #${orderData.order_id}`
           })
         });
@@ -198,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
               payment_token: payData.payment_token,
               order_id: orderData.order_id,
               user_id: user.UserID,
-              amount: totalAmount
+              amount: window._checkoutTotal + 20000
             })
           });
           window.location.href = payData.pay_url;

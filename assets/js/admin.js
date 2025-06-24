@@ -28,9 +28,8 @@ async function loadDashboard() {
                             <td>${order.customer}</td>
                             <td>${order.date}</td>
                             <td class="text-red">₫${order.total.toLocaleString()}</td>
-                            <td><span class="status ${order.status}">${
-        order.status === "approved" ? "Đã duyệt" : "Chờ xử lý"
-      }</span></td>
+                            <td><span class="status ${order.status}">${order.status === "approved" ? "Đã duyệt" : "Chờ xử lý"
+        }</span></td>
                         </tr>
                     `;
     });
@@ -40,31 +39,36 @@ async function loadDashboard() {
 
 // Load orders data
 async function loadOrders() {
-  const orders = await fetchData("orders");
-  if (orders) {
+  const token = localStorage.getItem("admin_token"); // or however you store it
+  const res = await fetch("../back-end/php/api/get_all_orders.php", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const data = await res.json();
+  if (data.success) {
     let html = "";
-    orders.forEach((order) => {
+    data.data.forEach(order => {
       html += `
-                        <tr>
-                            <td>${order.id}</td>
-                            <td>${order.customer}</td>
-                            <td>${order.date}</td>
-                            <td class="text-red">₫${order.total.toLocaleString()}</td>
-                            <td><span class="status ${order.status}">${
-        order.status === "approved" ? "Đã duyệt" : "Chờ xử lý"
-      }</span></td>
-                            <td>
-                                <button class="btn btn-success btn-sm">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+        <tr>
+          <td>${order.OrderID}</td>
+          <td>${order.FullName || order.UserID}</td>
+          <td>${new Date(order.OrderDate).toLocaleDateString()}</td>
+          <td class="text-red">₫${Number(order.TotalAmount).toLocaleString()}</td>
+          <td><span class="status ${order.Status == 1 ? 'approved' : 'pending'}">
+            ${order.Status == 1 ? "Đã duyệt" : "Chờ xử lý"}
+          </span></td>
+          <td>
+            <button class="btn btn-success btn-sm" data-id="${order.OrderID}" data-action="approve">
+              <i class="fas fa-check"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" data-id="${order.OrderID}" data-action="reject">
+              <i class="fas fa-times"></i>
+            </button>
+          </td>
+        </tr>
+      `;
     });
     document.querySelector("#ordersTable tbody").innerHTML = html;
+    // Add event listeners for approve/reject here
   }
 }
 
