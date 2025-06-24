@@ -400,6 +400,77 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Load reviews
     await loadReviews(productId);
+
+    // --- Favorite (Heart) Button Logic ---
+
+    const favoriteBtn = document.getElementById('favoriteBtn');
+    const heartPath = document.getElementById('heartPath');
+    let isFavorite = false;
+    const token = localStorage.getItem("token") || localStorage.getItem("access_token");
+
+    // 1. Check if this product is already a favorite
+    async function checkFavorite() {
+      if (!token || !productId) return;
+      try {
+        const res = await fetch(
+          "http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products",
+          {
+            headers: { "Authorization": `Bearer ${token}` }
+          }
+        );
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data)) {
+          isFavorite = data.data.some(p => String(p.ProductID) === String(productId));
+          updateHeartIcon();
+        }
+      } catch (err) {
+        console.error("Lỗi khi kiểm tra yêu thích:", err);
+      }
+    }
+
+    // 2. Toggle favorite on click
+    favoriteBtn?.addEventListener("click", async () => {
+      if (!token || !productId) return;
+      const url = isFavorite
+        ? "http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
+        : "http://localhost/webproject/tech-store-web/back-end/php/api/add-favorite-product";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ product_id: productId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          isFavorite = !isFavorite;
+          updateHeartIcon();
+        } else {
+          alert("Không thể cập nhật yêu thích!");
+        }
+      } catch (err) {
+        console.error("Lỗi yêu thích:", err);
+      }
+    });
+
+    // 3. Update heart icon UI
+    function updateHeartIcon() {
+      if (!heartPath) return;
+      if (isFavorite) {
+        heartPath.setAttribute("fill", "#ff4d4f");
+        heartPath.setAttribute("stroke", "#ff4d4f");
+        favoriteBtn.classList.add("active");
+      } else {
+        heartPath.setAttribute("fill", "none");
+        heartPath.setAttribute("stroke", "#ccc");
+        favoriteBtn.classList.remove("active");
+      }
+    }
+
+    // Call checkFavorite on page load (after productId is available)
+    checkFavorite();
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
