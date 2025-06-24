@@ -16,7 +16,7 @@
         exit;
     }
 
-    $query = "DELETE FROM FavoriteProducts WHERE UserID = ? AND ProductID = ?";
+    $query = "DELETE FROM Favorites WHERE UserID = ? AND ProductID = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "ii", $userId, $productId);
 
