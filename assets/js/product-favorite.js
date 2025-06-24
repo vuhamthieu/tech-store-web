@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function loadWishlist() {
         try {
-            const res = await fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
+            const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 allProducts = data.data.map(p => ({
                     ProductID: p.ProductID,
                     Name: p.Title,
-                    MainImage: p.MainImage || "https://via.placeholder.com/150",
+                    MainImage: p.Thumbnail || p.MainImage || "https://via.placeholder.com/150",
                     Price: parseFloat(p.Price),
                     CreatedAt: p.CreatedAt,
-                    Category: p.Category || "khac"
+                    Category: p.CategoryName || "khac"
                 }));
             } else {
                 allProducts = [];
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const image = product.MainImage || "https://via.placeholder.com/150";
 
             item.innerHTML = `
-              
+                <img src="${image}" alt="${name}" class="wishlist-thumb" style="max-width:100px;max-height:100px;object-fit:contain;display:block;margin:0 auto 10px;">
                 <div class="wishlist-info">
                     <h4>${name}</h4>
                     <p class="wishlist-price">${formatCurrency(price)}</p>
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function removeFavorite(productId) {
         try {
-            const res = await fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+            const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!confirm("Bạn có chắc muốn xóa tất cả sản phẩm yêu thích?")) return;
 
         await Promise.all(allProducts.map(p =>
-            fetch("http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+            fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const sort = sortBy.value;
 
         if (category !== "all") {
-            filtered = filtered.filter(p => p.Category?.toLowerCase() === category);
+            filtered = filtered.filter(p => (p.Category || "").toLowerCase() === category.toLowerCase());
         }
 
         switch (sort) {
