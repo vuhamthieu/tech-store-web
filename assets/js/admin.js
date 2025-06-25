@@ -22,14 +22,26 @@ async function loadDashboard() {
 
     let html = "";
     data.recent_orders.forEach(order => {
+      let statusText, statusClass;
+      if (order.status == 1) {
+        statusText = "Đã duyệt";
+        statusClass = "approved";
+      } else if (order.status == 2) {
+        statusText = "Đã từ chối";
+        statusClass = "declined";
+      } else {
+        statusText = "Chờ xử lý";
+        statusClass = "pending";
+      }
+
       html += `
         <tr>
           <td>${order.order_id}</td>
           <td>${order.customer}</td>
           <td>${order.order_date}</td>
           <td class="text-red">₫${order.total.toLocaleString()}</td>
-          <td><span class="status ${order.status === 1 ? "approved" : "pending"}">
-            ${order.status === 1 ? "Đã duyệt" : "Chờ xử lý"}
+          <td><span class="status ${statusClass}">
+            ${statusText}
           </span></td>
         </tr>
       `;
@@ -48,18 +60,25 @@ async function loadOrders() {
   if (result.success && Array.isArray(result.data)) {
     let html = "";
     result.data.forEach(order => {
+      const statusText = order.Status == 1 ? "Đã duyệt" : order.Status == 2 ? "Đã từ chối" : "Chờ xử lý";
+      const statusClass = order.Status == 1 ? "approved" : order.Status == 2 ? "declined" : "pending";
+
       html += `
         <tr>
           <td>${order.OrderID}</td>
           <td>${order.ShippingName}</td>
           <td>${order.OrderDate}</td>
           <td class="text-red">₫${order.TotalAmount.toLocaleString()}</td>
-          <td><span class="status ${order.Status === 1 ? "approved" : "pending"}">
-            ${order.Status === 1 ? "Đã duyệt" : "Chờ xử lý"}
-          </span></td>
+          <td><span class="status ${statusClass}">${statusText}</span></td>
           <td>
-            <button class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
-            <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+            ${Number(order.Status) === 0 ? `
+              <button class="btn btn-success btn-sm" onclick="approveOrder(${order.OrderID})" title="Duyệt đơn hàng">
+                <i class="fas fa-check"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="declineOrder(${order.OrderID})" title="Từ chối đơn hàng">
+                <i class="fas fa-times"></i>
+              </button>
+            ` : ''}
           </td>
         </tr>
       `;
@@ -105,17 +124,149 @@ async function loadUsers() {
   if (result.success && Array.isArray(result.data)) {
     let html = "";
     result.data.forEach(user => {
+      const statusText = user.is_disabled ? "Đã vô hiệu" : "Hoạt động";
+      const statusClass = user.is_disabled ? "disabled" : "active";
+
       html += `
         <tr>
           <td>${user.user_id}</td>
           <td>${user.full_name}</td>
           <td>${user.email}</td>
-          <td>${user.phone}</td>
-          <td>${user.created_at || ""}</td>
+          <td>${user.phone || "N/A"}</td>
+          <td>${user.created_at || "N/A"}</td>
+          <td><span class="status ${statusClass}">${statusText}</span></td>
+          <td>
+            ${!user.is_disabled ? `
+              <button class="btn btn-warning btn-sm" onclick="disableUser(${user.user_id})" title="Vô hiệu hóa tài khoản">
+                <i class="fas fa-user-slash"></i>
+              </button>
+            ` : `
+              <button class="btn btn-success btn-sm" onclick="enableUser(${user.user_id})" title="Kích hoạt tài khoản">
+                <i class="fas fa-user-check"></i>
+              </button>
+            `}
+          </td>
         </tr>
       `;
     });
     document.querySelector("#usersTable tbody").innerHTML = html;
+  }
+}
+
+// Disable user function
+async function disableUser(userId) {
+  if (!confirm('Bạn có chắc chắn muốn vô hiệu hóa tài khoản này?')) return;
+
+  const token = localStorage.getItem("access_token");
+  try {
+    const res = await fetch("../back-end/php/api/disable-user", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ user_id: userId })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Đã vô hiệu hóa tài khoản thành công!");
+      loadUsers(); // Refresh users table
+    } else {
+      alert("Lỗi: " + result.message);
+    }
+  } catch (error) {
+    console.error("Lỗi khi vô hiệu hóa tài khoản:", error);
+    alert("Đã xảy ra lỗi khi vô hiệu hóa tài khoản");
+  }
+}
+
+// Enable user function (you'll need to create this API)
+async function enableUser(userId) {
+  if (!confirm('Bạn có chắc chắn muốn kích hoạt tài khoản này?')) return;
+
+  const token = localStorage.getItem("access_token");
+  try {
+    const res = await fetch("../back-end/php/api/enable-user", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ user_id: userId })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Đã kích hoạt tài khoản thành công!");
+      loadUsers(); // Refresh users table
+    } else {
+      alert("Lỗi: " + result.message);
+    }
+  } catch (error) {
+    console.error("Lỗi khi kích hoạt tài khoản:", error);
+    alert("Đã xảy ra lỗi khi kích hoạt tài khoản");
+  }
+}
+
+// Approve order function
+async function approveOrder(orderId) {
+  if (!confirm('Bạn có chắc chắn muốn duyệt đơn hàng này?')) return;
+
+  const token = localStorage.getItem("access_token");
+  try {
+    const res = await fetch("../back-end/php/api/approve-order", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ order_id: orderId })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Đã duyệt đơn hàng thành công!");
+      loadOrders(); // Refresh orders table
+      loadDashboard(); // Refresh dashboard overview
+    } else {
+      alert("Lỗi: " + result.message);
+    }
+  } catch (error) {
+    console.error("Lỗi khi duyệt đơn hàng:", error);
+    alert("Đã xảy ra lỗi khi duyệt đơn hàng");
+  }
+}
+
+// Decline order function
+async function declineOrder(orderId) {
+  const reason = prompt('Lý do từ chối đơn hàng (không bắt buộc):') || 'Không có lý do cụ thể';
+
+  const token = localStorage.getItem("access_token");
+  try {
+    const res = await fetch("../back-end/php/api/decline-order", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        order_id: orderId,
+        reason: reason
+      })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Đã từ chối đơn hàng thành công!");
+      loadOrders(); // Refresh orders table
+      loadDashboard(); // Refresh dashboard overview
+    } else {
+      alert("Lỗi: " + result.message);
+    }
+  } catch (error) {
+    console.error("Lỗi khi từ chối đơn hàng:", error);
+    alert("Đã xảy ra lỗi khi từ chối đơn hàng");
   }
 }
 

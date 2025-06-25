@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="order-footer">
         <p>Ghi chú: ${order.ShippingNote || "(Không có)"}</p>
         <p>Tổng tiền: ${formatCurrency(order.TotalAmount)}</p>
-        <p>Trạng thái: ${order.Status}</p>
+        <p>Trạng thái: ${getOrderStatusText(order.Status)}</p>
         <p>Thanh toán: ${order.PaymentStatus} (${order.PaymentMethod})</p>
       </div>
     `;
@@ -176,6 +176,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function formatCurrency(amount) {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
+  }
+
+  function getOrderStatusText(status) {
+    if (status == 1) return "Đã duyệt";
+    if (status == 2) return "Đã từ chối";
+    return "Chờ xử lý";
   }
 
   // Event listeners

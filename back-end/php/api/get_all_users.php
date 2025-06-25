@@ -12,7 +12,8 @@
             Avatar, 
             Gender, 
             Address,
-            CreatedAt  
+            CreatedAt,
+            IsDisabled
           FROM Users 
           WHERE RoleID = 1";
 
@@ -28,6 +29,8 @@
             "avatar"    => $row['Avatar'],
             "gender"    => $row['Gender'],
             "address"   => $row['Address'],
+            "created_at" => $row['CreatedAt'],
+            "is_disabled" => intval($row['IsDisabled']) === 1
         ];
     }
 

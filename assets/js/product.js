@@ -18,22 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// Hàm kiểm tra token
-async function verifyToken(token) {
-  try {
-    const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/verify-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return res.ok;
-  } catch (error) {
-    return false;
-  }
-}
-
 // Hàm xóa dữ liệu đăng nhập
 function clearAuthData() {
   localStorage.removeItem("user");
