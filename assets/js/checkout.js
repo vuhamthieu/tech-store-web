@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const successModal = document.getElementById("successModal");
   const closeModal = document.getElementById("closeModal");
 
+  // Coupon functionality - DECLARE THIS FIRST
+  let appliedCoupon = null;
+
   // 1. Chọn phương thức giao hàng
   document.querySelectorAll('.shipping-option').forEach(option => {
     option.addEventListener('click', () => {
@@ -197,9 +200,10 @@ document.addEventListener('DOMContentLoaded', function () {
           shipping_name: fullname,
           shipping_phone: phone,
           shipping_address: `${street}, ${wardText}, ${districtText}, ${provinceText}`,
-          total_amount: window._checkoutTotal + 20000,
+          total_amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0),
           payment_method: paymentMethod,
-          items: items
+          items: items,
+          coupon_id: appliedCoupon ? appliedCoupon.coupon_id : null
         })
       });
       const orderData = await orderRes.json();
@@ -230,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const payRes = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
           method: "POST",
           body: new URLSearchParams({
-            amount: window._checkoutTotal + 20000,
+            amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0),
             order_info: `Thanh toán đơn hàng #${orderData.order_id}`
           })
         });
@@ -243,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
               payment_token: payData.payment_token,
               order_id: orderData.order_id,
               user_id: user.UserID,
-              amount: window._checkoutTotal + 20000
+              amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0)
             })
           });
           window.location.href = payData.pay_url;
@@ -270,8 +274,6 @@ document.addEventListener('DOMContentLoaded', function () {
     successModal.style.display = "none";
     // window.location.href = 'index.html'; // chuyển trang nếu cần
   });
-
-
 
   // Select Payment Method
   const paymentOptions = document.querySelectorAll('.payment-option');
@@ -333,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Use the total from renderCart
     const total = window._checkoutTotal || 0;
     const shippingFee = 20000;
-    const discount = 0;
+    const discount = appliedCoupon ? appliedCoupon.discount_amount : 0;
     const priceRows = document.querySelectorAll(".price-row");
     if (priceRows[1]) priceRows[1].lastElementChild.textContent = `${shippingFee.toLocaleString()}đ`;
     if (priceRows[2]) priceRows[2].lastElementChild.textContent = `-${discount.toLocaleString()}đ`;
@@ -348,4 +350,108 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById("goToCart")?.addEventListener("click", function () {
     window.location.href = "cart.html";
   });
+
+  const token = localStorage.getItem("access_token");
+  const code = "SALE50";
+  const orderAmount = 1000000; // total order value
+  const productIds = [1, 2, 3]; // IDs of products in cart
+    
+
+  // Coupon functionality
+  // Apply coupon from available coupons
+  document.querySelectorAll('.apply-coupon-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const couponItem = this.closest('.coupon-item');
+      const code = couponItem.dataset.code;
+      applyCoupon(code);
+    });
+  });
+
+  // Apply coupon from manual input
+  document.getElementById('applyCouponBtn').addEventListener('click', function () {
+    const code = document.getElementById('couponInput').value.trim();
+    if (code) {
+      applyCoupon(code);
+    } else {
+      alert('Vui lòng nhập mã giảm giá');
+    }
+  });
+
+  // Remove applied coupon
+  document.getElementById('removeCouponBtn').addEventListener('click', function () {
+    removeCoupon();
+  });
+
+  function applyCoupon(code) {
+    const token = localStorage.getItem("access_token");
+    const orderAmount = window._checkoutTotal || 0;
+
+    let checkoutList = JSON.parse(localStorage.getItem("checkout") || "[]");
+    if (!checkoutList.length) {
+      checkoutList = JSON.parse(localStorage.getItem("cart") || "[]");
+    }
+    const productIds = checkoutList.map(item => item.product_id || item.ProductID);
+
+    fetch("http://localhost/webproject/tech-store-web/back-end/php/api/use_coupon.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        code: code,
+        order_amount: orderAmount,
+        product_ids: productIds
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          appliedCoupon = {
+            code: code,
+            discount_amount: data.discount_amount,
+            coupon_id: data.coupon_id
+          };
+
+          showAppliedCoupon(code, data.discount_amount);
+          updateTotal();
+
+          document.querySelectorAll('.apply-coupon-btn').forEach(btn => {
+            btn.disabled = true;
+            btn.textContent = 'Đã áp dụng';
+          });
+
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error applying coupon:', error);
+        alert('Có lỗi xảy ra khi áp dụng mã giảm giá');
+      });
+  }
+
+  function showAppliedCoupon(code, discountAmount) {
+    const appliedCouponDiv = document.getElementById('appliedCoupon');
+    const appliedCouponCode = document.getElementById('appliedCouponCode');
+    const appliedCouponDiscount = document.getElementById('appliedCouponDiscount');
+
+    appliedCouponCode.textContent = code;
+    appliedCouponDiscount.textContent = `Giảm ${discountAmount.toLocaleString()}đ`;
+    appliedCouponDiv.style.display = 'flex';
+  }
+
+  function removeCoupon() {
+    appliedCoupon = null;
+
+    document.getElementById('appliedCoupon').style.display = 'none';
+
+    document.querySelectorAll('.apply-coupon-btn').forEach(btn => {
+      btn.disabled = false;
+      btn.textContent = 'Áp dụng';
+    });
+
+    updateTotal();
+  }
 });

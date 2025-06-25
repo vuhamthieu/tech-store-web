@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Sự kiện click để thêm/xoá yêu thích
     favoriteBtn?.addEventListener("click", () => {
       const url = isFavorite
-        ? "http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove_favorite"
-        : "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add_favorite";
+        ? "http://localhost/webproject/tech-store-web/back-end/php/api/remove_favorite"
+        : "http://localhost/webproject/tech-store-web/back-end/php/api/add_favorite";
   
       fetch(url, {
         method: "POST",

@@ -12,7 +12,7 @@
     $totalAmount = $data['total_amount'] ?? 0;
     $paymentMethod = $data['payment_method'] ?? '';
     $couponCode = $data['coupon_code'] ?? '';
-    $status = $data['status'] ?? 1;
+    $status = $data['status'] ?? 0;
     $paymentStatus = $data['payment_status'] ?? 0;
     $items = $data['items'] ?? [];
 
