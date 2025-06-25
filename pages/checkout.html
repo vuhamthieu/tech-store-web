@@ -110,9 +110,43 @@
     <!-- Voucher -->
     <div class="card">
       <h3 class="card-title">Mã giảm giá</h3>
+      
+      <!-- Available Coupons -->
+      <div class="available-coupons">
+        <h4>Mã giảm giá có sẵn:</h4>
+        <div class="coupon-list">
+          <div class="coupon-item" data-code="SALE50">
+            <div class="coupon-info">
+              <div class="coupon-code">SALE50</div>
+              <div class="coupon-desc">Giảm 50.000đ cho đơn hàng từ 500.000đ</div>
+            </div>
+            <button class="apply-coupon-btn">Áp dụng</button>
+          </div>
+          <div class="coupon-item" data-code="PERCENT10">
+            <div class="coupon-info">
+              <div class="coupon-code">PERCENT10</div>
+              <div class="coupon-desc">Giảm 10% tối đa 100.000đ cho đơn hàng từ 1.000.000đ</div>
+            </div>
+            <button class="apply-coupon-btn">Áp dụng</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual Input -->
       <div class="voucher-input">
-        <input type="text" placeholder="Nhập mã giảm giá">
-        <button>Áp dụng</button>
+        <input type="text" id="couponInput" placeholder="Nhập mã giảm giá khác">
+        <button id="applyCouponBtn">Áp dụng</button>
+      </div>
+      
+      <!-- Applied Coupon Display -->
+      <div id="appliedCoupon" class="applied-coupon" style="display: none;">
+        <div class="applied-coupon-info">
+          <span id="appliedCouponCode"></span>
+          <span id="appliedCouponDiscount"></span>
+        </div>
+        <button id="removeCouponBtn" class="remove-coupon-btn">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
     </div>
 
