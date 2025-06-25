@@ -230,6 +230,21 @@
             require 'refresh_token.php';
             break;
 
+        //duyệt đơn hàng
+        case 'api/approve-order':
+            require 'api/approve_order.php';
+            break;
+
+        //từ chối đơn hàng
+        case 'api/decline-order':
+            require 'api/decline_order.php';
+            break;
+
+        //kích hoạt người dùng
+        case 'api/enable-user':
+            require 'api/enable_user.php';
+            break;
+
         default:
             http_response_code(404);
             echo json_encode([

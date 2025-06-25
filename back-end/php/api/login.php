@@ -29,7 +29,7 @@
     $isEmail = filter_var($inputUser, FILTER_VALIDATE_EMAIL);
     $loginBy = $isEmail ? 'email' : 'phone';
 
-    $query = "SELECT * FROM Users WHERE Phone = ? OR Email = ? LIMIT 1";
+    $query = "SELECT * FROM Users WHERE (Phone = ? OR Email = ?) AND IsDisabled = 0 LIMIT 1";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "ss", $inputUser, $inputUser);
@@ -82,9 +82,23 @@
             ]);
         }
     } else {
-        echo json_encode([
-            "success" => false,
-            "message" => "Không tìm thấy tài khoản"
-        ]);
+        // Check if user exists but is disabled
+        $checkDisabledQuery = "SELECT UserID FROM Users WHERE (Phone = ? OR Email = ?) AND IsDisabled = 1 LIMIT 1";
+        $stmtDisabled = mysqli_prepare($conn, $checkDisabledQuery);
+        mysqli_stmt_bind_param($stmtDisabled, "ss", $inputUser, $inputUser);
+        mysqli_stmt_execute($stmtDisabled);
+        $disabledResult = mysqli_stmt_get_result($stmtDisabled);
+        
+        if (mysqli_fetch_assoc($disabledResult)) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ admin."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Không tìm thấy tài khoản"
+            ]);
+        }
     }
 ?>
