@@ -36,7 +36,7 @@
             </div>
             <input type="file" id="avatarInput" accept="image/*" style="display: none;" />
           </div>
-          <h3 id="userName">Nguyễn Văn A</h3>
+          <h3 id="userName"></h3>
           <p id="memberSince">Thành viên từ: 7/2025</p>
         </div>
 
@@ -56,32 +56,48 @@
           <h2 class="section-title">Đơn hàng của tôi</h2>
         </div>
 
-        <div class="order-filters">
-          <div class="filter-group">
-            <label for="timeFilter">Thời gian:</label>
-            <select id="timeFilter">
-              <option value="all">Tất cả</option>
-              <option value="3months">3 tháng gần đây</option>
-              <option value="6months">6 tháng gần đây</option>
-              <option value="2025">Năm 2025</option>
-            </select>
+        <div class="search-filter-section">
+          <!-- Row 1: Search bar -->
+          <div class="search-bar-row">
+            <div class="search-input-group">
+              <i class="fas fa-search search-icon"></i>
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Tìm kiếm theo mã đơn hàng, tên sản phẩm..."
+                class="search-input"
+              >
+              <button class="search-btn-inside" id="searchOrders" type="button">Tìm kiếm</button>
+            </div>
           </div>
-          <div class="filter-group">
-            <label for="statusFilter">Trạng thái:</label>
-            <select id="statusFilter">
-              <option value="all">Tất cả</option>
-              <option value="pending">Chờ xác nhận</option>
-              <option value="processing">Đang xử lý</option>
-              <option value="shipping">Đang giao hàng</option>
-              <option value="completed">Đã giao</option>
-              <option value="cancelled">Đã hủy</option>
-            </select>
+          <!-- Row 2: Filters -->
+          <div class="filter-row">
+            <div class="filter-group">
+              <select id="timeFilter" class="filter-select">
+                <option value="all">Tất cả thời gian</option>
+                <option value="3months">3 tháng gần đây</option>
+                <option value="6months">6 tháng gần đây</option>
+                <option value="2025">Năm 2025</option>
+                <option value="2024">Năm 2024</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <select id="statusFilter" class="filter-select">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="0">Chờ xử lý</option>
+                <option value="1">Đã duyệt</option>
+                <option value="2">Đã từ chối</option>
+              </select>
+            </div>
+            <button class="btn btn-outline clear-filters-btn" id="clearFilters" type="button">
+              <i class="fas fa-times"></i> Xóa bộ lọc
+            </button>
           </div>
-          <div class="filter-group">
-            <label for="searchInput">Tìm kiếm:</label>
-            <input type="text" id="searchInput" placeholder="Tìm theo tên sản phẩm...">
-          </div>
-          <button class="btn btn-primary" id="searchOrders">Tìm kiếm</button>
+        </div>
+
+        <div id="ordersLoading" class="orders-loading hidden">
+          <div class="spinner"></div>
+          <span>Đang tải dữ liệu...</span>
         </div>
 
         <div class="orders-list" id="ordersList">

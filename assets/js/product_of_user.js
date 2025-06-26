@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const timeFilter = document.getElementById("timeFilter");
   const statusFilter = document.getElementById("statusFilter");
   const searchInput = document.getElementById("searchInput");
+  const ordersLoading = document.getElementById('ordersLoading');
+  const clearFiltersBtn = document.getElementById("clearFilters");
 
   // Save filters to localStorage
   function saveFiltersToLocal() {
@@ -59,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const token = localStorage.getItem("token") || localStorage.getItem("access_token");
       console.log("Fetching orders with token:", token);
 
-      const res = await fetch("../back-end/php/api/get_orders_with_detail.php", {
+      const res = await fetch("../back-end/php/api/get-orders-with-detail", {
         headers: { "Authorization": `Bearer ${token}` }
       });
 
@@ -80,28 +82,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function applyFilters() {
     const keyword = searchInput.value.trim().toLowerCase();
-    const status = statusFilter.value;
-    const time = timeFilter.value;
+    const status = document.getElementById('statusFilter').value;
+    const time = document.getElementById('timeFilter').value;
     const now = new Date();
 
     let filtered = allOrders.filter(order => {
-      let matchStatus = status === "all" || order.Status === status;
+      // Status filter
+      let matchStatus = status === "all" || order.Status.toString() === status;
 
+      // Time filter
       let matchTime = true;
       const orderDate = new Date(order.OrderDate);
       if (time === "3months") {
-        let diff = now - orderDate;
-        matchTime = diff <= 90 * 24 * 60 * 60 * 1000;
+        matchTime = (now - orderDate) <= 90 * 24 * 60 * 60 * 1000;
       } else if (time === "6months") {
-        let diff = now - orderDate;
-        matchTime = diff <= 180 * 24 * 60 * 60 * 1000;
+        matchTime = (now - orderDate) <= 180 * 24 * 60 * 60 * 1000;
       } else if (!isNaN(parseInt(time))) {
         matchTime = orderDate.getFullYear().toString() === time;
       }
 
-      let matchKeyword = keyword === "" || order.items.some(item =>
-        item.Title.toLowerCase().includes(keyword)
-      );
+      // Keyword search
+      let matchKeyword = keyword === "" ||
+        order.OrderID.toString().includes(keyword) ||
+        (order.items && order.items.some(item =>
+          item.Title && item.Title.toLowerCase().includes(keyword)
+        ));
 
       return matchStatus && matchTime && matchKeyword;
     });
@@ -132,13 +137,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!orders.length) {
       console.log("No orders to display");
-      ordersList.style.display = "none";
-      emptyOrders.classList.remove("hidden");
+      ordersList.classList.add('hidden');
+      emptyOrders.classList.remove('hidden');
       return;
     }
 
-    emptyOrders.classList.add("hidden");
-    ordersList.style.display = "block";
+    emptyOrders.classList.add('hidden');
+    ordersList.classList.remove('hidden');
 
     for (const order of orders) {
       console.log("Processing order:", order);
@@ -184,20 +189,45 @@ document.addEventListener("DOMContentLoaded", function () {
     return "Chờ xử lý";
   }
 
-  // Event listeners
-  searchBtn.addEventListener("click", () => {
+  // Show/hide loading
+  function showLoading() {
+    ordersLoading.classList.remove('hidden');
+    ordersList.classList.add('hidden');
+    emptyOrders.classList.add('hidden');
+  }
+  function hideLoading() {
+    ordersLoading.classList.add('hidden');
+    ordersList.classList.remove('hidden');
+  }
+
+  // The main search/filter function
+  function doSearch() {
+    showLoading();
+    setTimeout(() => {
+      currentPage = 1;
+      saveFiltersToLocal();
+      applyFilters();
+      hideLoading();
+    }, 400);
+  }
+
+  // Button click triggers search
+  searchBtn.addEventListener("click", doSearch);
+
+  // Pressing Enter in the input triggers search
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      doSearch();
+    }
+  });
+
+  clearFiltersBtn.addEventListener("click", () => {
+    searchInput.value = '';
+    document.getElementById('timeFilter').value = 'all';
+    document.getElementById('statusFilter').value = 'all';
     currentPage = 1;
     saveFiltersToLocal();
-    applyFilters();
-  });
-
-  prevPageBtn.addEventListener("click", () => {
-    currentPage--;
-    applyFilters();
-  });
-
-  nextPageBtn.addEventListener("click", () => {
-    currentPage++;
     applyFilters();
   });
 
@@ -287,11 +317,9 @@ document.addEventListener("DOMContentLoaded", function () {
     applyFilters();
   });
 
-  searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      currentPage = 1;
-      saveFiltersToLocal();
-      applyFilters();
-    }
-  });
+  // REMOVE this if you have it (no live search!)
+  // searchInput.addEventListener("input", ...);
+
+  document.getElementById('timeFilter').addEventListener('change', doSearch);
+  document.getElementById('statusFilter').addEventListener('change', doSearch);
 });
