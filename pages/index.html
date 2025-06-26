@@ -10,6 +10,8 @@
     />
     <link rel="stylesheet" href="../assets/css/index.css" />
     <link rel="icon" type="image/png" href="../assets/img/logo.png" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -90,46 +92,43 @@
           <a href="../pages/product.html" class="btn-main">Xem sản phẩm</a>
         </div>
         <div class="hero-video-container">
-          <iframe
+          <video
             src="https://res.cloudinary.com/dc61dgxo8/video/upload/v1748490693/videoplayback_jy5b5t.mp4"
-            title="Lenovo Workstations: Introducing the All New ThinkPad P16"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          >
-          </iframe>
+            autoplay
+            loop
+            muted
+            playsinline
+            style="width:100%;height:100%;object-fit:cover;"
+          ></video>
           <div class="video-overlay"></div>
         </div>
       </div>
     </section>
 
-    <section id="products">
-      <h2 class="section-title">Sản phẩm nổi bật</h2>
-      <div class="products">
-        <div class="product-card">
-          <img
-            src="https://th.bing.com/th/id/OIP.cXFNh9C1UiIVl3z8S4WKPQHaEK?cb=iwc2&w=1600&h=900&rs=1&pid=ImgDetMain"
-            alt="Sản phẩm 1"
-          />
-          <h3>Laptop Gaming</h3>
-          <p>Hiệu năng đỉnh cao, thiết kế mạnh mẽ</p>
-        </div>
-        <div class="product-card">
-          <img
-            src="https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_2.0/d_transparent.gif/content/dam/logitech/en/products/webcams/mx-brio/buy/migration-assets-for-delorean-2025/gallery/mx-brio-3qtr-front-right-graphite.png?v=1"
-            alt="Sản phẩm 2"
-          />
-          <h3>Camera sắc nét</h3>
-          <p>Chất lượng hình ảnh vượt trội</p>
-        </div>
-        <div class="product-card">
-          <img
-            src="https://th.bing.com/th/id/OIP.hrfYja_oUMC46bWVGlCjYgHaEK?cb=iwc2&rs=1&pid=ImgDetMain"
-            alt="Sản phẩm 3"
-          />
-          <h3>Tai nghe Premium</h3>
-          <p>Âm thanh Hi-Fi chuyên nghiệp</p>
-        </div>
+    <div class="featured-label">SẢN PHẨM NỔI BẬT</div>
+    <section class="featured-product asus-featured">
+      <div class="featured-info fade-in-on-scroll">
+        <h2 class="featured-title">Asus TUF Gaming A15<br><h3>// Ryzen 7 7435HS || GeForce RTX™ 3050 \\</h3></h2> <br>
+        <p class="featured-desc">
+          Trải nghiệm hiệu năng mạnh mẽ, thiết kế đột phá – lựa chọn hàng đầu cho game thủ và dân công nghệ.
+        </p>
+        <a class="featured-btn" href="detail.html?id=9">XEM NGAY</a>
+      </div>
+      <div class="featured-image fade-in-on-scroll slide-in-left" style="position:relative;">
+        <img src="../assets/img/unnamed_w5hymn-removebg-preview.png" alt="Laptop Gaming Đỉnh Cao" />
+      </div>
+    </section>
+
+    <section class="featured-product featured-product-alt">
+      <div class="featured-image fade-in-on-scroll">
+        <img src="../assets/img/camera.png" alt="Webcam Logitech C270" />
+      </div>
+      <div class="featured-info fade-in-on-scroll">
+        <h2 class="featured-title">WEBCAM LOGITECH C270</h2>
+        <p class="featured-desc">
+          Hình ảnh sắc nét, âm thanh rõ ràng – lựa chọn hoàn hảo cho học tập, làm việc và giải trí trực tuyến.
+        </p>
+        <a class="featured-btn" href="detail.html?id=18">XEM NGAY</a>
       </div>
     </section>
 
@@ -155,7 +154,7 @@
               TECHSPHERE hứa hẹn mang đến cho bạn trải nghiệm sản phẩm công nghệ
               tuyệt vời nhất.
             </p>
-            <a href="#products" class="tech-cta">Khám phá sản phẩm</a>
+            <a href="product.html" class="tech-cta">Khám phá sản phẩm</a>
           </div>
         </div>
 
@@ -225,5 +224,54 @@
         </div>
       </div>
     </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const track = document.querySelector('.carousel-track');
+      const cards = document.querySelectorAll('.product-card');
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+      let current = 0;
+      const visible = 3; // Number of cards visible at once
+
+      function updateSlider() {
+        cards.forEach((card, i) => {
+          card.style.display = (i >= current && i < current + visible) ? 'flex' : 'none';
+        });
+      }
+
+      prevBtn.addEventListener('click', () => {
+        if (current > 0) {
+          current--;
+          updateSlider();
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (current < cards.length - visible) {
+          current++;
+          updateSlider();
+        }
+      });
+
+      updateSlider();
+    });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const fadeEls = document.querySelectorAll('.fade-in-on-scroll');
+      function onScroll() {
+        fadeEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 80) {
+            el.classList.add('visible');
+          }
+        });
+      }
+      window.addEventListener('scroll', onScroll);
+      onScroll(); // chạy lần đầu khi load
+    });
+    </script>
   </body>
 </html>
