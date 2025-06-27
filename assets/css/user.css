@@ -48,6 +48,7 @@ header {
     font-size: 28px;
     font-weight: bold;
     text-decoration: none;
+    font-family: 'Orbitron', Arial, sans-serif !important;
 }
 
 .logo span {

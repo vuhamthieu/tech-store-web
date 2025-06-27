@@ -101,9 +101,10 @@ body {
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--primary);
+  font-family: 'Orbitron', Arial, sans-serif !important;
 }
 
 .steps {
