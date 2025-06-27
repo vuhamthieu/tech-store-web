@@ -20,7 +20,7 @@ header {
   top: 0;
   z-index: 100;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; 
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   border-bottom: 2px solid #ff4655;
   backdrop-filter: blur(10px);
@@ -40,7 +40,8 @@ header {
   display: flex;
   align-items: center;
   gap: 30px;
-  justify-self: center; /* Căn giữa tuyệt đối */
+  justify-self: center;
+  /* Căn giữa tuyệt đối */
 }
 
 /* Auth buttons ở góc phải */
@@ -53,7 +54,8 @@ header {
 
 /* User info container cũng ở góc phải */
 .user-info-container {
-  display: none; /* Mặc định ẩn */
+  display: none;
+  /* Mặc định ẩn */
   justify-self: end;
   margin-right: 0;
 }
@@ -70,7 +72,8 @@ header {
 /* Responsive cho mobile */
 @media (max-width: 768px) {
   header {
-    display: flex; /* Chuyển về flex cho mobile */
+    display: flex;
+    /* Chuyển về flex cho mobile */
     justify-content: space-between;
   }
 
@@ -108,7 +111,8 @@ header {
 /* Responsive cho mobile */
 @media (max-width: 768px) {
   .auth-buttons {
-    margin-right: 10px; /* Chỉ thêm một chút khoảng cách trên mobile */
+    margin-right: 10px;
+    /* Chỉ thêm một chút khoảng cách trên mobile */
   }
 
   .user-info-container {
@@ -205,6 +209,7 @@ nav a:hover::after {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 70, 85, 0.4);
 }
+
 /* ===== Hero Section Fix ===== */
 .hero {
   position: relative;
@@ -221,14 +226,16 @@ nav a:hover::after {
   font-size: 4.5rem;
   color: #fff;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-  margin-bottom: 30px; /* Tăng khoảng cách dưới tiêu đề */
+  margin-bottom: 30px;
+  /* Tăng khoảng cách dưới tiêu đề */
   animation: fadeInUp 1s ease-out;
   line-height: 1.1;
 }
 
 .hero-content p {
   font-size: 1.4rem;
-  margin: 0 0 40px 0; /* Điều chỉnh margin */
+  margin: 0 0 40px 0;
+  /* Điều chỉnh margin */
   color: #ccc;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
   animation: fadeInUp 1s ease-out 0.3s both;
@@ -236,7 +243,8 @@ nav a:hover::after {
 }
 
 .btn-main {
-  margin-top: 20px; /* Thêm khoảng cách phía trên nút */
+  margin-top: 20px;
+  /* Thêm khoảng cách phía trên nút */
 }
 
 .hero-video-container {
@@ -246,7 +254,7 @@ nav a:hover::after {
   width: 100%;
   height: 100%;
   z-index: 1;
-  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.5s cubic-bezier(.25, .8, .25, 1);
 }
 
 .hero-video-container.mini {
@@ -260,6 +268,7 @@ nav a:hover::after {
   border-radius: 12px;
   background: #000;
 }
+
 .hero-video-container.mini video,
 .hero-video-container.mini iframe {
   border-radius: 12px;
@@ -269,7 +278,8 @@ nav a:hover::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.1); /* Phóng nhẹ video để lấp khoảng trống */
+  transform: scale(1.1);
+  /* Phóng nhẹ video để lấp khoảng trống */
 }
 
 .video-overlay {
@@ -303,6 +313,7 @@ header {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -354,23 +365,23 @@ section {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.3s;
+  transition: transform 0.4s cubic-bezier(.25, .8, .25, 1), box-shadow 0.3s;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   perspective: 600px;
   will-change: transform;
 }
 
 .product-card:hover {
   transform: rotateY(12deg) scale(1.05);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   z-index: 2;
 }
 
 .product-card img {
   width: 100%;
   border-radius: 10px;
-  transition: transform 0.4s cubic-bezier(.25,.8,.25,1);
+  transition: transform 0.4s cubic-bezier(.25, .8, .25, 1);
 }
 
 .product-card:hover img {
@@ -402,21 +413,21 @@ section {
   right: -20%;
   width: 40%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 70, 85, 0.05),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 70, 85, 0.05),
+      transparent);
   transform: rotate(15deg);
   animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: rotate(15deg) translateY(0px);
   }
+
   50% {
     transform: rotate(15deg) translateY(-20px);
   }
@@ -520,6 +531,7 @@ section {
   0% {
     transform: rotateY(0deg) rotateX(10deg);
   }
+
   100% {
     transform: rotateY(360deg) rotateX(10deg);
   }
@@ -756,7 +768,7 @@ section {
 }
 
 .user-info:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .user-dropdown {
@@ -770,7 +782,7 @@ section {
   right: 0;
   background-color: #fff;
   min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   border-radius: 4px;
   overflow: hidden;
@@ -817,7 +829,7 @@ section {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s;
 }
 
@@ -858,6 +870,7 @@ section {
   .product-slider {
     max-width: 98vw;
   }
+
   .slide img {
     max-width: 90vw;
   }
@@ -893,6 +906,7 @@ section {
   gap: 4px;
   transition: color 0.2s;
 }
+
 .view-all-link:hover {
   color: #ff4655;
 }
@@ -921,6 +935,7 @@ section {
   align-items: center;
   justify-content: center;
 }
+
 .carousel-btn:hover {
   background: #ff4655;
   color: #fff;
@@ -936,7 +951,7 @@ section {
 .product-card {
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 18px;
   min-width: 320px;
   max-width: 340px;
@@ -946,11 +961,13 @@ section {
   align-items: flex-start;
   transition: box-shadow 0.3s;
 }
+
 .product-card img {
   width: 100%;
   border-radius: 8px;
   margin-bottom: 12px;
 }
+
 .product-meta {
   display: flex;
   gap: 10px;
@@ -959,11 +976,13 @@ section {
   margin-bottom: 6px;
   font-weight: 600;
 }
+
 .product-card h3 {
   font-size: 1.1rem;
   margin: 8px 0 6px;
   color: #222;
 }
+
 .product-card p {
   color: #666;
   font-size: 0.98em;
@@ -974,18 +993,21 @@ section {
   .carousel-track {
     gap: 12px;
   }
+
   .product-card {
     min-width: 220px;
     max-width: 240px;
     flex: 0 0 48%;
   }
 }
+
 @media (max-width: 600px) {
   .carousel-btn {
     width: 36px;
     height: 36px;
     font-size: 1.5rem;
   }
+
   .product-card {
     min-width: 90vw;
     max-width: 95vw;
@@ -1001,16 +1023,19 @@ section {
   height: 350px;
   overflow: hidden;
 }
+
 .wgh-slider {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .wgh-slider__viewport {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .wgh-slider__viewbox {
   position: relative;
   width: 100%;
@@ -1019,15 +1044,18 @@ section {
   margin: 0 auto;
   transform-style: preserve-3d;
 }
+
 .wgh-slider__container {
   width: 100%;
   height: 100%;
   position: absolute;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .wgh-slider-item {
   position: absolute;
   width: 240px;
@@ -1036,72 +1064,96 @@ section {
   top: 50%;
   transform: translate(-50%, -50%) scale(0.7);
   opacity: 0.5;
-  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.5s cubic-bezier(.25, .8, .25, 1);
   z-index: 1;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
 }
+
 .wgh-slider-item-figure__image {
   width: 100%;
   height: 220px;
   object-fit: cover;
   border-radius: 16px 16px 0 0;
 }
+
 .wgh-slider-item-figure__caption {
   text-align: center;
   padding: 10px 0;
   font-weight: bold;
   color: #222;
 }
-input.wgh-slider-target { display: none; }
+
+input.wgh-slider-target {
+  display: none;
+}
+
 .wgh-slider-item__trigger {
   display: block;
   width: 100%;
   height: 100%;
   cursor: pointer;
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   z-index: 2;
 }
 
 /* Hiệu ứng coverflow cho 3 ảnh */
-input#slide-1:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  opacity: 1; z-index: 3;
+  opacity: 1;
+  z-index: 3;
 }
-input#slide-1:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
   transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
-  opacity: 0.7; z-index: 2;
+  opacity: 0.7;
+  z-index: 2;
 }
-input#slide-1:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
   transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
-  opacity: 0.5; z-index: 1;
+  opacity: 0.5;
+  z-index: 1;
 }
-input#slide-2:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
   transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  opacity: 1; z-index: 3;
+  opacity: 1;
+  z-index: 3;
 }
-input#slide-2:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
-  opacity: 0.5; z-index: 1;
+  opacity: 0.5;
+  z-index: 1;
 }
-input#slide-2:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
   transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
-  opacity: 0.7; z-index: 2;
+  opacity: 0.7;
+  z-index: 2;
 }
-input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
   transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  opacity: 1; z-index: 3;
+  opacity: 1;
+  z-index: 3;
 }
-input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
   transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
-  opacity: 0.5; z-index: 1;
+  opacity: 0.5;
+  z-index: 1;
 }
-input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
-  opacity: 0.7; z-index: 2;
+  opacity: 0.7;
+  z-index: 2;
 }
 
 .featured-product {
@@ -1131,7 +1183,7 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   line-height: 1.1;
   margin-bottom: 16px;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.12);
+  text-shadow: 2px 2px 8px rgba(31, 13, 13, 0.4);
 }
 
 .featured-desc {
@@ -1158,10 +1210,12 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  min-width: 120px; /* Đảm bảo nút không quá nhỏ */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 120px;
+  /* Đảm bảo nút không quá nhỏ */
   text-align: center;
 }
+
 .featured-btn:hover {
   background: #e13b3b;
 }
@@ -1175,20 +1229,25 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   background: transparent;
   height: 100%;
 }
+
 .featured-image img {
   max-width: 100%;
   max-height: 420px;
   object-fit: contain;
 }
+
 @media (max-width: 900px) {
   .featured-product {
     flex-direction: column;
     min-height: unset;
   }
-  .featured-info, .featured-image {
+
+  .featured-info,
+  .featured-image {
     padding: 24px;
     border-radius: 0;
   }
+
   .featured-title {
     font-size: 40px;
   }
@@ -1197,9 +1256,10 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
 .fade-in-on-scroll {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
   will-change: opacity, transform;
 }
+
 .fade-in-on-scroll.visible {
   opacity: 1;
   transform: none;
@@ -1224,7 +1284,7 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
 
 .featured-product-alt .featured-title {
   color: #fff;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.18);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .featured-product-alt .featured-desc {
@@ -1240,6 +1300,7 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   border-radius: 8px;
   transition: background 0.2s;
 }
+
 .featured-product-alt .featured-btn:hover {
   background: #ff4c4c;
   color: #fff;
@@ -1251,16 +1312,19 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   max-height: 420px;
   object-fit: contain;
 }
+
 @media (max-width: 900px) {
   .featured-product-alt {
     flex-direction: column-reverse;
     min-height: unset;
   }
-  .featured-product-alt .featured-info, 
+
+  .featured-product-alt .featured-info,
   .featured-product-alt .featured-image {
     padding: 24px;
     border-radius: 0;
   }
+
   .featured-product-alt .featured-title {
     font-size: 40px;
   }
@@ -1285,15 +1349,16 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   color: #ff4c4c;
   margin-bottom: 18px;
   margin-top: 40px;
-  text-shadow: 1px 1px 8px rgba(0,0,0,0.08);
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Slide-in từ trái */
 .slide-in-left {
   opacity: 0;
   transform: translateX(-60px);
-  transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
 }
+
 .slide-in-left.visible {
   opacity: 1;
   transform: none;
@@ -1303,11 +1368,27 @@ input#slide-3:checked ~ .wgh-slider__viewport .wgh-slider-item:nth-child(1) {
 .slide-in-right {
   opacity: 0;
   transform: translateX(60px);
-  transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
 }
+
 .slide-in-right.visible {
   opacity: 1;
   transform: none;
 }
 
+.logo-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(195, 137, 137, 0.312);
+  /* or a soft color */
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
 
+.logo-bg img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
