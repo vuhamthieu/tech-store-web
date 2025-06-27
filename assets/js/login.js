@@ -48,7 +48,7 @@ document
 
       console.log('Sending login request...');
       const res = await fetch(
-        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/login",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -91,15 +91,20 @@ document
 
         // Store the token
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.data));
-
         localStorage.setItem("isLoggedIn", "true");
 
         console.log('Login successful!');
         console.log('Stored token:', data.access_token);
         console.log('Stored user:', data.data);
 
-        window.location.href = "product.html";
+        // Redirect based on role
+        if (data.data.RoleID && data.data.RoleID == 2 && !window.location.pathname.endsWith("dashboard.html")) {
+          window.location.href = "dashboard.html";
+        } else {
+          window.location.href = "product.html";
+        }
       } else {
         alert(data.message || "Đăng nhập thất bại!");
       }

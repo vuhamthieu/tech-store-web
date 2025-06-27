@@ -21,7 +21,7 @@
             </a>
           </div>
           <div class="steps">
-              <div class="step active">
+              <div class="step active" id="goToCart" style="cursor:pointer;">
                   <div class="step-number">1</div>
                   <span>Giỏ hàng</span>
               </div>
@@ -110,9 +110,43 @@
     <!-- Voucher -->
     <div class="card">
       <h3 class="card-title">Mã giảm giá</h3>
+      
+      <!-- Available Coupons -->
+      <div class="available-coupons">
+        <h4>Mã giảm giá có sẵn:</h4>
+        <div class="coupon-list">
+          <div class="coupon-item" data-code="SALE50">
+            <div class="coupon-info">
+              <div class="coupon-code">SALE50</div>
+              <div class="coupon-desc">Giảm 50.000đ cho đơn hàng từ 500.000đ</div>
+            </div>
+            <button class="apply-coupon-btn">Áp dụng</button>
+          </div>
+          <div class="coupon-item" data-code="PERCENT10">
+            <div class="coupon-info">
+              <div class="coupon-code">PERCENT10</div>
+              <div class="coupon-desc">Giảm 10% tối đa 100.000đ cho đơn hàng từ 1.000.000đ</div>
+            </div>
+            <button class="apply-coupon-btn">Áp dụng</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual Input -->
       <div class="voucher-input">
-        <input type="text" placeholder="Nhập mã giảm giá">
-        <button>Áp dụng</button>
+        <input type="text" id="couponInput" placeholder="Nhập mã giảm giá khác">
+        <button id="applyCouponBtn">Áp dụng</button>
+      </div>
+      
+      <!-- Applied Coupon Display -->
+      <div id="appliedCoupon" class="applied-coupon" style="display: none;">
+        <div class="applied-coupon-info">
+          <span id="appliedCouponCode"></span>
+          <span id="appliedCouponDiscount"></span>
+        </div>
+        <button id="removeCouponBtn" class="remove-coupon-btn">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
     </div>
 
@@ -132,35 +166,7 @@
       <div class="right-column">
           <div class="card order-summary">
               <h3 class="card-title">Đơn hàng (3 sản phẩm)</h3>
-              <div class="product-list">
-                  <div class="product-item">
-                      <img src="https://via.placeholder.com/60" alt="Product 1" class="product-image">
-                      <div class="product-details">
-                          <div class="product-name">Áo thun nam cổ tròn chất liệu cotton thoáng mát</div>
-                          <div class="product-variant">Phân loại: Đen, XL</div>
-                          <div class="product-variant">Số lượng: 1</div>
-                          <div class="product-price">120.000đ</div>
-                      </div>
-                  </div>
-                  <div class="product-item">
-                      <img src="https://via.placeholder.com/60" alt="Product 2" class="product-image">
-                      <div class="product-details">
-                          <div class="product-name">Quần jean nam ống đứng co giãn</div>
-                          <div class="product-variant">Phân loại: Xanh đậm, 32</div>
-                          <div class="product-variant">Số lượng: 1</div>
-                          <div class="product-price">250.000đ</div>
-                      </div>
-                  </div>
-                  <div class="product-item">
-                      <img src="https://via.placeholder.com/60" alt="Product 3" class="product-image">
-                      <div class="product-details">
-                          <div class="product-name">Giày thể thao nam đế cao su chống trơn trượt</div>
-                          <div class="product-variant">Phân loại: Đen, 42</div>
-                          <div class="product-variant">Số lượng: 1</div>
-                          <div class="product-price">350.000đ</div>
-                      </div>
-                  </div>
-              </div>
+              <div class="product-list"></div>
 
               <div class="price-row">
                   <span>Tạm tính</span>

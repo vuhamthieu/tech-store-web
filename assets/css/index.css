@@ -20,7 +20,7 @@ header {
   top: 0;
   z-index: 100;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; 
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   border-bottom: 2px solid #ff4655;
   backdrop-filter: blur(10px);
@@ -40,7 +40,8 @@ header {
   display: flex;
   align-items: center;
   gap: 30px;
-  justify-self: center; /* Căn giữa tuyệt đối */
+  justify-self: center;
+  /* Căn giữa tuyệt đối */
 }
 
 /* Auth buttons ở góc phải */
@@ -53,7 +54,8 @@ header {
 
 /* User info container cũng ở góc phải */
 .user-info-container {
-  display: none; /* Mặc định ẩn */
+  display: none;
+  /* Mặc định ẩn */
   justify-self: end;
   margin-right: 0;
 }
@@ -70,7 +72,8 @@ header {
 /* Responsive cho mobile */
 @media (max-width: 768px) {
   header {
-    display: flex; /* Chuyển về flex cho mobile */
+    display: flex;
+    /* Chuyển về flex cho mobile */
     justify-content: space-between;
   }
 
@@ -108,7 +111,8 @@ header {
 /* Responsive cho mobile */
 @media (max-width: 768px) {
   .auth-buttons {
-    margin-right: 10px; /* Chỉ thêm một chút khoảng cách trên mobile */
+    margin-right: 10px;
+    /* Chỉ thêm một chút khoảng cách trên mobile */
   }
 
   .user-info-container {
@@ -205,6 +209,7 @@ nav a:hover::after {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 70, 85, 0.4);
 }
+
 /* ===== Hero Section Fix ===== */
 .hero {
   position: relative;
@@ -214,20 +219,23 @@ nav a:hover::after {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-bottom: 0;
 }
 
 .hero-content h1 {
   font-size: 4.5rem;
   color: #fff;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-  margin-bottom: 30px; /* Tăng khoảng cách dưới tiêu đề */
+  margin-bottom: 30px;
+  /* Tăng khoảng cách dưới tiêu đề */
   animation: fadeInUp 1s ease-out;
   line-height: 1.1;
 }
 
 .hero-content p {
   font-size: 1.4rem;
-  margin: 0 0 40px 0; /* Điều chỉnh margin */
+  margin: 0 0 40px 0;
+  /* Điều chỉnh margin */
   color: #ccc;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
   animation: fadeInUp 1s ease-out 0.3s both;
@@ -235,7 +243,8 @@ nav a:hover::after {
 }
 
 .btn-main {
-  margin-top: 20px; /* Thêm khoảng cách phía trên nút */
+  margin-top: 20px;
+  /* Thêm khoảng cách phía trên nút */
 }
 
 .hero-video-container {
@@ -245,13 +254,32 @@ nav a:hover::after {
   width: 100%;
   height: 100%;
   z-index: 1;
+  transition: all 0.5s cubic-bezier(.25, .8, .25, 1);
+}
+
+.hero-video-container.mini {
+  position: fixed !important;
+  width: 320px !important;
+  height: 180px !important;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  box-shadow: 0 8px 32px rgba(44, 19, 80, 0.18);
+  border-radius: 12px;
+  background: #000;
+}
+
+.hero-video-container.mini video,
+.hero-video-container.mini iframe {
+  border-radius: 12px;
 }
 
 .hero-video-container iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.1); /* Phóng nhẹ video để lấp khoảng trống */
+  transform: scale(1.1);
+  /* Phóng nhẹ video để lấp khoảng trống */
 }
 
 .video-overlay {
@@ -285,6 +313,7 @@ header {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -336,18 +365,27 @@ section {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  transition: transform 0.3s;
+  transition: transform 0.4s cubic-bezier(.25, .8, .25, 1), box-shadow 0.3s;
   border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  perspective: 600px;
+  will-change: transform;
 }
 
 .product-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: rotateY(12deg) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  z-index: 2;
 }
 
 .product-card img {
   width: 100%;
   border-radius: 10px;
+  transition: transform 0.4s cubic-bezier(.25, .8, .25, 1);
+}
+
+.product-card:hover img {
+  transform: scale(1.08) rotateZ(-2deg);
 }
 
 .product-card h3 {
@@ -375,21 +413,21 @@ section {
   right: -20%;
   width: 40%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 70, 85, 0.05),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 70, 85, 0.05),
+      transparent);
   transform: rotate(15deg);
   animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: rotate(15deg) translateY(0px);
   }
+
   50% {
     transform: rotate(15deg) translateY(-20px);
   }
@@ -493,6 +531,7 @@ section {
   0% {
     transform: rotateY(0deg) rotateX(10deg);
   }
+
   100% {
     transform: rotateY(360deg) rotateX(10deg);
   }
@@ -500,14 +539,9 @@ section {
 
 .product-item {
   position: absolute;
-  width: 180px;
-  height: 120px;
-  background: #fff;
+  width: 600px;
+  height: 400px;
   border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s;
 }
 
@@ -729,7 +763,7 @@ section {
 }
 
 .user-info:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .user-dropdown {
@@ -743,7 +777,7 @@ section {
   right: 0;
   background-color: #fff;
   min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   border-radius: 4px;
   overflow: hidden;
@@ -766,4 +800,1101 @@ section {
   color: #fff;
 }
 
+.product-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
 
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation Dots */
+.slider-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #ff4655;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+}
+
+/* Navigation Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 70, 85, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-arrow {
+  left: 15px;
+}
+
+.next-arrow {
+  right: 15px;
+}
+
+/* Responsive for slider */
+@media (max-width: 768px) {
+  .slider-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .prev-arrow {
+    left: 10px;
+  }
+
+  .next-arrow {
+    right: 10px;
+  }
+
+  .slider-dots {
+    bottom: 15px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .prev-arrow {
+    left: 5px;
+  }
+
+  .next-arrow {
+    right: 5px;
+  }
+}
+
+.featured-products-section {
+  background: #f8f8f3;
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #222;
+  letter-spacing: 1px;
+}
+
+.view-all-link {
+  color: #222;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.view-all-link:hover {
+  color: #ff4655;
+}
+
+.product-carousel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carousel-btn {
+  background: #fff;
+  border: 1px solid #eee;
+  color: #ff4655;
+  font-size: 2rem;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover {
+  background: #ff4655;
+  color: #fff;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+  min-width: 320px;
+  max-width: 340px;
+  flex: 0 0 32%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.3s;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.product-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #ff4655;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.product-card h3 {
+  font-size: 1.1rem;
+  margin: 8px 0 6px;
+  color: #222;
+}
+
+.product-card p {
+  color: #666;
+  font-size: 0.98em;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .carousel-track {
+    gap: 12px;
+  }
+
+  .product-card {
+    min-width: 220px;
+    max-width: 240px;
+    flex: 0 0 48%;
+  }
+}
+
+@media (max-width: 600px) {
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .product-card {
+    min-width: 90vw;
+    max-width: 95vw;
+    flex: 0 0 100%;
+  }
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 40px auto;
+  height: 350px;
+  overflow: hidden;
+}
+
+.wgh-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wgh-slider__viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wgh-slider__viewbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+}
+
+.wgh-slider__container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wgh-slider-item {
+  position: absolute;
+  width: 240px;
+  height: 320px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  opacity: 0.5;
+  transition: all 0.5s cubic-bezier(.25, .8, .25, 1);
+  z-index: 1;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.wgh-slider-item-figure__image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.wgh-slider-item-figure__caption {
+  text-align: center;
+  padding: 10px 0;
+  font-weight: bold;
+  color: #222;
+}
+
+input.wgh-slider-target {
+  display: none;
+}
+
+.wgh-slider-item__trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* Hiệu ứng coverflow cho 3 ảnh */
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 3;
+}
+
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+  transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+input#slide-1:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+  transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 3;
+}
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+  transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+input#slide-2:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+  transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(3) {
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 3;
+}
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(2) {
+  transform: translate(-70%, -50%) scale(0.7) rotateY(-30deg);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
+  transform: translate(-30%, -50%) scale(0.8) rotateY(30deg);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.featured-product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #faf7fb;
+  overflow: hidden;
+  margin: 0;
+  min-height: 400px;
+  box-shadow: none;
+}
+
+.featured-info {
+  flex: 1;
+  padding: 48px 40px 48px 60px;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured-title {
+  font-family: 'Bebas Neue', Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 8px rgba(31, 13, 13, 0.4);
+}
+
+.featured-desc {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 18px;
+  margin-bottom: 32px;
+  color: #c34f4f;
+  max-width: 500px;
+}
+
+.featured-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: #ff4c4c;
+  color: #fff;
+  width: 50%;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 120px;
+  /* Đảm bảo nút không quá nhỏ */
+  text-align: center;
+}
+
+.featured-btn:hover {
+  background: #e13b3b;
+}
+
+.featured-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  background: transparent;
+  height: 100%;
+}
+
+.featured-image img {
+  max-width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .featured-product {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .featured-info,
+  .featured-image {
+    padding: 24px;
+    border-radius: 0;
+  }
+
+  .featured-title {
+    font-size: 40px;
+  }
+}
+
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-on-scroll.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.featured-image {
+  background: transparent !important;
+}
+
+.featured-product-alt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(120deg, #ff4c4c 55%, #181828 100%);
+  position: relative;
+}
+
+.featured-product-alt .featured-info {
+  color: #fff;
+  /* Nếu muốn chữ nổi bật hơn trên nền đen/đỏ */
+}
+
+.featured-product-alt .featured-title {
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.featured-product-alt .featured-desc {
+  color: #ffeaea;
+}
+
+.featured-product-alt .featured-btn {
+  background: #181828;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.featured-product-alt .featured-btn:hover {
+  background: #ff4c4c;
+  color: #fff;
+}
+
+.featured-product-alt .featured-image img {
+  background: transparent;
+  max-width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .featured-product-alt {
+    flex-direction: column-reverse;
+    min-height: unset;
+  }
+
+  .featured-product-alt .featured-info,
+  .featured-product-alt .featured-image {
+    padding: 24px;
+    border-radius: 0;
+  }
+
+  .featured-product-alt .featured-title {
+    font-size: 40px;
+  }
+}
+
+/* Nếu section đầu là .featured-product (không có .alt) */
+.featured-product .featured-image img {
+  max-width: 120%;
+  max-height: 520px;
+}
+
+.first-featured .featured-image img {
+  max-width: 120%;
+  max-height: 520px;
+}
+
+.featured-label {
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ff4c4c;
+  margin-bottom: 18px;
+  margin-top: 40px;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Slide-in từ trái */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Slide-in từ phải */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(.25, .8, .25, 1), transform 0.8s cubic-bezier(.25, .8, .25, 1);
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.logo-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(195, 137, 137, 0.312);
+  /* or a soft color */
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
+
+.logo-bg img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+/* Product Slider Styles - Override existing featured-image */
+.featured-image .product-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Thay đổi từ hidden thành visible */
+  border-radius: 12px;
+  background: transparent;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 1;
+  /* Đảm bảo hiển thị trên cùng */
+}
+
+.featured-image .slide.active {
+  opacity: 1;
+  z-index: 2;
+  /* Slide active hiển thị trên cùng */
+}
+
+.featured-image .slide img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  /* Thêm width auto */
+  height: auto;
+  /* Thêm height auto */
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  display: block;
+  /* Đảm bảo ảnh hiển thị */
+}
+
+.featured-image .slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation Dots */
+.featured-image .slider-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.featured-image .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 140, 140, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.featured-image .dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.featured-image .dot.active {
+  background: #ff4655;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+}
+
+/* Navigation Arrows */
+.featured-image .slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.featured-image .slider-arrow:hover {
+  background: rgba(255, 70, 85, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.featured-image .prev-arrow {
+  left: 15px;
+}
+
+.featured-image .next-arrow {
+  right: 15px;
+}
+
+/* Responsive for slider */
+@media (max-width: 768px) {
+  .featured-image .slider-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .featured-image .prev-arrow {
+    left: 10px;
+  }
+
+  .featured-image .next-arrow {
+    right: 10px;
+  }
+
+  .featured-image .slider-dots {
+    bottom: 15px;
+  }
+
+  .featured-image .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-image .slider-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .featured-image .prev-arrow {
+    left: 5px;
+  }
+
+  .featured-image .next-arrow {
+    right: 5px;
+  }
+}
+
+/* Đưa nút mũi tên ra hai bên ảnh và làm đẹp */
+.simple-slider {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  /* hoặc lớn hơn nếu muốn nút sát hai bên hơn */
+  margin: 0 auto;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 70, 85, 0.12);
+  color: #ff4655;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.slider-btn.prev {
+  left: 0;
+}
+
+.slider-btn.next {
+  right: 0;
+}
+
+.slider-btn:hover {
+  background: #ff4655;
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slide-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  /* hoặc 400px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.slide-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s;
+  border-radius: 12px;
+  background: transparent;
+  display: block;
+}
+
+.slide-img.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .slide-container {
+    height: 220px;
+  }
+}
+
+.slider-controls {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  transform: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 70, 85, 0.5);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.dot:hover {
+  background: #ff4655;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #ff4655;
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+  transform: scale(1.1);
+}
+
+/* Đổi màu dot và nút mũi tên cho slider trong section nền tối */
+.featured-product-alt .slider-btn {
+  background: rgba(255, 255, 255, 0);
+  color: #fff;
+}
+
+.featured-product-alt .slider-btn:hover {
+  background: #00000000;
+  color: #040000;
+}
+
+.featured-product-alt .dot {
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+}
+
+.featured-product-alt .dot.active {
+  background: #fff;
+  box-shadow: 0 0 10px #fff, 0 0 0 2px #ff4655;
+}
+
+.featured-product-alt .dot:hover {
+  background: #ff4655;
+}
+
+.quote-slider-section {
+  background: linear-gradient(135deg, #af4949 0%, #2d2d2d 60%, #d13636 100%);
+  color: #fff;
+  padding: 60px 0 40px 0;
+  text-align: center;
+  position: relative;
+}
+
+.quote-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quote-mark {
+  font-size: 3rem;
+  color: #ff4655;
+  font-family: 'Arial Black', Arial, sans-serif;
+  user-select: none;
+}
+
+.quote-mark.left {
+  margin-right: 16px;
+}
+
+.quote-mark.right {
+  margin-left: 16px;
+}
+
+.quote-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.quote-source {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.quote-text {
+  color: #fefefe;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.quote-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.quote-dot {
+  display: inline-block;
+  width: 32px;
+  height: 4px;
+  background: #c9bebe;
+  border-radius: 2px;
+  opacity: 0.5;
+  transition: background 0.3s, opacity 0.3s;
+  cursor: pointer;
+}
+
+.quote-dot.active {
+  background: #fff;
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .quote-slider {
+    gap: 10px;
+  }
+
+  .quote-source {
+    font-size: 1.5rem;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+  }
+
+  .quote-mark {
+    font-size: 2rem;
+  }
+
+  .quote-indicators {
+    margin-top: 18px;
+  }
+}

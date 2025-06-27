@@ -37,7 +37,7 @@ function fetchUserData() {
         document.getElementById('birthday').value = user.birthday;
 
         if (user.avatar) {
-          document.getElementById('avatarImage').src = 'http://localhost:8080/tech-store-web/uploads/' + user.avatar;
+          document.getElementById('avatarImage').src = 'http://localhost/tech-store-web/uploads/' + user.avatar;
         }
       } else {
         alert('Không thể tải thông tin người dùng: ' + data.message);
@@ -62,7 +62,7 @@ if (profileForm) {
       birthday: document.getElementById('birthday').value
     };
 
-    fetch('http://localhost:8080/tech-store-web/back-end/php/api/update-info-user', {
+    fetch('http://localhost/tech-store-web/back-end/php/api/update-info-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

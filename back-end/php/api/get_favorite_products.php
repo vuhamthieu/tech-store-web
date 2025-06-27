@@ -5,9 +5,10 @@
     $user = authenticate();
     $userId = $user['UserID'];
 
-    $query = "SELECT p.* 
+    $query = "SELECT p.*, c.CategoryName 
             FROM Favorites f 
             JOIN Products p ON f.ProductID = p.ProductID 
+            JOIN Categories c ON p.CategoryID = c.CategoryID
             WHERE f.UserID = ? AND p.IsDeleted = 0";
 
     $stmt = mysqli_prepare($conn, $query);

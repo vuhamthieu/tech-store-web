@@ -14,7 +14,7 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <h1  style="font-family: Orbitron, sans-serif; font-size: 30px; color: #ff0000"> Techsphere Admin</h1>
+        <a href="index.html"><h1  style="font-family: Orbitron, sans-serif; font-size: 30px; color: #ff0000; text-decoration: none;"> Techsphere Admin</h1></a>
         <div class="user-profile">
             <div class="user-avatar">A</div>
             <span style="color: white;">Admin</span>
@@ -36,7 +36,7 @@
             <li><a href="#" onclick="showSection('users')">
                 <i class="fas fa-users"></i> <span>Khách hàng</span>
             </a></li>
-            <li><a href="#">
+            <li><a href="#" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
             </a></li>
         </ul>
@@ -144,6 +144,8 @@
                             <th>Email</th>
                             <th>Số điện thoại</th>
                             <th>Ngày đăng ký</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>

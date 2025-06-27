@@ -45,22 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// Hàm kiểm tra token
-async function verifyToken(token) {
-  try {
-    const res = await fetch('http://localhost:8080/webproject/tech-store-web/back-end/php/api/verify-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return res.ok;
-  } catch (error) {
-    return false;
-  }
-}
-
 // Hàm xóa dữ liệu đăng nhập
 function clearAuthData() {
   localStorage.removeItem("user");
@@ -135,7 +119,7 @@ document.querySelectorAll(".nav-menu li a").forEach((link) => {
 ////////////////////
 //product list
 
-const API_URL = "http://localhost:8080/webproject/tech-store-web/back-end/php/api/products";
+const API_URL = "http://localhost/webproject/tech-store-web/back-end/php/api/products";
 
 const productGrid = document.querySelector(".product-grid");
 // Lấy input tìm kiếm từ header
