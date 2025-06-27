@@ -539,14 +539,9 @@ section {
 
 .product-item {
   position: absolute;
-  width: 180px;
-  height: 120px;
-  background: #fff;
+  width: 600px;
+  height: 400px;
   border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s;
 }
 
@@ -808,71 +803,157 @@ section {
 .product-slider {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  margin: 40px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .slider-track {
-  width: 100%;
-  overflow: hidden;
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .slide {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s;
-}
-
-.slide.active {
-  display: flex;
-}
-
-.slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 320px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.slider-btn {
-  background: #fff;
-  border: 1px solid #eee;
-  color: #ff4655;
-  font-size: 2rem;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  cursor: pointer;
-  margin: 0 10px;
-  transition: background 0.2s, color 0.2s;
-  z-index: 2;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.slider-btn:hover {
-  background: #ff4655;
-  color: #fff;
+.slide.active {
+  opacity: 1;
 }
 
-@media (max-width: 600px) {
-  .product-slider {
-    max-width: 98vw;
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation Dots */
+.slider-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #ff4655;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+}
+
+/* Navigation Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 70, 85, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-arrow {
+  left: 15px;
+}
+
+.next-arrow {
+  right: 15px;
+}
+
+/* Responsive for slider */
+@media (max-width: 768px) {
+  .slider-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
   }
 
-  .slide img {
-    max-width: 90vw;
+  .prev-arrow {
+    left: 10px;
+  }
+
+  .next-arrow {
+    right: 10px;
+  }
+
+  .slider-dots {
+    bottom: 15px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .prev-arrow {
+    left: 5px;
+  }
+
+  .next-arrow {
+    right: 5px;
   }
 }
 
@@ -1391,4 +1472,429 @@ input#slide-3:checked~.wgh-slider__viewport .wgh-slider-item:nth-child(1) {
   width: 36px;
   height: 36px;
   object-fit: contain;
+}
+
+/* Product Slider Styles - Override existing featured-image */
+.featured-image .product-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Thay đổi từ hidden thành visible */
+  border-radius: 12px;
+  background: transparent;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Đảm bảo hiển thị */
+}
+
+.featured-image .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 1;
+  /* Đảm bảo hiển thị trên cùng */
+}
+
+.featured-image .slide.active {
+  opacity: 1;
+  z-index: 2;
+  /* Slide active hiển thị trên cùng */
+}
+
+.featured-image .slide img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  /* Thêm width auto */
+  height: auto;
+  /* Thêm height auto */
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  display: block;
+  /* Đảm bảo ảnh hiển thị */
+}
+
+.featured-image .slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation Dots */
+.featured-image .slider-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.featured-image .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 140, 140, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.featured-image .dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.featured-image .dot.active {
+  background: #ff4655;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+}
+
+/* Navigation Arrows */
+.featured-image .slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.featured-image .slider-arrow:hover {
+  background: rgba(255, 70, 85, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.featured-image .prev-arrow {
+  left: 15px;
+}
+
+.featured-image .next-arrow {
+  right: 15px;
+}
+
+/* Responsive for slider */
+@media (max-width: 768px) {
+  .featured-image .slider-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .featured-image .prev-arrow {
+    left: 10px;
+  }
+
+  .featured-image .next-arrow {
+    right: 10px;
+  }
+
+  .featured-image .slider-dots {
+    bottom: 15px;
+  }
+
+  .featured-image .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-image .slider-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .featured-image .prev-arrow {
+    left: 5px;
+  }
+
+  .featured-image .next-arrow {
+    right: 5px;
+  }
+}
+
+/* Đưa nút mũi tên ra hai bên ảnh và làm đẹp */
+.simple-slider {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  /* hoặc lớn hơn nếu muốn nút sát hai bên hơn */
+  margin: 0 auto;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 70, 85, 0.12);
+  color: #ff4655;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.slider-btn.prev {
+  left: 0;
+}
+
+.slider-btn.next {
+  right: 0;
+}
+
+.slider-btn:hover {
+  background: #ff4655;
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slide-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  /* hoặc 400px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.slide-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s;
+  border-radius: 12px;
+  background: transparent;
+  display: block;
+}
+
+.slide-img.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .slide-container {
+    height: 220px;
+  }
+}
+
+.slider-controls {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  transform: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 70, 85, 0.5);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.dot:hover {
+  background: #ff4655;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #ff4655;
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+  transform: scale(1.1);
+}
+
+/* Đổi màu dot và nút mũi tên cho slider trong section nền tối */
+.featured-product-alt .slider-btn {
+  background: rgba(255, 255, 255, 0);
+  color: #fff;
+}
+
+.featured-product-alt .slider-btn:hover {
+  background: #00000000;
+  color: #040000;
+}
+
+.featured-product-alt .dot {
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+}
+
+.featured-product-alt .dot.active {
+  background: #fff;
+  box-shadow: 0 0 10px #fff, 0 0 0 2px #ff4655;
+}
+
+.featured-product-alt .dot:hover {
+  background: #ff4655;
+}
+
+.quote-slider-section {
+  background: linear-gradient(135deg, #af4949 0%, #2d2d2d 60%, #d13636 100%);
+  color: #fff;
+  padding: 60px 0 40px 0;
+  text-align: center;
+  position: relative;
+}
+
+.quote-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quote-mark {
+  font-size: 3rem;
+  color: #ff4655;
+  font-family: 'Arial Black', Arial, sans-serif;
+  user-select: none;
+}
+
+.quote-mark.left {
+  margin-right: 16px;
+}
+
+.quote-mark.right {
+  margin-left: 16px;
+}
+
+.quote-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.quote-source {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.quote-text {
+  color: #fefefe;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.quote-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.quote-dot {
+  display: inline-block;
+  width: 32px;
+  height: 4px;
+  background: #c9bebe;
+  border-radius: 2px;
+  opacity: 0.5;
+  transition: background 0.3s, opacity 0.3s;
+  cursor: pointer;
+}
+
+.quote-dot.active {
+  background: #fff;
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .quote-slider {
+    gap: 10px;
+  }
+
+  .quote-source {
+    font-size: 1.5rem;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+  }
+
+  .quote-mark {
+    font-size: 2rem;
+  }
+
+  .quote-indicators {
+    margin-top: 18px;
+  }
 }
