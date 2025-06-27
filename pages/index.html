@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Techsphere - Trang chủ</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../assets/css/index.css" />
-    <link rel="icon" type="image/png" href="../assets/img/logo.png" />
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  </head>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-      if (isLoggedIn && user.UserID) {
-        // Thêm class logged-in vào header
-        document.querySelector("header").classList.add("logged-in");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Techsphere - Trang chủ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/index.css" />
+  <link rel="icon" type="image/png" href="../assets/img/logo.png" />
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-        // Tạo hiển thị user
-        const userInfoContainer = document.querySelector(
-          ".user-info-container"
-        );
-        userInfoContainer.innerHTML = `
+    if (isLoggedIn && user.UserID) {
+      // Thêm class logged-in vào header
+      document.querySelector("header").classList.add("logged-in");
+
+      // Tạo hiển thị user
+      const userInfoContainer = document.querySelector(
+        ".user-info-container"
+      );
+      userInfoContainer.innerHTML = `
        <div class="user-info">
-      <a href="orders_of_user.html"> <img src="${
-        user.Avatar
+      <a href="orders_of_user.html"> <img src="${user.Avatar
           ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
           : "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6"
-      }" 
+        }" 
            alt="Avatar"
            class="user-avatar"
            style="width:40px;height:40px;border-radius:50%;"> </a>
@@ -46,220 +47,302 @@
     </div>
   `;
 
-        // Thêm sự kiện đăng xuất
-        document.addEventListener('click', function(e) {
-    if (e.target && e.target.id === 'logout-btn') {
-      e.preventDefault();
-      
-      // Xóa thông tin đăng nhập
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('user');
-      
-      // Reload lại trang
-      window.location.reload();
+      // Thêm sự kiện đăng xuất
+      document.addEventListener('click', function (e) {
+        if (e.target && e.target.id === 'logout-btn') {
+          e.preventDefault();
+
+          // Xóa thông tin đăng nhập
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('user');
+
+          // Reload lại trang
+          window.location.reload();
+        }
+      });
     }
   });
-      }
+</script>
+
+<body>
+  <header>
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+      <span class="logo-bg">
+        <img src="../assets/img/logo.png" alt="TechSphere Logo" />
+      </span>
+      <span>Techsphere</span>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+
+    <div class="nav-container" id="navContainer">
+      <nav>
+        <a href="#">Trang chủ</a>
+        <a href="../pages/product.html">Sản phẩm</a>
+        <a href="#about">Về chúng tôi</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="../pages/login.html" class="login-btn">Đăng nhập</a>
+      <a href="../pages/register.html" class="register-btn">Đăng ký</a>
+    </div>
+
+    <div class="user-info-container"></div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1>Techsphere</h1>
+        <a href="../pages/product.html" class="btn-main">Xem sản phẩm</a>
+      </div>
+      <div class="hero-video-container">
+        <video src="https://res.cloudinary.com/dc61dgxo8/video/upload/v1748490693/videoplayback_jy5b5t.mp4" autoplay
+          loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        <div class="video-overlay"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="featured-label">SẢN PHẨM NỔI BẬT</div>
+  <section class="featured-product asus-featured" data-aos="fade-up">
+    <div class="featured-info fade-in-on-scroll">
+      <h2 class="featured-title">Asus TUF Gaming A15<br>
+        <h3>// Ryzen 7 7435HS || GeForce RTX™ 3050 \\</h3>
+      </h2> <br>
+      <p class="featured-desc">
+        Trải nghiệm hiệu năng mạnh mẽ, thiết kế đột phá – lựa chọn hàng đầu cho game thủ và dân công nghệ.
+      </p>
+      <a class="featured-btn" href="detail.html?id=9">XEM NGAY</a>
+    </div>
+    <div class="featured-image fade-in-on-scroll slide-in-left" style="position:relative;">
+      <!-- Simple Slider -->
+      <div class="simple-slider">
+        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+        <div class="slide-container">
+          <img src="../assets/img/unnamed_w5hymn-removebg-preview.png" alt="Laptop Gaming Đỉnh Cao"
+            class="slide-img active" />
+          <img src="../assets/img/laptop-side1.png" alt="Laptop Gaming Góc 2" class="slide-img" />
+          <img src="../assets/img/laptop-side2.png" alt="Laptop Gaming Góc 3" class="slide-img" />
+          <img src="../assets/img/laptop-above.png" alt="Laptop Gaming Góc 4" class="slide-img" />
+          <div class="slider-controls">
+            <div class="dots">
+              <span class="dot active" data-index="0"></span>
+              <span class="dot" data-index="1"></span>
+              <span class="dot" data-index="2"></span>
+              <span class="dot" data-index="3"></span>
+            </div>
+          </div>
+        </div>
+        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-product featured-product-alt" data-aos="fade-up">
+    <div class="featured-image fade-in-on-scroll">
+      <div class="simple-slider">
+        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+        <div class="slide-container">
+          <img src="../assets/img/camera.png" alt="Webcam Logitech C270" class="slide-img active" />
+          <img src="../assets/img/camera-face.png" alt="Webcam Góc 2" class="slide-img" />
+          <img src="../assets/img/camera-side.png" alt="Webcam Góc 3" class="slide-img" />
+          <div class="slider-controls">
+            <div class="dots">
+              <span class="dot active" data-index="0"></span>
+              <span class="dot" data-index="1"></span>
+              <span class="dot" data-index="2"></span>
+            </div>
+          </div>
+        </div>
+        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="featured-info fade-in-on-scroll">
+      <h2 class="featured-title">WEBCAM LOGITECH C270</h2>
+      <p class="featured-desc">
+        Hình ảnh sắc nét, âm thanh rõ ràng – lựa chọn hoàn hảo cho học tập, làm việc và giải trí trực tuyến.
+      </p>
+      <a class="featured-btn" href="detail.html?id=18">XEM NGAY</a>
+    </div>
+  </section>
+
+  <section id="about" data-aos="fade-right" data-aos-delay="100">
+    <h2 class="section-title">Về Techsphere</h2>
+    <p>
+      Techsphere là nền tảng thương mại điện tử chuyên cung cấp các sản phẩm
+      công nghệ chính hãng, chất lượng cao, cập nhật xu hướng mới nhất. Chúng
+      tôi cam kết mang đến trải nghiệm mua sắm hiện đại và tiện lợi cho bạn.
+    </p>
+  </section>
+
+  <!-- Tech Product Showcase Section -->
+  <section class="tech-showcase" data-aos="fade-up" data-aos-delay="100">
+    <div class="tech-content">
+      <div class="tech-hero" data-aos="fade-up" data-aos-delay="200">
+        <div class="tech-text">
+          <p class="tech-subtitle" data-aos="fade-right" data-aos-delay="200">Khám phá</p>
+          <h2 class="tech-title" data-aos="fade-up" data-aos-delay="300">
+            Thế Giới <span class="highlight">Công Nghệ</span>
+          </h2>
+          <p class="tech-description" data-aos="fade-up" data-aos-delay="300">
+            Trải nghiệm những sản phẩm công nghệ tiên tiến nhất với hơn
+            <span class="counter" data-target="30">0</span> sản phẩm chất lượng
+          </p>
+          <a href="register.html" class="tech-cta" data-aos="zoom-in" data-aos-delay="100">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-slider-section"  data-aos="fade-up" data-aos-delay="300">
+    <div class="quote-slider">
+      <span class="quote-mark left">“</span>
+      <div class="quote-content">
+        <h2 class="quote-source" id="quote-source">Forbes</h2>
+        <p class="quote-text" id="quote-text">2023's New Gaming Champion</p>
+      </div>
+      <span class="quote-mark right">”</span>
+    </div>
+    <div class="quote-indicators">
+      <span class="quote-dot active" data-index="0"></span>
+      <span class="quote-dot" data-index="1"></span>
+      <span class="quote-dot" data-index="2"></span>
+    </div>
+  </section>
+
+  <!-- Tech Product Showcase Section -->
+  <section class="tech-showcase" id="contact">
+    <div class="tech-content">
+      <div class="tech-hero">
+        <div class="tech-text">
+          <div class="tech-subtitle">Techsphere</div>
+          <h2 class="tech-title">
+            Sản phẩm<br /><span class="highlight">của bạn</span>
+          </h2>
+          <p class="tech-description">
+            TECHSPHERE hứa hẹn mang đến cho bạn trải nghiệm sản phẩm công nghệ
+            tuyệt vời nhất.
+          </p>
+          <a href="product.html" class="tech-cta">Khám phá sản phẩm</a>
+        </div>
+      </div>
+
+      <div class="tech-stats">
+        <div class="stat-item">
+          <div class="stat-number">30</div>
+          <div class="stat-label">Sản phẩm</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Khách hàng</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Hỗ trợ</div>
+        </div>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>Sản phẩm</h3>
+          <ul>
+            <li><a href="product.html">Laptop & PC</a></li>
+            <li><a href="product-camera.html">Camera</a></li>
+            <li><a href="product-devices.html">Phụ kiện Tech</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li><a href="support.html">Trung tâm trợ giúp</a></li>
+            <li><a href="support.html">Chính sách bảo hành</a></li>
+            <li><a href="support.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Cộng đồng</h3>
+          <ul>
+            <li><a href="https://www.facebook.com/hocvienkythuatmatma">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">YouTube</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Công ty</h3>
+          <ul>
+            <li><a href="#">Về Techsphere</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Đối tác</a></li>
+            <li><a href="#">Điều khoản</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
+          sống hiện đại.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.simple-slider').forEach(function (slider) {
+        const images = slider.querySelectorAll('.slide-img');
+        const dots = slider.querySelectorAll('.dot');
+        const prevBtn = slider.querySelector('.prev');
+        const nextBtn = slider.querySelector('.next');
+        let currentIndex = 0;
+        let autoPlay;
+
+        function showImage(index) {
+          images.forEach(img => img.classList.remove('active'));
+          dots.forEach(dot => dot.classList.remove('active'));
+          images[index].classList.add('active');
+          dots[index].classList.add('active');
+        }
+
+        function nextImage() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }
+
+        function prevImage() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showImage(currentIndex);
+        }
+
+        prevBtn?.addEventListener('click', prevImage);
+        nextBtn?.addEventListener('click', nextImage);
+
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            currentIndex = index;
+            showImage(currentIndex);
+          });
+        });
+
+        // Auto-play
+        function startAutoPlay() {
+          autoPlay = setInterval(nextImage, 4000);
+        }
+        function stopAutoPlay() {
+          clearInterval(autoPlay);
+        }
+        slider.addEventListener('mouseenter', stopAutoPlay);
+        slider.addEventListener('mouseleave', startAutoPlay);
+        startAutoPlay();
+      });
     });
   </script>
 
-  <body>
-    <header>
-      <div class="logo">Techsphere</div>
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-
-      <div class="nav-container" id="navContainer">
-        <nav>
-          <a href="#">Trang chủ</a>
-          <a href="../pages/product.html">Sản phẩm</a>
-          <a href="#about">Về chúng tôi</a>
-          <a href="#contact">Liên hệ</a>
-        </nav>
-      </div>
-
-      <div class="auth-buttons">
-        <a href="../pages/login.html" class="login-btn">Đăng nhập</a>
-        <a href="../pages/register.html" class="register-btn">Đăng ký</a>
-      </div>
-
-      <div class="user-info-container"></div>
-    </header>
-
-    <section class="hero">
-      <div class="hero-container">
-        <div class="hero-content">
-          <h1>Techsphere</h1>
-          <a href="../pages/product.html" class="btn-main">Xem sản phẩm</a>
-        </div>
-        <div class="hero-video-container">
-          <video
-            src="https://res.cloudinary.com/dc61dgxo8/video/upload/v1748490693/videoplayback_jy5b5t.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            style="width:100%;height:100%;object-fit:cover;"
-          ></video>
-          <div class="video-overlay"></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="featured-label">SẢN PHẨM NỔI BẬT</div>
-    <section class="featured-product asus-featured">
-      <div class="featured-info fade-in-on-scroll">
-        <h2 class="featured-title">Asus TUF Gaming A15<br><h3>// Ryzen 7 7435HS || GeForce RTX™ 3050 \\</h3></h2> <br>
-        <p class="featured-desc">
-          Trải nghiệm hiệu năng mạnh mẽ, thiết kế đột phá – lựa chọn hàng đầu cho game thủ và dân công nghệ.
-        </p>
-        <a class="featured-btn" href="detail.html?id=9">XEM NGAY</a>
-      </div>
-      <div class="featured-image fade-in-on-scroll slide-in-left" style="position:relative;">
-        <img src="../assets/img/unnamed_w5hymn-removebg-preview.png" alt="Laptop Gaming Đỉnh Cao" />
-      </div>
-    </section>
-
-    <section class="featured-product featured-product-alt">
-      <div class="featured-image fade-in-on-scroll">
-        <img src="../assets/img/camera.png" alt="Webcam Logitech C270" />
-      </div>
-      <div class="featured-info fade-in-on-scroll">
-        <h2 class="featured-title">WEBCAM LOGITECH C270</h2>
-        <p class="featured-desc">
-          Hình ảnh sắc nét, âm thanh rõ ràng – lựa chọn hoàn hảo cho học tập, làm việc và giải trí trực tuyến.
-        </p>
-        <a class="featured-btn" href="detail.html?id=18">XEM NGAY</a>
-      </div>
-    </section>
-
-    <section id="about">
-      <h2 class="section-title">Về Techsphere</h2>
-      <p>
-        Techsphere là nền tảng thương mại điện tử chuyên cung cấp các sản phẩm
-        công nghệ chính hãng, chất lượng cao, cập nhật xu hướng mới nhất. Chúng
-        tôi cam kết mang đến trải nghiệm mua sắm hiện đại và tiện lợi cho bạn.
-      </p>
-    </section>
-
-    <!-- Tech Product Showcase Section -->
-    <section class="tech-showcase" id="contact">
-      <div class="tech-content">
-        <div class="tech-hero">
-          <div class="tech-text">
-            <div class="tech-subtitle">Techsphere</div>
-            <h2 class="tech-title">
-              Sản phẩm<br /><span class="highlight">của bạn</span>
-            </h2>
-            <p class="tech-description">
-              TECHSPHERE hứa hẹn mang đến cho bạn trải nghiệm sản phẩm công nghệ
-              tuyệt vời nhất.
-            </p>
-            <a href="product.html" class="tech-cta">Khám phá sản phẩm</a>
-          </div>
-        </div>
-
-        <div class="tech-stats">
-          <div class="stat-item">
-            <div class="stat-number">60+</div>
-            <div class="stat-label">Sản phẩm</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Khách hàng</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">Hỗ trợ</div>
-          </div>
-        </div>
-
-        <div class="footer-grid">
-          <div class="footer-column">
-            <h3>Sản phẩm</h3>
-            <ul>
-              <li><a href="#">Laptop & PC</a></li>
-              <li><a href="#">Smartphone</a></li>
-              <li><a href="#">Phụ kiện Tech</a></li>
-              <li><a href="#">Audio & Video</a></li>
-              <li><a href="#">Smart Home</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h3>Hỗ trợ</h3>
-            <ul>
-              <li><a href="#">Trung tâm trợ giúp</a></li>
-              <li><a href="#">Chính sách bảo hành</a></li>
-              <li><a href="#">Hướng dẫn mua hàng</a></li>
-              <li><a href="#">Chính sách đổi trả</a></li>
-              <li><a href="#">Liên hệ</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h3>Cộng đồng</h3>
-            <ul>
-              <li><a href="#">Facebook</a></li>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">YouTube</a></li>
-              <li><a href="#">TikTok</a></li>
-              <li><a href="#">LinkedIn</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h3>Công ty</h3>
-            <ul>
-              <li><a href="#">Về Techsphere</a></li>
-              <li><a href="#">Tuyển dụng</a></li>
-              <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Đối tác</a></li>
-              <li><a href="#">Điều khoản</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <p>
-            &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
-            sống hiện đại.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const track = document.querySelector('.carousel-track');
-      const cards = document.querySelectorAll('.product-card');
-      const prevBtn = document.querySelector('.prev-btn');
-      const nextBtn = document.querySelector('.next-btn');
-      let current = 0;
-      const visible = 3; // Number of cards visible at once
-
-      function updateSlider() {
-        cards.forEach((card, i) => {
-          card.style.display = (i >= current && i < current + visible) ? 'flex' : 'none';
-        });
-      }
-
-      prevBtn.addEventListener('click', () => {
-        if (current > 0) {
-          current--;
-          updateSlider();
-        }
-      });
-
-      nextBtn.addEventListener('click', () => {
-        if (current < cards.length - visible) {
-          current++;
-          updateSlider();
-        }
-      });
-
-      updateSlider();
-    });
-    </script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       const fadeEls = document.querySelectorAll('.fade-in-on-scroll');
       function onScroll() {
         fadeEls.forEach(el => {
@@ -272,6 +355,214 @@
       window.addEventListener('scroll', onScroll);
       onScroll(); // chạy lần đầu khi load
     });
-    </script>
-  </body>
+  </script>
+
+  <!-- Product Slider Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const slider = document.querySelector('.product-slider');
+      if (!slider) return;
+
+      const slides = slider.querySelectorAll('.slide');
+      const dots = slider.querySelectorAll('.dot');
+      const prevArrow = slider.querySelector('.prev-arrow');
+      const nextArrow = slider.querySelector('.next-arrow');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      // Auto-play interval
+      let autoPlayInterval;
+
+      function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Show current slide
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+
+        currentSlide = index;
+      }
+
+      function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        showSlide(next);
+      }
+
+      function prevSlide() {
+        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(prev);
+      }
+
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+      }
+
+      function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+      }
+
+      // Event listeners
+      if (prevArrow) {
+        prevArrow.addEventListener('click', () => {
+          prevSlide();
+          stopAutoPlay();
+          startAutoPlay();
+        });
+      }
+
+      if (nextArrow) {
+        nextArrow.addEventListener('click', () => {
+          nextSlide();
+          stopAutoPlay();
+          startAutoPlay();
+        });
+      }
+
+      // Dot navigation
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
+          stopAutoPlay();
+          startAutoPlay();
+        });
+      });
+
+      // Pause auto-play on hover
+      slider.addEventListener('mouseenter', stopAutoPlay);
+      slider.addEventListener('mouseleave', startAutoPlay);
+
+      // Start auto-play
+      startAutoPlay();
+
+      // Touch/swipe support for mobile
+      let startX = 0;
+      let endX = 0;
+
+      slider.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      });
+
+      slider.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        handleSwipe();
+      });
+
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            nextSlide(); // Swipe left
+          } else {
+            prevSlide(); // Swipe right
+          }
+          stopAutoPlay();
+          startAutoPlay();
+        }
+      }
+    });
+  </script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100
+    });
+  </script>
+
+  <!-- Counter animation -->
+  <script>
+    // Counter animation
+    function animateCounter() {
+      const counters = document.querySelectorAll('.counter');
+
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 giây
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+
+        const updateCounter = () => {
+          current += increment;
+          if (current < target) {
+            counter.textContent = Math.floor(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.textContent = target;
+          }
+        };
+
+        updateCounter();
+      });
+    }
+
+    // Chạy counter khi scroll đến tech-showcase
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter();
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
+    const techShowcase = document.querySelector('.tech-showcase');
+    if (techShowcase) {
+      observer.observe(techShowcase);
+    }
+
+
+    const quotes = [
+      {
+        source: "Theo",
+        text: "Uy tín sẽ ủng hộ tiếp"
+      },
+      {
+        source: "GenZ",
+        text: "Techsphere – Nền tảng công nghệ trẻ trung, hiện đại, uy tín."
+      },
+      {
+        source: "Top 10 Shop tại Việt Nam",
+        text: "Mua sắm công nghệ dễ dàng, giá tốt, dịch vụ tận tâm."
+      }
+    ];
+
+    let currentQuote = 0;
+    const sourceEl = document.getElementById('quote-source');
+    const textEl = document.getElementById('quote-text');
+    const dots = document.querySelectorAll('.quote-dot');
+
+    function showQuote(idx) {
+      sourceEl.textContent = quotes[idx].source;
+      textEl.textContent = quotes[idx].text;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[idx].classList.add('active');
+      currentQuote = idx;
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        showQuote(Number(dot.dataset.index));
+      });
+    });
+
+    // Auto slide
+    setInterval(() => {
+      let next = (currentQuote + 1) % quotes.length;
+      showQuote(next);
+    }, 4000);
+
+    // Khởi tạo lần đầu
+    showQuote(0);
+
+  </script>
+</body>
+
 </html>
