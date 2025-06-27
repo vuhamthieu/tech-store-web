@@ -2,6 +2,33 @@
 
 // Kiểm tra đăng nhập
 document.addEventListener("DOMContentLoaded", function() {
+  const leftSidebar = document.getElementById("leftSidebar");
+  const toggleBtn = document.getElementById("sidebarToggle");
+
+  let autoHideTimer;
+
+  function hideSidebar() {
+    if (!leftSidebar.classList.contains("collapsed")) {
+      leftSidebar.classList.add("collapsed");
+      toggleBtn.querySelector("i").className = "fas fa-chevron-right";
+      toggleBtn.style.left = "15px";
+    }
+  }
+
+  function resetTimer() {
+    clearTimeout(autoHideTimer);
+    autoHideTimer = setTimeout(hideSidebar, 10000); // 10 giây
+  }
+
+  // Khởi động lần đầu
+  resetTimer();
+
+  // Mỗi lần di chuột vào hoặc click, reset timer
+  leftSidebar.addEventListener("mouseenter", resetTimer);
+  leftSidebar.addEventListener("mousemove", resetTimer);
+  leftSidebar.addEventListener("click", resetTimer);
+  leftSidebar.addEventListener("mouseleave", resetTimer);
+
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const accessToken = localStorage.getItem("access_token");
   
@@ -176,24 +203,71 @@ async function loadProducts(page = 1) {
 }
 
 // ...giữ nguyên các hàm còn lại...
+function extractSpecs(description) {
+  if (!description) return "";
 
+  const cpuMatch = description.match(/CPU:\s*([^\n]+)/i);
+  const ramMatch = description.match(/RAM:\s*([^\n]+)/i);
+  const storageMatch = description.match(/Ổ cứng:\s*([^\n]+)/i);
+
+  const cpu = cpuMatch ? cpuMatch[1].trim() : "";
+  const ram = ramMatch ? ramMatch[1].trim() : "";
+  const storage = storageMatch ? storageMatch[1].trim() : "";
+
+  // Chỉ hiển thị những phần có giá trị
+  const specsArray = [cpu, ram, storage].filter(Boolean);
+  return specsArray.join(" / ");
+}
+
+// ... (giữ nguyên phần đầu)
 function renderProducts(products) {
   productGrid.innerHTML = products
-    .map(
-      (p) => `
-    <div class="product-item" style="cursor:pointer" onclick="window.location.href='detail.html?id=${
-      p.ProductID
-    }'">
-      <img src="${p.Thumbnail}" alt="${p.Title}">
-      <h3>${p.Title}</h3>
-      <p class="price">${formatPrice(Number(p.Price))}₫</p>
-      <p class="brand-category">${p.Brand}</p>
-      <p class="rating">⭐ ${p.Rating}</p>
-    </div>
-  `
-    )
+    .map((p) => {
+      const productName = p.Title || "Tên sản phẩm";
+      const specsArray = [p.CPU, p.RAM, p.Storage].filter(Boolean);
+      const specs = specsArray.length ? specsArray.join(" / ") : "";
+
+      return `
+      <div class="product-item" style="cursor:pointer; padding:10px; box-sizing:border-box; width:100%; max-width:280px;" onclick="window.location.href='detail.html?id=${p.ProductID}'">
+        <div>
+          <img src="${p.Thumbnail}" alt="${p.Title}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div style="
+          font-weight:600;
+          font-size:15px;
+          color:#222;
+          margin:8px 0 4px;
+          display:-webkit-box;
+          -webkit-line-clamp:2;
+          -webkit-box-orient:vertical;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          line-height:1.3;
+          height:2.6em;
+        ">
+          ${productName}
+        </div>
+        <div style="font-size:14px; color:#555; margin:0 0 6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
+          ${specs || `<i style="color:#aaa">Thông số đang cập nhật</i>`}
+        </div>
+        <div style="font-size:13px; color:#777; margin-bottom:4px;">
+          ${p.Brand || "Không rõ thương hiệu"}
+        </div>
+        <div style="font-size:13px; color:#555; margin-bottom:4px;">
+          ⭐ ${p.Rating || "0.0"} (${p.Reviews || '0'} đánh giá)
+        </div>
+        <div style="font-weight:700; font-size:15px; color:#E53935;">
+          ${formatPrice(Number(p.Price))}
+        </div>
+      </div>`;
+    })
     .join("");
 }
+
+
+
+
+// ... (giữ nguyên phần còn lại)
 
 function formatPrice(price) {
   // Hiển thị giá theo format VNĐ với dấu chấm ngăn cách hàng nghìn

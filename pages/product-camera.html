@@ -8,16 +8,58 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    
     <link rel="stylesheet" href="../assets/css/product.css" />
     <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
 
-    <link  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
-      rel="stylesheet"
-    />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+    <style>
+      /* === PRODUCT GRID ITEM HOVER === */
+    
+    /* Áp dụng cho mỗi sản phẩm trong .product-grid */
+    .product-item {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--light-gray);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    /* Hover: nâng lên + đổ bóng đậm hơn */
+    .product-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Ảnh sản phẩm có hiệu ứng mượt khi hover */
+    .product-item img {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* Hover ảnh: nhẹ nhàng phóng to */
+    .product-item:hover img {
+      transform: scale(1.03);
+      opacity: 0.95;
+    }
+    
+    /* Tên sản phẩm chuyển màu đỏ khi hover */
+    .product-item:hover h3 {
+      color: var(--primary-red);
+    }
+    :root {
+      --white: #fff;
+      --light-gray: #e0e0e0;
+      --primary-red: #E53935;
+    }
+    
+    </style>
   </head>
 <!-- ...existing code... -->
 <aside class="left-sidebar" id="leftSidebar">
@@ -114,19 +156,7 @@
     <main class="container main-content">
       <!-- Sidebar -->
       <aside class="sidebar">
-        <div class="sidebar-widget">
-          <h3>SẢN PHẨM NỔI BẬT</h3>
-          <div class="featured-product">
-            <a href="detail.html">
-            <img
-              src="https://tse1.mm.bing.net/th?id=OIP.ADjoUOy8GMryL7mgRCfvnwHaE3&pid=Api&P=0&h=220"
-              alt="Camera Pro"
-            />
-            XEM NGAY</a>
-            <h4>Camera HD Pro 4K</h4>
-            <p class="price">3.490.000đ</p>
-          </div>
-        </div>
+        
 
         <div class="sidebar-widget">
           <h3>KHUYẾN MÃI</h3>

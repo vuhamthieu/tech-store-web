@@ -15,14 +15,14 @@
     padding: 0;
     box-sizing: border-box;
     /*font-family: 'Roboto', sans-serif;*/
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Rajdhani';
 }
 
 body {
     background-color: var(--pure-white);
     color: var(--pure-black);
     line-height: 1.6;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Rajdhani';
 }
 
 .container {
@@ -413,7 +413,8 @@ ul {
 }
 
 .product-section {
-    width: 75%;
+    width: 100%;
+    
 }
 
 .section-header {
@@ -1310,6 +1311,7 @@ ul {
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
     color: #fff;
+    
   }
   .card img {
     width: 100%;
@@ -1492,5 +1494,6 @@ ul {
     border-color: #0056b3;
     cursor: default;
   }
+  
   /*suggest*/
   
