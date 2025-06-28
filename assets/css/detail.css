@@ -19,7 +19,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', Arial, sans-serif;
+
 }
 
 body {
@@ -991,7 +991,14 @@ body {
     }
 }
 
-body,
-* {
+body{
     font-family: 'Montserrat', Arial, sans-serif !important;
+}
+
+.logo-text {
+    font-family: 'Orbitron', Arial, sans-serif !important;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ff4655;
+    letter-spacing: 1px;
 }

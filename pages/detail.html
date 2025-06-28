@@ -5,12 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Techology</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <link rel="stylesheet" href="../assets/css/detail.css" />
   <link rel="stylesheet" href="../assets/css/product.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -136,21 +137,25 @@
   <!-- Header -->
   <header class="main-header">
     <div class="container">
-      <div class="logo">
-        <a href="../pages/product.html">
-
-          <span>TECHBLACK</span>
-        </a>
-      </div>
+      <a href="index.html">
+        <div class="logo">
+          <span class="logo-bg">
+            <img src="../assets/img/logo.png" alt="TechSphere Logo" />
+          </span>
+          <span class="logo-text">Techsphere</span>
+        </div>
+      </a>
 
       <div class="search-box">
         <input type="text" placeholder="Tìm kiếm sản phẩm..." />
         <button><i class="fas fa-search"></i></button>
       </div>
 
-      <div class="header-icons">
-        <a href="user.html"><i class="fas fa-user"></i></a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+      <div class="header-actions">
+        <a href="cart.html" class="cart-icon">
+          <i class="fa-solid fa-shopping-cart"></i>
+        </a>
+        <div class="user-info-container"></div>
       </div>
     </div>
   </header>
@@ -416,6 +421,42 @@
 
   <script src="../assets/js/detail.js"></script>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (isLoggedIn && user.UserID) {
+        document.querySelector("header").classList.add("logged-in");
+        const userInfoContainer = document.querySelector(".user-info-container");
+        userInfoContainer.innerHTML = `
+          <div class="user-info">
+            <a href="user.html">
+              <img src="${user.Avatar
+            ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
+            : 'https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6'
+          }" alt="Avatar" class="user-avatar" style="width:40px;height:40px;border-radius:50%;">
+            </a>
+            <div class="user-dropdown">
+              <span class="user-name">${user.FullName}</span>
+              <div class="dropdown-content">
+                <a href="user.html">Thông tin tài khoản</a>
+                <a href="#" id="logout-btn">Đăng xuất</a>
+              </div>
+            </div>
+          </div>
+        `;
+        document.addEventListener('click', function (e) {
+          if (e.target && e.target.id === 'logout-btn') {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            window.location.reload();
+          }
+        });
+      }
+    });
+  </script>
 
 </body>
 
