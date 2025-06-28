@@ -1,211 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/checkout.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-    <title>Techsphere - Thanh Toán</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/css/checkout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <title>Techsphere - Thanh Toán</title>
 </head>
+
 <body>
-    <!-- Header -->
-    <header class="checkout-header">
-      <div class="header-container">
-          <div class="logo"><a href="product.html">
-              <img src="" alt="">
-              <span style="color: var(--primary-red);" class="logo-text">Techsphere | </span>
-              <span class="logo-text">Thanh Toán</span>
-            </a>
-          </div>
-          <div class="steps">
-              <div class="step active" id="goToCart" style="cursor:pointer;">
-                  <div class="step-number">1</div>
-                  <span>Giỏ hàng</span>
-              </div>
-              <div class="step active">
-                  <div class="step-number">2</div>
-                  <span>Thanh toán</span>
-              </div>
-              <div class="step">
-                  <div class="step-number">3</div>
-                  <span>Hoàn tất</span>
-              </div>
-          </div>
+  <!-- Header -->
+  <header class="checkout-header">
+    <div class="header-container">
+      <div class="logo"><a href="product.html">
+          <img src="" alt="">
+          <span style="color: var(--primary-red);" class="logo-text">Techsphere | </span>
+          <span class="logo-text">Thanh Toán</span>
+        </a>
       </div>
+      <div class="steps">
+        <div class="step active" id="goToCart" style="cursor:pointer;">
+          <div class="step-number">1</div>
+          <span>Giỏ hàng</span>
+        </div>
+        <div class="step active">
+          <div class="step-number">2</div>
+          <span>Thanh toán</span>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <span>Hoàn tất</span>
+        </div>
+      </div>
+    </div>
   </header>
 
   <!-- Main Content -->
   <main class="checkout-container">
-      <!-- Left Column (Checkout Form) -->
-  <div class="left-column">
+    <!-- Left Column (Checkout Form) -->
+    <div class="left-column">
 
-    <!-- Shipping Method -->
-    <div class="card">
-      <h3 class="card-title">Địa chỉ nhận hàng</h3>
-      <form id="addressForm">
-        <div class="form-group">
-          <label for="fullname">Họ và tên</label>
-          <input type="text" id="fullname" placeholder="Nguyễn Văn A" required>
+      <!-- Shipping Method -->
+      <div class="card">
+        <h3 class="card-title">Địa chỉ nhận hàng</h3>
+        <form id="addressForm">
+          <div class="form-group">
+            <label for="fullname">Họ và tên</label>
+            <input type="text" id="fullname" placeholder="Nguyễn Văn A" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input type="text" id="phone" placeholder="0987654321" required>
+          </div>
+
+          <div class="form-group">
+            <label for="province">Tỉnh / Thành phố</label>
+            <select id="province" required>
+              <option value="">-- Chọn Tỉnh / Thành phố --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="district">Quận / Huyện</label>
+            <select id="district" required>
+              <option value="">-- Chọn Quận / Huyện --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ward">Phường / Xã</label>
+            <select id="ward" required>
+              <option value="">-- Chọn Phường / Xã --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="street">Địa chỉ cụ thể (Số nhà, tên đường...)</label>
+            <input type="text" id="street" placeholder="123 Đường ABC..." required>
+          </div>
+        </form>
+      </div>
+
+      <!-- Payment Method -->
+      <!-- Payment Method -->
+      <div class="card">
+        <h3 class="card-title">Phương thức thanh toán</h3>
+
+        <div class="payment-option">
+          <i class="fas fa-truck payment-icon"></i>
+          <span class="payment-name">Thanh toán khi nhận hàng (COD)</span>
         </div>
 
-        <div class="form-group">
-          <label for="phone">Số điện thoại</label>
-          <input type="text" id="phone" placeholder="0987654321" required>
+        <div class="payment-option">
+          <i class="fab fa-cc-apple-pay payment-icon"></i>
+          <span class="payment-name">Ví MOMO</span>
         </div>
 
-        <div class="form-group">
-          <label for="province">Tỉnh / Thành phố</label>
-          <select id="province" required>
-            <option value="">-- Chọn Tỉnh / Thành phố --</option>
-          </select>
+        <div class="payment-option">
+          <i class="fab fa-cc-visa payment-icon"></i>
+          <span class="payment-name">Thẻ VISA</span>
+        </div>
+      </div>
+
+
+
+      <!-- Voucher -->
+      <div class="card">
+        <h3 class="card-title">Mã giảm giá</h3>
+
+        <!-- Available Coupons -->
+        <div class="available-coupons">
+          <h4>Mã giảm giá có sẵn:</h4>
+          <div class="coupon-list">
+            <div class="coupon-item" data-code="SALE50">
+              <div class="coupon-info">
+                <div class="coupon-code">SALE50</div>
+                <div class="coupon-desc">Giảm 50.000đ cho đơn hàng từ 500.000đ</div>
+              </div>
+              <button class="apply-coupon-btn">Áp dụng</button>
+            </div>
+            <div class="coupon-item" data-code="PERCENT10">
+              <div class="coupon-info">
+                <div class="coupon-code">PERCENT10</div>
+                <div class="coupon-desc">Giảm 10% tối đa 100.000đ cho đơn hàng từ 1.000.000đ</div>
+              </div>
+              <button class="apply-coupon-btn">Áp dụng</button>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="district">Quận / Huyện</label>
-          <select id="district" required>
-            <option value="">-- Chọn Quận / Huyện --</option>
-          </select>
+        <!-- Manual Input -->
+        <div class="voucher-input">
+          <input type="text" id="couponInput" placeholder="Nhập mã giảm giá khác">
+          <button id="applyCouponBtn">Áp dụng</button>
         </div>
 
-        <div class="form-group">
-          <label for="ward">Phường / Xã</label>
-          <select id="ward" required>
-            <option value="">-- Chọn Phường / Xã --</option>
-          </select>
+        <!-- Applied Coupon Display -->
+        <div id="appliedCoupon" class="applied-coupon" style="display: none;">
+          <div class="applied-coupon-info">
+            <span id="appliedCouponCode"></span>
+            <span id="appliedCouponDiscount"></span>
+          </div>
+          <button id="removeCouponBtn" class="remove-coupon-btn">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="street">Địa chỉ cụ thể (Số nhà, tên đường...)</label>
-          <input type="text" id="street" placeholder="123 Đường ABC..." required>
-        </div>
-      </form>
+
+
+      <!-- Order Note -->
+      <div class="card">
+        <h3 class="card-title">Lưu ý cho người bán</h3>
+        <textarea
+          style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; min-height: 80px;"
+          placeholder="Ví dụ: Gọi điện trước khi giao hàng..."></textarea>
+      </div>
+
+
+
     </div>
 
-   <!-- Payment Method -->
-    <!-- Payment Method -->
-<div class="card">
-  <h3 class="card-title">Phương thức thanh toán</h3>
+    <!-- Right Column (Order Summary) -->
+    <div class="right-column">
+      <div class="card order-summary">
+        <h3 class="card-title">Đơn hàng (3 sản phẩm)</h3>
+        <div class="product-list"></div>
 
-  <div class="payment-option">
-    <i class="fas fa-truck payment-icon"></i>
-    <span class="payment-name">Thanh toán khi nhận hàng (COD)</span>
-  </div>
-
-  <div class="payment-option">
-    <i class="fab fa-cc-apple-pay payment-icon"></i>
-    <span class="payment-name">Ví MOMO</span>
-  </div>
-
-  <div class="payment-option">
-    <i class="fab fa-cc-visa payment-icon"></i>
-    <span class="payment-name">Thẻ VISA</span>
-  </div>
-</div>
-    
-     
-     
-    <!-- Voucher -->
-    <div class="card">
-      <h3 class="card-title">Mã giảm giá</h3>
-      
-      <!-- Available Coupons -->
-      <div class="available-coupons">
-        <h4>Mã giảm giá có sẵn:</h4>
-        <div class="coupon-list">
-          <div class="coupon-item" data-code="SALE50">
-            <div class="coupon-info">
-              <div class="coupon-code">SALE50</div>
-              <div class="coupon-desc">Giảm 50.000đ cho đơn hàng từ 500.000đ</div>
-            </div>
-            <button class="apply-coupon-btn">Áp dụng</button>
-          </div>
-          <div class="coupon-item" data-code="PERCENT10">
-            <div class="coupon-info">
-              <div class="coupon-code">PERCENT10</div>
-              <div class="coupon-desc">Giảm 10% tối đa 100.000đ cho đơn hàng từ 1.000.000đ</div>
-            </div>
-            <button class="apply-coupon-btn">Áp dụng</button>
-          </div>
+        <div class="price-row">
+          <span>Tạm tính</span>
+          <span>720.000đ</span>
         </div>
-      </div>
-
-      <!-- Manual Input -->
-      <div class="voucher-input">
-        <input type="text" id="couponInput" placeholder="Nhập mã giảm giá khác">
-        <button id="applyCouponBtn">Áp dụng</button>
-      </div>
-      
-      <!-- Applied Coupon Display -->
-      <div id="appliedCoupon" class="applied-coupon" style="display: none;">
-        <div class="applied-coupon-info">
-          <span id="appliedCouponCode"></span>
-          <span id="appliedCouponDiscount"></span>
+        <div class="price-row">
+          <span>Phí vận chuyển</span>
+          <span>20.000đ</span>
         </div>
-        <button id="removeCouponBtn" class="remove-coupon-btn">
-          <i class="fas fa-times"></i>
+        <div class="price-row">
+          <span>Giảm giá</span>
+          <span>-50.000đ</span>
+        </div>
+        <div class="price-row total-row">
+          <span>Tổng cộng</span>
+          <span>690.000đ</span>
+        </div>
+
+        <button class="checkout-btn" id="checkoutBtn">
+          <span id="btnText">ĐẶT HÀNG</span>
+          <div class="loading-spinner" id="loadingSpinner"></div>
         </button>
       </div>
     </div>
-
-    
-
-    <!-- Order Note -->
-    <div class="card">
-      <h3 class="card-title">Lưu ý cho người bán</h3>
-      <textarea style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; min-height: 80px;" placeholder="Ví dụ: Gọi điện trước khi giao hàng..."></textarea>
-    </div>
-
-    
-
-  </div>
-
-      <!-- Right Column (Order Summary) -->
-      <div class="right-column">
-          <div class="card order-summary">
-              <h3 class="card-title">Đơn hàng (3 sản phẩm)</h3>
-              <div class="product-list"></div>
-
-              <div class="price-row">
-                  <span>Tạm tính</span>
-                  <span>720.000đ</span>
-              </div>
-              <div class="price-row">
-                  <span>Phí vận chuyển</span>
-                  <span>20.000đ</span>
-              </div>
-              <div class="price-row">
-                  <span>Giảm giá</span>
-                  <span>-50.000đ</span>
-              </div>
-              <div class="price-row total-row">
-                  <span>Tổng cộng</span>
-                  <span>690.000đ</span>
-              </div>
-
-              <button class="checkout-btn" id="checkoutBtn">
-                  <span id="btnText">ĐẶT HÀNG</span>
-                  <div class="loading-spinner" id="loadingSpinner"></div>
-              </button>
-          </div>
-      </div>
   </main>
 
   <!-- Success Modal -->
   <div class="modal" id="successModal">
-      <div class="modal-content">
-          <div class="modal-icon">
-              <i class="fas fa-check-circle"></i>
-          </div>
-          <h3 class="modal-title">Đặt hàng thành công!</h3>
-          <p class="modal-message">Cảm ơn bạn đã mua sắm tại Techsphere. Đơn hàng sẽ được giao trong 2-3 ngày tới.</p>
-          <button class="modal-btn" id="closeModal">Tiếp tục mua sắm</button>
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fas fa-check-circle"></i>
       </div>
+      <h3 class="modal-title">Đặt hàng thành công!</h3>
+      <p class="modal-message">Cảm ơn bạn đã mua sắm tại Techsphere. Đơn hàng sẽ được giao trong 2-3 ngày tới.</p>
+      <button class="modal-btn" id="closeModal">Tiếp tục mua sắm</button>
+    </div>
   </div>
-  
+
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
@@ -235,5 +239,6 @@
     </div>
   </footer>
   <script src="../assets/js/checkout.js"></script>
-  </body>
+</body>
+
 </html>

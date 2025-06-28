@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const code = "SALE50";
   const orderAmount = 1000000; // total order value
   const productIds = [1, 2, 3]; // IDs of products in cart
-    
+
 
   // Coupon functionality
   // Apply coupon from available coupons

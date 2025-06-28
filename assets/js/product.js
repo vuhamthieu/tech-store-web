@@ -1,7 +1,7 @@
 // GERNERATE PRODUCT
 
 // Kiểm tra đăng nhập
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const leftSidebar = document.getElementById("leftSidebar");
   const toggleBtn = document.getElementById("sidebarToggle");
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const accessToken = localStorage.getItem("access_token");
-  
+
   // Chỉ chuyển hướng nếu cả token và trạng thái đều hợp lệ
   if (isLoggedIn && accessToken) {
     // Thêm kiểm tra token hợp lệ trước khi chuyển hướng
@@ -319,11 +319,11 @@ function formatPrice(price) {
 function updateCartBadge() {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
   const badge = document.getElementById("cartBadge");
-  const totalItems = cart.reduce((sum, item) => sum + item.Quantity, 0);
-  
+  const cartCount = cart.length; // Đếm số loại sản phẩm khác nhau
+
   if (badge) {
-    badge.textContent = totalItems;
-    if (totalItems > 0) {
+    badge.textContent = cartCount;
+    if (cartCount > 0) {
       badge.classList.add("show");
     } else {
       badge.classList.remove("show");
@@ -332,3 +332,4 @@ function updateCartBadge() {
 }
 
 updateCartBadge();
+

@@ -10,6 +10,48 @@ document.addEventListener('DOMContentLoaded', function () {
   const birthdayInput = document.getElementById('birthday');
   const token = localStorage.getItem('token') || '';
 
+  // === FETCH CART COUNT ===
+  function fetchCartCount() {
+    if (!token) {
+      console.log('Không có token, không thể lấy số lượng giỏ hàng');
+      return;
+    }
+
+    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/cart', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        // API cart trả về trực tiếp array, không có success property
+        if (Array.isArray(data)) {
+          const cartCount = data.length;
+          const cartIcon = document.querySelector('.cart-icon');
+          if (cartIcon) {
+            cartIcon.setAttribute('data-count', cartCount);
+          }
+        } else {
+          console.error('Không thể tải số lượng giỏ hàng: Response không phải array');
+          // Set count to 0 if there's an error
+          const cartIcon = document.querySelector('.cart-icon');
+          if (cartIcon) {
+            cartIcon.setAttribute('data-count', '0');
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Lỗi tải số lượng giỏ hàng:', error);
+        // Set count to 0 if there's an error
+        const cartIcon = document.querySelector('.cart-icon');
+        if (cartIcon) {
+          cartIcon.setAttribute('data-count', '0');
+        }
+      });
+  }
+
   // === FETCH USER INFO ===
   function fetchUserData() {
     fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-info-user', {
@@ -52,6 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   fetchUserData();
+
+  // Fetch cart count
+  fetchCartCount();
 
   // === PROFILE FORM SUBMIT ===
   const profileForm = document.querySelector('.profile-form');

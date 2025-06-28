@@ -4,6 +4,45 @@ document.addEventListener("DOMContentLoaded", async function () {
     const accessToken = localStorage.getItem("token") || localStorage.getItem("access_token") || user.accessToken;
     const userId = user.UserID || user.id || 0;
 
+    // === UPDATE USER INFO IN HEADER ===
+    const userInfoContainer = document.querySelector(".user-info");
+    if (userInfoContainer && user.FullName) {
+        userInfoContainer.innerHTML = `
+            <a href="user.html">
+                <img src="${user.Avatar
+                ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
+                : "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6"
+            }" 
+                   alt="Avatar"
+                   class="user-avatar"
+                   style="width:40px;height:40px;border-radius:50%;"> 
+            </a>
+            <div class="user-dropdown">
+                <span class="user-name">${user.FullName}</span>
+                <div class="dropdown-content">
+                    <a href="user.html">Thông tin tài khoản</a>
+                    <a href="#" id="logout-btn">Đăng xuất</a>
+                </div>
+            </div>
+        `;
+
+        // Thêm sự kiện đăng xuất
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.id === 'logout-btn') {
+                e.preventDefault();
+
+                // Xóa thông tin đăng nhập
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                localStorage.removeItem('access_token');
+
+                // Reload lại trang
+                window.location.reload();
+            }
+        });
+    }
+
     const cartItemsContainer = document.querySelector(".cart-items");
     const totalPriceEl = document.querySelector(".total-price .amount");
     const totalCountEl = document.querySelector(".footer-left span");

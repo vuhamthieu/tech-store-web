@@ -293,11 +293,90 @@ function showSection(sectionId) {
   if (sectionId === "users") loadUsers();
 }
 
+// Logout function
+async function logout() {
+  if (!confirm('Bạn có chắc chắn muốn đăng xuất?')) return;
+
+  const token = localStorage.getItem("access_token");
+
+  try {
+    // Gọi API logout để thu hồi token
+    const res = await fetch("../back-end/php/api/logout", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    const result = await res.json();
+
+    // Xóa dữ liệu đăng nhập khỏi localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkout");
+
+    // Hiển thị thông báo
+    if (result.success) {
+      alert("Đăng xuất thành công!");
+    } else {
+      alert("Đăng xuất thành công! (Có lỗi nhỏ khi thu hồi token)");
+    }
+
+    // Chuyển về trang chủ
+    window.location.href = "index.html";
+
+  } catch (error) {
+    console.error("Lỗi khi đăng xuất:", error);
+
+    // Vẫn xóa localStorage và chuyển trang ngay cả khi có lỗi
+    localStorage.removeItem("user");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkout");
+
+    alert("Đăng xuất thành công!");
+    window.location.href = "index.html";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  if (!user.RoleID || user.RoleID != 2) {
+  const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+
+  // Kiểm tra đăng nhập và quyền admin
+  if (!user.UserID || !token || user.RoleID != 2) {
+    alert("Bạn không có quyền truy cập trang admin!");
     window.location.href = "index.html";
     return;
   }
+
+  // Cập nhật thông tin user trong header
+  const userProfile = document.getElementById("userProfile");
+  if (userProfile && user.FullName) {
+    if (user.Avatar) {
+      // Nếu có avatar, hiển thị ảnh
+      userProfile.innerHTML = `
+        <img src="http://localhost/webproject/tech-store-web/assets/img/${user.Avatar}" 
+             alt="Admin Avatar" 
+             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">
+        <span style="color: white;">${user.FullName}</span>
+      `;
+    } else {
+      // Nếu không có avatar, hiển thị chữ cái đầu
+      userProfile.innerHTML = `
+        <div class="user-avatar">${user.FullName.charAt(0).toUpperCase()}</div>
+        <span style="color: white;">${user.FullName}</span>
+      `;
+    }
+  }
+
   loadDashboard();
 });
