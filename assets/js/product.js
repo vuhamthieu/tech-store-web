@@ -315,3 +315,20 @@ function formatPrice(price) {
   }
   return "Liên hệ";
 }
+
+function updateCartBadge() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const badge = document.getElementById("cartBadge");
+  const totalItems = cart.reduce((sum, item) => sum + item.Quantity, 0);
+  
+  if (badge) {
+    badge.textContent = totalItems;
+    if (totalItems > 0) {
+      badge.classList.add("show");
+    } else {
+      badge.classList.remove("show");
+    }
+  }
+}
+
+updateCartBadge();

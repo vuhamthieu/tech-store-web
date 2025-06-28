@@ -1793,3 +1793,32 @@ ul {
     background: #e53935;
     color: #fff;
 }
+
+
+.cart-icon {
+    position: relative;
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4655;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+  }
+  
+  .cart-badge.show {
+    opacity: 1;
+    transform: scale(1);
+  }

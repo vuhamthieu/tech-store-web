@@ -23,19 +23,21 @@
             exit;
         }
 
+        // Kiểm tra xem sản phẩm với options này đã có trong giỏ hàng chưa
         $stmt = $conn->prepare("SELECT Quantity FROM Cart WHERE UserID = ? AND ProductID = ? AND Options = ?");
         $stmt->bind_param("iis", $userId, $productId, $options);
         $stmt->execute();
-        $stmt->store_result();
+        $result = $stmt->get_result();
 
-        if ($stmt->num_rows > 0) {
-            // Product with these specific options already in cart, so update quantity
-            $stmt->close();
-            $stmt = $conn->prepare("UPDATE Cart SET Quantity = Quantity + ? WHERE UserID = ? AND ProductID = ? AND Options = ?");
-            $stmt->bind_param("iiis", $quantity, $userId, $productId, $options);
+        if ($result->num_rows > 0) {
+            // Sản phẩm đã có, cập nhật số lượng
+            $currentQuantity = $result->fetch_assoc()['Quantity'];
+            $newQuantity = $currentQuantity + $quantity;
+            
+            $stmt = $conn->prepare("UPDATE Cart SET Quantity = ? WHERE UserID = ? AND ProductID = ? AND Options = ?");
+            $stmt->bind_param("iiis", $newQuantity, $userId, $productId, $options);
         } else {
-            // New product or new options for an existing product, so insert new row
-            $stmt->close();
+            // Sản phẩm chưa có, thêm mới
             $stmt = $conn->prepare("INSERT INTO Cart (UserID, ProductID, Quantity, Options) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("iiis", $userId, $productId, $quantity, $options);
         }
@@ -45,8 +47,6 @@
         if ($stmt->affected_rows > 0) {
             echo json_encode(["success" => true, "message" => "Giỏ hàng đã được cập nhật"]);
         } else {
-            // This can happen if the insert/update fails, or if quantity doesn't change.
-            // For the user, we can treat it as a success if no error was thrown.
             echo json_encode(["success" => true, "message" => "Sản phẩm đã có trong giỏ hàng"]);
         }
 
