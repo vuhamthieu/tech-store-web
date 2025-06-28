@@ -1,175 +1,181 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin cá nhân | FPT Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/css/user.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="../pages/index.html" class="logo">Techsphere<span style="font-family: 'Orbitron', Arial, sans-serif !important;" > | Tài khoản</span></a>
-                <div class="user-nav">
-                    <a href="../pages/cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <main class="container">
-        <div class="profile-container">
-          <aside class="profile-sidebar">
-            <div class="user-info">
-                <div class="avatar-container">
-                  <div class="avatar-wrapper" id="avatarWrapper" style="cursor: pointer;">
-                    <!-- Avatar sẽ được cập nhật từ API hoặc localStorage -->
-                    <img id="avatarImage" src="../assets/img/logo.png" alt="Ảnh đại diện người dùng" title="Ảnh đại diện của bạn">
-                    <div class="avatar-overlay">
-                      <button type="button" class="change-avatar-btn" id="changeAvatarBtn">
-                        <i class="fas fa-camera"></i> Đổi ảnh
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Input upload ảnh (ẩn) -->
-                  <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-                </div>
-              
-                <!-- Thông tin người dùng -->
-                <h3 id="userName"></h3>
-                <p id="memberSince">Thành viên từ: 7/2025</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông tin cá nhân | FPT Shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/user.css">
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="../pages/index.html" class="logo">Techsphere<span
+            style="font-family: 'Orbitron', Arial, sans-serif !important;"> | Tài khoản</span></a>
+        <div class="user-nav">
+          <a href="../pages/cart.html" class="cart-icon" data-count="0"><i class="fas fa-shopping-cart"></i> Giỏ
+            hàng</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="profile-container">
+      <aside class="profile-sidebar">
+        <div class="user-info">
+          <div class="avatar-container">
+            <div class="avatar-wrapper" id="avatarWrapper" style="cursor: pointer;">
+              <!-- Avatar sẽ được cập nhật từ API hoặc localStorage -->
+              <img id="avatarImage" src="../assets/img/logo.png" alt="Ảnh đại diện người dùng"
+                title="Ảnh đại diện của bạn">
+              <div class="avatar-overlay">
+                <button type="button" class="change-avatar-btn" id="changeAvatarBtn">
+                  <i class="fas fa-camera"></i> Đổi ảnh
+                </button>
               </div>
-      
-            <nav class="profile-menu">
-              <ul>
-                <li class="active"><a href="user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
-                <li><a href="orders_of_user.html"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
-                <li><a href="product-favorite.html"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
-                <li><a href="notify.html"><i class="fas fa-bell"></i> Thông báo</a></li>
-                <li><a href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
-              </ul>
-            </nav>
-          </aside>
-      
-          <section class="profile-content">
-            <div class="profile-header">
-              <h2 class="section-title">Thông tin cá nhân</h2>
-              <button type="button" class="btn btn-edit" id="editProfileBtn">
-                <i class="fas fa-edit"></i> Sửa
-              </button>
             </div>
-      
-            <form class="profile-form" id="profileForm">
+            <!-- Input upload ảnh (ẩn) -->
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+          </div>
+
+          <!-- Thông tin người dùng -->
+          <h3 id="userName"></h3>
+          <p id="memberSince">Thành viên từ: 7/2025</p>
+        </div>
+
+        <nav class="profile-menu">
+          <ul>
+            <li class="active"><a href="user.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+            <li><a href="orders_of_user.html"><i class="fas fa-box"></i> Đơn hàng của tôi</a></li>
+            <li><a href="product-favorite.html"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
+            <li><a href="notify.html"><i class="fas fa-bell"></i> Thông báo</a></li>
+            <li><a href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <section class="profile-content">
+        <div class="profile-header">
+          <h2 class="section-title">Thông tin cá nhân</h2>
+          <button type="button" class="btn btn-edit" id="editProfileBtn">
+            <i class="fas fa-edit"></i> Sửa
+          </button>
+        </div>
+
+        <form class="profile-form" id="profileForm">
+          <div class="form-group">
+            <label for="fullname">Họ và tên</label>
+            <input type="text" id="fullname" name="fullname" readonly>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" readonly>
+            </div>
+            <div class="form-group">
+              <label for="phone">Số điện thoại</label>
+              <input type="tel" id="phone" name="phone" readonly>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gender">Giới tính</label>
+              <select id="gender" name="gender" disabled>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+                <option value="other">Khác</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="birthday">Ngày sinh</label>
+              <input type="date" id="birthday" name="birthday" readonly>
+            </div>
+          </div>
+
+          <div class="form-actions hidden" id="formActions">
+            <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+            <button type="button" class="btn btn-secondary" id="cancelEditBtn">Hủy bỏ</button>
+          </div>
+        </form>
+
+        <div class="security-section">
+          <h3><i class="fas fa-shield-alt"></i> Bảo mật tài khoản</h3>
+          <div class="security-item" id="passwordSection">
+            <div>
+              <h4>Mật khẩu</h4>
+              <p>••••••••</p>
+            </div>
+            <button class="btn btn-outline" id="changePasswordBtn">Đổi mật khẩu</button>
+          </div>
+
+          <div class="change-password-form hidden" id="changePasswordForm">
+            <h4>Đổi mật khẩu</h4>
+            <form id="passwordForm">
               <div class="form-group">
-                <label for="fullname">Họ và tên</label>
-                <input type="text" id="fullname" name="fullname" readonly>
+                <label for="currentPassword">Mật khẩu hiện tại</label>
+                <input type="password" id="currentPassword" required>
               </div>
-      
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="phone">Số điện thoại</label>
-                  <input type="tel" id="phone" name="phone" readonly>
-                </div>
+              <div class="form-group">
+                <label for="newPassword">Mật khẩu mới</label>
+                <input type="password" id="newPassword" required>
               </div>
-      
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="gender">Giới tính</label>
-                  <select id="gender" name="gender" disabled>
-                    <option value="male">Nam</option>
-                    <option value="female">Nữ</option>
-                    <option value="other">Khác</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="birthday">Ngày sinh</label>
-                  <input type="date" id="birthday" name="birthday" readonly>
-                </div>
+              <div class="form-group">
+                <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+                <input type="password" id="confirmNewPassword" required>
               </div>
-      
-              <div class="form-actions hidden" id="formActions">
-                <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
-                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Hủy bỏ</button>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Lưu mật khẩu</button>
+                <button type="button" class="btn btn-secondary" id="cancelChangePassword">Hủy bỏ</button>
               </div>
             </form>
-      
-            <div class="security-section">
-              <h3><i class="fas fa-shield-alt"></i> Bảo mật tài khoản</h3>
-              <div class="security-item" id="passwordSection">
-                <div>
-                  <h4>Mật khẩu</h4>
-                  <p>••••••••</p>
-                </div>
-                <button class="btn btn-outline" id="changePasswordBtn">Đổi mật khẩu</button>
-              </div>
-      
-              <div class="change-password-form hidden" id="changePasswordForm">
-                <h4>Đổi mật khẩu</h4>
-                <form id="passwordForm">
-                  <div class="form-group">
-                    <label for="currentPassword">Mật khẩu hiện tại</label>
-                    <input type="password" id="currentPassword" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="newPassword">Mật khẩu mới</label>
-                    <input type="password" id="newPassword" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
-                    <input type="password" id="confirmNewPassword" required>
-                  </div>
-                  <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Lưu mật khẩu</button>
-                    <button type="button" class="btn btn-secondary" id="cancelChangePassword">Hủy bỏ</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
+          </div>
         </div>
-      </main>
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Về chúng tôi</h4>
-                    <ul>
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Hỗ trợ khách hàng</h4>
-                    <ul>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Câu hỏi thường gặp</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Kết nối với chúng tôi</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 FPTShop. Tất cả các quyền được bảo lưu.</p>
-            </div>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Về chúng tôi</h4>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
         </div>
-    </footer>
-    
-    <script src="../assets/js/user.js"></script>
+        <div class="footer-section">
+          <h4>Hỗ trợ khách hàng</h4>
+          <ul>
+            <li><a href="#">Hướng dẫn mua hàng</a></li>
+            <li><a href="#">Chính sách đổi trả</a></li>
+            <li><a href="#">Câu hỏi thường gặp</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Kết nối với chúng tôi</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 FPTShop. Tất cả các quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/user.js"></script>
 </body>
+
 </html>

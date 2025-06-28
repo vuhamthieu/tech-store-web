@@ -705,17 +705,19 @@ document.getElementById("addToCartBtn")?.addEventListener("click", async functio
 function updateCartBadge() {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
   const badge = document.getElementById("cartBadge");
-  const totalItems = cart.reduce((sum, item) => sum + item.Quantity, 0);
+  const cartCount = cart.length; // Đếm số loại sản phẩm khác nhau
 
   if (badge) {
-    badge.textContent = totalItems;
-    if (totalItems > 0) {
+    badge.textContent = cartCount;
+    if (cartCount > 0) {
       badge.classList.add("show");
     } else {
       badge.classList.remove("show");
     }
   }
 }
+
+updateCartBadge();
 
 function createFlyingAnimation(productImage, startRect, endRect) {
   const flyingItem = document.createElement("div");
