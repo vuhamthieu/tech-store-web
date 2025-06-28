@@ -4,12 +4,12 @@
 
     $admin = authenticateAdmin();
 
-    $query = "SELECT *
-            FROM Products 
-            WHERE IsDeleted = 0
-            ORDER BY CreatedAt DESC";
+    $sql = "SELECT p.*, c.CategoryName 
+            FROM Products p 
+            LEFT JOIN Categories c ON p.CategoryID = c.CategoryID
+            WHERE p.IsDeleted = 0";
 
-    $result = $conn->query($query);
+    $result = $conn->query($sql);
 
     $products = [];
     while ($row = $result->fetch_assoc()) {
