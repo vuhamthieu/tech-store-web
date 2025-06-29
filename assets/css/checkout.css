@@ -282,32 +282,43 @@ body {
   margin-bottom: 10px;
   cursor: pointer;
   position: relative;
+  transition: all 0.2s ease;
 }
 
 .payment-option:hover {
-  border-color: #ccc;
+  border-color: var(--primary);
+  background-color: rgba(238, 77, 45, 0.05);
 }
 
 .payment-option.selected {
-  border-color: red;
+  border-color: var(--primary);
+  background-color: rgba(238, 77, 45, 0.1);
+}
+
+.payment-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.payment-name {
+  font-weight: 500;
+  flex-grow: 1;
 }
 
 .check-icon {
   position: absolute;
   right: 15px;
   font-size: 18px;
-  color: red;
+  color: var(--primary);
   display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .payment-option.selected .check-icon {
   display: inline;
-}
-
-
-.payment-name {
-  font-weight: 500;
-  flex-grow: 1;
+  opacity: 1;
 }
 
 /* Voucher Input */

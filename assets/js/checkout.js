@@ -150,14 +150,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Lấy phương thức thanh toán
-    let paymentMethod = "cod";
+    let paymentMethod = null;
+    let selectedPaymentOption = null;
+
     document.querySelectorAll('.payment-option').forEach((opt, idx) => {
       if (opt.classList.contains('selected')) {
+        selectedPaymentOption = opt;
         if (idx === 0) paymentMethod = "cod";
         if (idx === 1) paymentMethod = "momo";
         if (idx === 2) paymentMethod = "visa";
       }
     });
+
+    // Kiểm tra xem người dùng đã chọn phương thức thanh toán chưa
+    if (!paymentMethod || !selectedPaymentOption) {
+      alert("Vui lòng chọn phương thức thanh toán!");
+      btnText.style.display = 'inline';
+      loadingSpinner.style.display = 'none';
+      return;
+    }
 
     // Tính tổng tiền
     let shippingFee = 20000;
