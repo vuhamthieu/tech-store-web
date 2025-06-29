@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - TechStore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
-        <a href="index.html"><h1  style="font-family: Orbitron, sans-serif; font-size: 30px; color: #ff0000; text-decoration: none;"> Techsphere Admin</h1></a>
+        <a href="index.html" style="text-decoration: none;">
+            <h1 style="font-family: Orbitron, sans-serif; font-size: 30px; color: #ff0000; text-decoration: none;">
+                Techsphere Admin</h1>
+        </a>
         <div class="user-profile">
-            <div class="user-avatar">A</div>
+            <img src="../assets/img/logo.png" class="user-avatar"
+                style="width: 40px; height: 40px; border-radius: 50%;">
             <span style="color: white;">Admin</span>
         </div>
     </header>
@@ -25,20 +28,20 @@
     <nav class="sidebar">
         <ul>
             <li><a href="#" class="active" onclick="showSection('dashboard')">
-                <i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span>
-            </a></li>
+                    <i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span>
+                </a></li>
             <li><a href="#" onclick="showSection('orders')">
-                <i class="fas fa-shopping-cart"></i> <span>Đơn hàng</span>
-            </a></li>
+                    <i class="fas fa-shopping-cart"></i> <span>Đơn hàng</span>
+                </a></li>
             <li><a href="#" onclick="showSection('products')">
-                <i class="fas fa-box-open"></i> <span>Sản phẩm</span>
-            </a></li>
+                    <i class="fas fa-box-open"></i> <span>Sản phẩm</span>
+                </a></li>
             <li><a href="#" onclick="showSection('users')">
-                <i class="fas fa-users"></i> <span>Khách hàng</span>
-            </a></li>
+                    <i class="fas fa-users"></i> <span>Khách hàng</span>
+                </a></li>
             <li><a href="#" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
-            </a></li>
+                    <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
+                </a></li>
         </ul>
     </nav>
 
@@ -47,29 +50,29 @@
         <!-- Dashboard Section -->
         <div id="dashboard" class="section active">
             <h2 class="mb-20">Tổng quan hệ thống</h2>
-            
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalOrders">--</div>
                     <div class="stat-title">Tổng đơn hàng</div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-value" id="totalRevenue">--</div>
                     <div class="stat-title">Doanh thu tháng</div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-value" id="totalCustomers">--</div>
                     <div class="stat-title">Khách hàng</div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-value" id="totalProducts">--</div>
                     <div class="stat-title">Sản phẩm</div>
                 </div>
             </div>
-            
+
             <div class="table-container">
                 <h3 style="padding: 15px 15px 15px;">Đơn hàng mới nhất</h3>
                 <table id="recentOrders">
@@ -112,7 +115,7 @@
         <!-- Products Section -->
         <div id="products" class="section">
             <h2 class="mb-20">Quản lý sản phẩm</h2>
-            <button class="btn btn-primary mb-20">
+            <button class="btn btn-primary mb-20" onclick="openAddProductModal()">
                 <i class="fas fa-plus"></i> Thêm sản phẩm
             </button>
             <div class="table-container">
@@ -120,9 +123,12 @@
                     <thead>
                         <tr>
                             <th>Mã SP</th>
+                            <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
+                            <th>Danh mục</th>
                             <th>Giá</th>
                             <th>Tồn kho</th>
+                            <th>Thương hiệu</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -155,6 +161,66 @@
         </div>
     </main>
 
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Thêm sản phẩm mới</h3>
+                <span class="close" onclick="closeProductModal()">&times;</span>
+            </div>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label for="productTitle">Tên sản phẩm *</label>
+                    <input type="text" id="productTitle" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">Danh mục</label>
+                    <select id="productCategory" name="category">
+                        <option value="">Chọn danh mục</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Cameras">Cameras</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Giá (VNĐ) *</label>
+                        <input type="number" id="productPrice" name="price" min="0" step="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productStock">Tồn kho</label>
+                        <input type="number" id="productStock" name="stock" min="0" value="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productBrand">Thương hiệu</label>
+                    <input type="text" id="productBrand" name="brand">
+                </div>
+
+                <div class="form-group">
+                    <label for="productThumbnail">URL hình ảnh</label>
+                    <input type="url" id="productThumbnail" name="thumbnail"
+                        placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Mô tả</label>
+                    <textarea id="productDescription" name="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="../assets/js/admin.js"></script>
 </body>
+
 </html>

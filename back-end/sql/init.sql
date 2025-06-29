@@ -127,12 +127,13 @@ CREATE TABLE Cart (
     UserID INT NOT NULL,
     ProductID INT NOT NULL,
     Quantity INT DEFAULT 1 CHECK (Quantity > 0),
-    Options TEXT DEFAULT NULL,
+    Options VARCHAR(255) DEFAULT NULL,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (UserID, ProductID),
+    UNIQUE KEY unique_cart_item (UserID, ProductID, Options),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
+) ENGINE=InnoDB;
+
 
 -- Bảng Orders
 CREATE TABLE Orders (

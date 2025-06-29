@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Techology</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../assets/css/product.css" />
-    <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Techology</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/product.css" />
+  <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
 
-    <style>
-      /* === PRODUCT GRID ITEM HOVER === */
-    
+  <style>
+    /* === PRODUCT GRID ITEM HOVER === */
+
     /* Áp dụng cho mỗi sản phẩm trong .product-grid */
     .product-item {
       background: var(--white);
@@ -28,47 +27,47 @@
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    
+
     /* Hover: nâng lên + đổ bóng đậm hơn */
     .product-item:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
     }
-    
+
     /* Ảnh sản phẩm có hiệu ứng mượt khi hover */
     .product-item img {
       transition: transform 0.3s ease, opacity 0.3s ease;
       object-fit: cover;
       display: block;
     }
-    
+
     /* Hover ảnh: nhẹ nhàng phóng to */
     .product-item:hover img {
       transform: scale(1.03);
       opacity: 0.95;
     }
-    
+
     /* Tên sản phẩm chuyển màu đỏ khi hover */
     .product-item:hover h3 {
       color: var(--primary-red);
     }
+
     :root {
       --white: #fff;
       --light-gray: #e0e0e0;
       --primary-red: #E53935;
     }
-    
-    </style>
-  </head>
- <!-- ...existing code... -->
+  </style>
+</head>
+<!-- ...existing code... -->
 <aside class="left-sidebar" id="leftSidebar">
   <!-- ...sidebar content... -->
 
-<button class="sidebar-toggle" id="sidebarToggle">
-  <i class="fas fa-chevron-left"></i>
-</button>
-<!-- ...phần còn lại... -->
-<!-- ...existing code... -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <!-- ...phần còn lại... -->
+  <!-- ...existing code... -->
 
   <!-- Sản phẩm mới -->
   <div class="sidebar-section new-section">
@@ -102,122 +101,162 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 </aside>
 
-  <body>
-    <!-- Header -->
-    <header class="main-header">
-      <div class="container">
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <a href="index.html">
         <div class="logo">
-            <span>TECHBLACK</span>
-          </a>
+          <span class="logo-bg">
+            <img src="../assets/img/logo.png" alt="TechSphere Logo" />
+          </span>
+          <span class="logo-text">Techsphere</span>
         </div>
+      </a>
 
-        <div class="search-box">
-          <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-          <button><i class="fas fa-search"></i></button>
-        </div>
+      <div class="search-box">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button><i class="fas fa-search"></i></button>
+      </div>
 
-        <div class="header-icons">
-          <a href="user.html"><i class="fas fa-user"></i></a>
-          <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+      <div class="header-actions">
+        <a href="cart.html" class="cart-icon">
+          <i class="fa-solid fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <div class="user-info-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li><a href="index.html">TRANG CHỦ</a></li>
+        <li class="dropdown">
+          <a href="product.html">MÁY TÍNH</i></a>
+        </li>
+        <li class="dropdown">
+          <a href="product-camera.html">CAMERA </i></a>
+        </li>
+        <li class="dropdown">
+          <a href="product-devices.html">THIẾT BỊ</i></a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+
+  <!-- Main Content -->
+  <main class="container main-content">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+
+      <div class="sidebar-widget">
+        <h3>KHUYẾN MÃI</h3>
+        <img src="images/banner.jpg" alt="Khuyến mãi" class="promo-banner" />
+      </div>
+    </aside>
+
+    <!-- Product Section -->
+    <section class="product-section">
+      <div class="section-header">
+        <h2>SẢN PHẨM THIẾT BỊ</h2>
+        <!-- Không có ô tìm kiếm ở đây, chỉ giữ lại bộ lọc giá nếu cần -->
+        <select id="sort-filter">
+          <option value="">Tất cả các giá</option>
+          <option value="price_asc">Giá: Thấp đến cao</option>
+          <option value="price_desc">Giá: Cao đến thấp</option>
+          <option value="newest">Mới nhất</option>
+        </select>
+      </div>
+      <div class="product-grid">
+        <!-- Product items will be loaded by API -->
+      </div>
+      <div id="pagination" style="margin-top: 20px; text-align:center;">
+        <span id="pageNumbers"></span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-column">
+        <h4>VỀ CHÚNG TÔI</h4>
+        <p>TechBlack - Đối tác công nghệ tin cậy</p>
+        <p>Giấy phép kinh doanh: 0123456789</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>LIÊN HỆ</h4>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
+          Nội
+        </p>
+        <p><i class="fas fa-phone"></i> 0909 123 456</p>
+        <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>THEO DÕI CHÚNG TÔI</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="main-nav">
-      <div class="container">
-        <ul class="nav-menu">
-          <li><a href="index.html">TRANG CHỦ</a></li>
-          <li class="dropdown">
-            <a  href="product.html">MÁY TÍNH</i></a>
-          </li>
-          <li class="dropdown">
-            <a href="product-camera.html">CAMERA </i></a>
-          </li>
-          <li class="dropdown">
-            <a href="product-devices.html">THIẾT BỊ</i></a>
-          </li>
-         
-        </ul>
-      </div>
-    </nav>
+    </div>
+  </footer>
 
 
+  <script src="../assets/js/product.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
   
-
-
-
-    <!-- Main Content -->
-    <main class="container main-content">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        
-
-        <div class="sidebar-widget">
-          <h3>KHUYẾN MÃI</h3>
-          <img src="images/banner.jpg" alt="Khuyến mãi" class="promo-banner" />
-        </div>
-      </aside>
-
-      <!-- Product Section -->
-      <section class="product-section">
-        <div class="section-header">
-          <h2>SẢN PHẨM THIẾT BỊ</h2>
-          <!-- Không có ô tìm kiếm ở đây, chỉ giữ lại bộ lọc giá nếu cần -->
-          <select id="sort-filter">
-            <option value="">Tất cả các giá</option>
-            <option value="price_asc">Giá: Thấp đến cao</option>
-            <option value="price_desc">Giá: Cao đến thấp</option>
-            <option value="newest">Mới nhất</option>
-          </select>
-        </div>
-        <div class="product-grid">
-          <!-- Product items will be loaded by API -->
-        </div>
-        <div id="pagination" style="margin-top: 20px; text-align:center;">
-          <span id="pageNumbers"></span>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-      <div class="container">
-        <div class="footer-column">
-          <h4>VỀ CHÚNG TÔI</h4>
-          <p>TechBlack - Đối tác công nghệ tin cậy</p>
-          <p>Giấy phép kinh doanh: 0123456789</p>
-        </div>
-
-        <div class="footer-column">
-          <h4>LIÊN HỆ</h4>
-          <p>
-            <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
-            Nội
-          </p>
-          <p><i class="fas fa-phone"></i> 0909 123 456</p>
-          <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
-        </div>
-
-        <div class="footer-column">
-          <h4>THEO DÕI CHÚNG TÔI</h4>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+      if (isLoggedIn && user.UserID) {
+        document.querySelector("header").classList.add("logged-in");
+        const userInfoContainer = document.querySelector(".user-info-container");
+        userInfoContainer.innerHTML = `
+          <div class="user-info">
+            <a href="user.html">
+              <img src="${user.Avatar
+                ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
+                : 'https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6'
+              }" alt="Avatar" class="user-avatar" style="width:40px;height:40px;border-radius:50%;">
+            </a>
+            <div class="user-dropdown">
+              <span class="user-name">${user.FullName}</span>
+              <div class="dropdown-content">
+                <a href="user.html">Thông tin tài khoản</a>
+                <a href="#" id="logout-btn">Đăng xuất</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </footer>
-
-  
-   <script src="../assets/js/product.js"></script>
-        
+        `;
+        document.addEventListener('click', function (e) {
+          if (e.target && e.target.id === 'logout-btn') {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            window.location.reload();
+          }
+        });
+      }
+    });
+  </script>
 </body>
+
 </html>
-
-
-
