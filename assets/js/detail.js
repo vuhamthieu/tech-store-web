@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log("Request body:", requestBody);
 
       const response = await fetch(
-        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-review",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/add-review",
         {
           method: "POST",
           headers: headers,
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
     );
     const data = await res.json();
 
@@ -443,7 +443,7 @@ if (Number(product.CategoryID) === 1 && variants.length > 0) {
       if (!token || !productId) return;
       try {
         const res = await fetch(
-          "http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-favorite-products",
+          "http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products",
           {
             headers: { "Authorization": `Bearer ${token}` }
           }
@@ -462,8 +462,8 @@ if (Number(product.CategoryID) === 1 && variants.length > 0) {
     favoriteBtn?.addEventListener("click", async () => {
       if (!token || !productId) return;
       const url = isFavorite
-        ? "http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
-        : "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-favorite-product";
+        ? "http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
+        : "http://localhost/webproject/tech-store-web/back-end/php/api/add-favorite-product";
       try {
         const res = await fetch(url, {
           method: "POST",
@@ -547,7 +547,7 @@ if (Number(product.CategoryID) !== 1) {
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
+      `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
     const reviews = await res.json();
 
@@ -576,7 +576,7 @@ async function loadReviews(productId) {
         <div class="reviewer-info">
           <div class="reviewer-avatar">
             <img src="${review.Avatar
-          ? 'http://localhost:8080/webproject/tech-store-web/assets/img/' + review.Avatar
+          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
           : 'https://via.placeholder.com/50x50'
         }" alt="${review.FullName}">
           </div>
@@ -668,7 +668,7 @@ document.getElementById("addToCartBtn")?.addEventListener("click", async functio
 
   try {
     const res = await fetch(
-      "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-to-cart",
+      "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
       {
         method: "POST",
         headers: {
@@ -710,7 +710,7 @@ document.getElementById("addToCartBtn")?.addEventListener("click", async functio
       // Reload cart data
       try {
         const cartRes = await fetch(
-          "http://localhost:8080/webproject/tech-store-web/back-end/php/api/cart",
+          "http://localhost/webproject/tech-store-web/back-end/php/api/cart",
           {
             headers: { "Authorization": `Bearer ${token}` }
           }

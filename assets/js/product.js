@@ -119,7 +119,7 @@ document.querySelectorAll(".nav-menu li a").forEach((link) => {
 ////////////////////
 //product list
 
-const API_URL = "http://localhost:8080/webproject/tech-store-web/back-end/php/api/products";
+const API_URL = "http://localhost/webproject/tech-store-web/back-end/php/api/products";
 
 const productGrid = document.querySelector(".product-grid");
 // Lấy input tìm kiếm từ header
