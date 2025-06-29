@@ -22,13 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function loadWishlist() {
         try {
+            console.log("Calling API with token:", token);
             const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             });
 
+            console.log("API Response status:", res.status);
+
+            if (res.status === 401) {
+                alert("Token đã hết hạn, vui lòng đăng nhập lại!");
+                window.location.href = "login.html";
+                return;
+            }
+
             const data = await res.json();
+            console.log("API Response data:", data);
+
             if (data.success && Array.isArray(data.data)) {
                 allProducts = data.data.map(p => ({
                     ProductID: p.ProductID,
