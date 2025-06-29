@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  
   // Thumbnail click event
   const thumbnails = document.querySelectorAll(".thumbnail");
   const mainImage = document.getElementById("mainProductImage");
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log("Request body:", requestBody);
 
       const response = await fetch(
-        "http://localhost/webproject/tech-store-web/back-end/php/api/add-review",
+        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-review",
         {
           method: "POST",
           headers: headers,
@@ -291,7 +292,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/product-details?productId=${productId}`
     );
     const data = await res.json();
 
@@ -350,47 +351,61 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (ratingCountDiv) ratingCountDiv.textContent = `${product.TotalReviews || 0} đánh giá`;
     // Update variants (dung lượng & màu sắc từ VariantSpecifications)
     const capacityContainer = document.querySelector("#capacityVariants");
-    const colorContainer = document.querySelector("#colorVariants");
+const colorContainer = document.querySelector("#colorVariants");
+const capacitySection = document.getElementById("capacityVariantsSection");
+const colorSection = document.getElementById("colorVariantsSection");
 
-    if (capacityContainer && variants.length > 0) {
-      // Lấy tất cả giá trị ROM (Dung lượng)
-      const capacities = [
-        ...new Set(
-          variants
-            .flatMap((v) =>
-              (v.Specifications || []).filter((s) => s.SpecKey === "ROM").map((s) => s.SpecValue)
-            )
-            .filter(Boolean)
-        ),
-      ];
-      capacityContainer.innerHTML = "";
-      capacities.forEach((cap) => {
-        const div = document.createElement("div");
-        div.className = "variant-option";
-        div.textContent = cap;
-        capacityContainer.appendChild(div);
-      });
-    }
+// Chỉ xử lý nếu là sản phẩm thuộc danh mục "Máy tính" (CategoryID = 1)
+if (Number(product.CategoryID) === 1 && variants.length > 0) {
+  // Hiện phần lựa chọn ROM và Color
+  capacitySection?.classList.remove("hidden");
+  colorSection?.classList.remove("hidden");
 
-    if (colorContainer && variants.length > 0) {
-      // Lấy tất cả giá trị Color (Màu sắc)
-      const colors = [
-        ...new Set(
-          variants
-            .flatMap((v) =>
-              (v.Specifications || []).filter((s) => s.SpecKey === "Color").map((s) => s.SpecValue)
-            )
-            .filter(Boolean)
-        ),
-      ];
-      colorContainer.innerHTML = "";
-      colors.forEach((color) => {
-        const div = document.createElement("div");
-        div.className = "variant-option";
-        div.textContent = color;
-        colorContainer.appendChild(div);
-      });
-    }
+  // ROM (Dung lượng)
+  if (capacityContainer) {
+    const capacities = [
+      ...new Set(
+        variants
+          .flatMap((v) =>
+            (v.Specifications || []).filter((s) => s.SpecKey === "ROM").map((s) => s.SpecValue)
+          )
+          .filter(Boolean)
+      ),
+    ];
+    capacityContainer.innerHTML = "";
+    capacities.forEach((cap) => {
+      const div = document.createElement("div");
+      div.className = "variant-option";
+      div.textContent = cap;
+      capacityContainer.appendChild(div);
+    });
+  }
+
+  // Màu sắc (Color)
+  if (colorContainer) {
+    const colors = [
+      ...new Set(
+        variants
+          .flatMap((v) =>
+            (v.Specifications || []).filter((s) => s.SpecKey === "Color").map((s) => s.SpecValue)
+          )
+          .filter(Boolean)
+      ),
+    ];
+    colorContainer.innerHTML = "";
+    colors.forEach((color) => {
+      const div = document.createElement("div");
+      div.className = "variant-option";
+      div.textContent = color;
+      colorContainer.appendChild(div);
+    });
+  }
+} else {
+  // Không phải sản phẩm "Máy tính" => Ẩn phần ROM và Màu
+  capacitySection?.classList.add("hidden");
+  colorSection?.classList.add("hidden");
+}
+
 
     // Update description
     document.querySelector("#description .description-content").innerHTML = `
@@ -428,7 +443,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (!token || !productId) return;
       try {
         const res = await fetch(
-          "http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products",
+          "http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-favorite-products",
           {
             headers: { "Authorization": `Bearer ${token}` }
           }
@@ -447,8 +462,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     favoriteBtn?.addEventListener("click", async () => {
       if (!token || !productId) return;
       const url = isFavorite
-        ? "http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
-        : "http://localhost/webproject/tech-store-web/back-end/php/api/add-favorite-product";
+        ? "http://localhost:8080/webproject/tech-store-web/back-end/php/api/remove-favorite-product"
+        : "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-favorite-product";
       try {
         const res = await fetch(url, {
           method: "POST",
@@ -513,12 +528,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
   }
+  const capacityVariantsSection = document.getElementById("capacityVariantsSection");
+const colorVariantsSection = document.getElementById("colorVariantsSection");
+
+// Ẩn nếu không phải máy tính (CategoryID === 1)
+if (Number(product.CategoryID) !== 1) {
+  capacityVariantsSection?.classList.add("hidden");
+  colorVariantsSection?.classList.add("hidden");
+  console.log("Đã ẩn dung lượng và màu sắc vì không phải danh mục máy tính");
+} else {
+  capacityVariantsSection?.classList.remove("hidden");
+  colorVariantsSection?.classList.remove("hidden");
+  console.log("Hiển thị dung lượng và màu sắc vì là máy tính");
+}
+
 });
 
 async function loadReviews(productId) {
   try {
     const res = await fetch(
-      `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
+      `http://localhost:8080/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
     const reviews = await res.json();
 
@@ -547,7 +576,7 @@ async function loadReviews(productId) {
         <div class="reviewer-info">
           <div class="reviewer-avatar">
             <img src="${review.Avatar
-          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
+          ? 'http://localhost:8080/webproject/tech-store-web/assets/img/' + review.Avatar
           : 'https://via.placeholder.com/50x50'
         }" alt="${review.FullName}">
           </div>
@@ -639,7 +668,7 @@ document.getElementById("addToCartBtn")?.addEventListener("click", async functio
 
   try {
     const res = await fetch(
-      "http://localhost/webproject/tech-store-web/back-end/php/api/add-to-cart",
+      "http://localhost:8080/webproject/tech-store-web/back-end/php/api/add-to-cart",
       {
         method: "POST",
         headers: {
@@ -681,7 +710,7 @@ document.getElementById("addToCartBtn")?.addEventListener("click", async functio
       // Reload cart data
       try {
         const cartRes = await fetch(
-          "http://localhost/webproject/tech-store-web/back-end/php/api/cart",
+          "http://localhost:8080/webproject/tech-store-web/back-end/php/api/cart",
           {
             headers: { "Authorization": `Bearer ${token}` }
           }
