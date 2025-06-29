@@ -716,7 +716,7 @@ ul {
 
 /* Footer Styles */
 .main-footer {
-    background-color: var(--pure-black);
+    background-color: var(--pure-white);
     color: var(--pure-white);
     padding: 50px 0 20px;
 }
@@ -1797,9 +1797,9 @@ ul {
 
 .cart-icon {
     position: relative;
-  }
-  
-  .cart-badge {
+}
+
+.cart-badge {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -1816,9 +1816,130 @@ ul {
     opacity: 0;
     transform: scale(0);
     transition: all 0.3s ease;
-  }
-  
-  .cart-badge.show {
+}
+
+.cart-badge.show {
     opacity: 1;
     transform: scale(1);
-  }
+}
+
+/* ===== FOOTER STYLING - GIỐNG TRANG INDEX ===== */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 2px solid rgba(255, 70, 85, 0.1);
+}
+
+.footer-brandbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 220px;
+    margin-right: 32px;
+}
+
+.footer-logo {
+    width: 48px;
+    margin-bottom: 4px;
+}
+
+.footer-brandname {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    color: #ff4655;
+}
+
+.footer-slogan {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 16px;
+    margin: 8px 0;
+}
+
+.footer-social a {
+    color: #ff4655;
+    font-size: 1.4rem;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.footer-social a:hover {
+    color: #222;
+}
+
+.footer-social a span {
+    font-size: 1.4rem;
+    color: #ff4655;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.footer-social a:hover span {
+    color: #222;
+}
+
+.footer-contact a {
+    color: #222;
+    font-size: 1rem;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.footer-column h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 15px;
+}
+
+.footer-column ul li a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 0.95rem;
+}
+
+.footer-column ul li a:hover {
+    color: #ff4655;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 40px;
+    margin-top: 60px;
+    text-align: center;
+    color: #888;
+}
+
+/* Responsive cho footer */
+@media (max-width: 900px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-brandbox {
+        margin-right: 0;
+    }
+}

@@ -13,142 +13,165 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
-.cyber-slogan {
-  position: relative; /* QUAN TRỌNG: cho phép ::before giới hạn trong khung */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 12px;
-  border: 1.5px solid #E53935;
-  border-radius: 6px;
-  height: 40px;
-  background: transparent;
-  margin-right: 20px;
-  overflow: hidden; /* Ngăn hiệu ứng tràn ra ngoài */
-}
+    .cyber-slogan {
+      position: relative;
+      /* QUAN TRỌNG: cho phép ::before giới hạn trong khung */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 12px;
+      border: 1.5px solid #E53935;
+      border-radius: 6px;
+      height: 40px;
+      background: transparent;
+      margin-right: 20px;
+      overflow: hidden;
+      /* Ngăn hiệu ứng tràn ra ngoài */
+    }
 
-.slogan-text {
-  font-family: 'Montserrat', Arial, sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #E53935;
-  text-transform: uppercase;
-}
- 
-  
-  /* Hiệu ứng lượn sóng */
-  .cyber-slogan::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,10 50,5 T100,5" fill="none" stroke="%23E53935" stroke-width="0.5"/></svg>') repeat-x;
-    background-size: 200% 100%;
-    opacity: 0;
-    transition: all 1s ease-out;
-  }
-  
-  /* Khi hover */
-  .cyber-slogan:hover {
-    box-shadow: 0 0 25px rgba(229, 57, 53, 0.7);
-  }
-  
-  .cyber-slogan:hover::before {
-    opacity: 1;
-    animation: wave 3s linear infinite;
-    background-size: 50% 100%;
-  }
-  
-  .cyber-slogan:hover .slogan-text {
-    color: #E53935;
-    text-shadow: 0 0 8px rgba(229, 57, 53, 0.6);
-    animation: textGlow 1.5s infinite alternate;
-  }
-  
-  .cyber-slogan:hover .lightning {
-    color: #E53935;
-    animation: lightningPulse 0.8s infinite alternate;
-    filter: drop-shadow(0 0 6px rgba(229, 57, 53, 0.8));
-  }
-  
-  /* Animation */
-  @keyframes wave {
-    0% { background-position-x: 0; }
-    100% { background-position-x: 100%; }
-  }
-  
-  @keyframes textGlow {
-    0% { opacity: 0.9; }
-    100% { opacity: 1; text-shadow: 0 0 12px rgba(229, 57, 53, 0.9); }
-  }
-  
-  @keyframes lightningPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.2); }
-  }
-  
-  /* Hiệu ứng đổ bóng đỏ */
-  .cyber-slogan::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(229,57,53,0.2) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.6s;
-  }
-  
-  .cyber-slogan:hover::after {
-    opacity: 1;
-  }
-  .nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 10px 0;
-  
-}
+    .slogan-text {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #E53935;
+      text-transform: uppercase;
+    }
 
-.nav-left {
-  flex: 0 0 auto; /* Không chiếm quá nhiều không gian */
-  margin-right: 40px; /* Cách menu một khoảng vừa đủ */
-}
 
-.nav-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  gap: 25px; /* giảm khoảng cách giữa các mục menu nếu cần */
-}
+    /* Hiệu ứng lượn sóng */
+    .cyber-slogan::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,10 50,5 T100,5" fill="none" stroke="%23E53935" stroke-width="0.5"/></svg>') repeat-x;
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: all 1s ease-out;
+    }
 
-.nav-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    /* Khi hover */
+    .cyber-slogan:hover {
+      box-shadow: 0 0 25px rgba(229, 57, 53, 0.7);
+    }
 
-.nav-menu > li {
-  display: inline-block;
-}
+    .cyber-slogan:hover::before {
+      opacity: 1;
+      animation: wave 3s linear infinite;
+      background-size: 50% 100%;
+    }
 
-.nav-menu > li > a {
-  color: #333;
-  padding: 10px 15px;
-  font-family: 'Montserrat', Arial, sans-serif;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
+    .cyber-slogan:hover .slogan-text {
+      color: #E53935;
+      text-shadow: 0 0 8px rgba(229, 57, 53, 0.6);
+      animation: textGlow 1.5s infinite alternate;
+    }
 
-.nav-menu > li > a:hover {
-  color: #E53935;
-}
+    .cyber-slogan:hover .lightning {
+      color: #E53935;
+      animation: lightningPulse 0.8s infinite alternate;
+      filter: drop-shadow(0 0 6px rgba(229, 57, 53, 0.8));
+    }
+
+    /* Animation */
+    @keyframes wave {
+      0% {
+        background-position-x: 0;
+      }
+
+      100% {
+        background-position-x: 100%;
+      }
+    }
+
+    @keyframes textGlow {
+      0% {
+        opacity: 0.9;
+      }
+
+      100% {
+        opacity: 1;
+        text-shadow: 0 0 12px rgba(229, 57, 53, 0.9);
+      }
+    }
+
+    @keyframes lightningPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.2);
+      }
+    }
+
+    /* Hiệu ứng đổ bóng đỏ */
+    .cyber-slogan::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(229, 57, 53, 0.2) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .cyber-slogan:hover::after {
+      opacity: 1;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 0;
+
+    }
+
+    .nav-left {
+      flex: 0 0 auto;
+      /* Không chiếm quá nhiều không gian */
+      margin-right: 40px;
+      /* Cách menu một khoảng vừa đủ */
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      /* giảm khoảng cách giữa các mục menu nếu cần */
+    }
+
+    .nav-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu>li {
+      display: inline-block;
+    }
+
+    .nav-menu>li>a {
+      color: #333;
+      padding: 10px 15px;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-menu>li>a:hover {
+      color: #E53935;
+    }
+
     /* Áp dụng cho mỗi sản phẩm trong .product-grid */
     .product-item {
       background: var(--white);
@@ -294,7 +317,7 @@
       .left-sidebar.collapsed+.sidebar-toggle {
         right: 15px;
       }
-      
+
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -384,7 +407,7 @@
           <span class="slogan-text">REDEFINE YOUR STANDARD</span>
         </div>
       </div>
-  
+
       <!-- Menu căn giữa -->
       <ul class="nav-menu nav-center">
         <li><a href="index.html">TRANG CHỦ</a></li>
@@ -444,29 +467,37 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
-      <div class="footer-column">
-        <h4>VỀ CHÚNG TÔI</h4>
-        <p>TechBlack - Đối tác công nghệ tin cậy</p>
-        <p>Giấy phép kinh doanh: 0123456789</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>LIÊN HỆ</h4>
-        <p>
-          <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
-          Nội
-        </p>
-        <p><i class="fas fa-phone"></i> 0909 123 456</p>
-        <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>THEO DÕI CHÚNG TÔI</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+      <div class="footer-grid">
+        <!-- CỘT THƯƠNG HIỆU BÊN TRÁI -->
+        <div class="footer-brandbox">
+          <div class="footer-brandname">TECHSPHERE</div>
+          <div class="footer-slogan">Công nghệ cho cuộc sống hiện đại.</div>
+          <div class="footer-social">
+            <a href="#" style="display: flex; align-items: center; gap: 8px;">
+              <i class="fab fa-facebook-f"></i>
+              <span>FACEBOOK</span>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:support@techsphere.vn">support@techsphere.vn</a>
+          </div>
         </div>
+        <!-- CÁC CỘT CŨ GIỮ NGUYÊN -->
+        <div class="footer-column">
+          <h3>Sản phẩm</h3>
+          <ul>
+            <li><a href="product.html">Laptop & PC</a></li>
+            <li><a href="product-camera.html">Camera</a></li>
+            <li><a href="product-devices.html">Phụ kiện Tech</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
+          sống hiện đại.
+        </p>
       </div>
     </div>
   </footer>

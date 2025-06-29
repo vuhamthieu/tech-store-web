@@ -192,29 +192,37 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
-      <div class="footer-column">
-        <h4>VỀ CHÚNG TÔI</h4>
-        <p>TechBlack - Đối tác công nghệ tin cậy</p>
-        <p>Giấy phép kinh doanh: 0123456789</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>LIÊN HỆ</h4>
-        <p>
-          <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
-          Nội
-        </p>
-        <p><i class="fas fa-phone"></i> 0909 123 456</p>
-        <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>THEO DÕI CHÚNG TÔI</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+      <div class="footer-grid">
+        <!-- CỘT THƯƠNG HIỆU BÊN TRÁI -->
+        <div class="footer-brandbox">
+          <div class="footer-brandname">TECHSPHERE</div>
+          <div class="footer-slogan">Công nghệ cho cuộc sống hiện đại.</div>
+          <div class="footer-social">
+            <a href="#" style="display: flex; align-items: center; gap: 8px;">
+              <i class="fab fa-facebook-f"></i>
+              <span>FACEBOOK</span>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:support@techsphere.vn">support@techsphere.vn</a>
+          </div>
         </div>
+        <!-- CÁC CỘT CŨ GIỮ NGUYÊN -->
+        <div class="footer-column">
+          <h3>Sản phẩm</h3>
+          <ul>
+            <li><a href="product.html">Laptop & PC</a></li>
+            <li><a href="product-camera.html">Camera</a></li>
+            <li><a href="product-devices.html">Phụ kiện Tech</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
+          sống hiện đại.
+        </p>
       </div>
     </div>
   </footer>
@@ -225,7 +233,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
       const user = JSON.parse(localStorage.getItem("user") || "{}");
-  
+
       if (isLoggedIn && user.UserID) {
         document.querySelector("header").classList.add("logged-in");
         const userInfoContainer = document.querySelector(".user-info-container");
@@ -233,9 +241,9 @@
           <div class="user-info">
             <a href="user.html">
               <img src="${user.Avatar
-                ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
-                : 'https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6'
-              }" alt="Avatar" class="user-avatar" style="width:40px;height:40px;border-radius:50%;">
+            ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
+            : 'https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6'
+          }" alt="Avatar" class="user-avatar" style="width:40px;height:40px;border-radius:50%;">
             </a>
             <div class="user-dropdown">
               <span class="user-name">${user.FullName}</span>
