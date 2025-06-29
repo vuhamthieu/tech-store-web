@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  
+
   // Thumbnail click event
   const thumbnails = document.querySelectorAll(".thumbnail");
   const mainImage = document.getElementById("mainProductImage");
@@ -351,60 +351,60 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (ratingCountDiv) ratingCountDiv.textContent = `${product.TotalReviews || 0} đánh giá`;
     // Update variants (dung lượng & màu sắc từ VariantSpecifications)
     const capacityContainer = document.querySelector("#capacityVariants");
-const colorContainer = document.querySelector("#colorVariants");
-const capacitySection = document.getElementById("capacityVariantsSection");
-const colorSection = document.getElementById("colorVariantsSection");
+    const colorContainer = document.querySelector("#colorVariants");
+    const capacitySection = document.getElementById("capacityVariantsSection");
+    const colorSection = document.getElementById("colorVariantsSection");
 
-// Chỉ xử lý nếu là sản phẩm thuộc danh mục "Máy tính" (CategoryID = 1)
-if (Number(product.CategoryID) === 1 && variants.length > 0) {
-  // Hiện phần lựa chọn ROM và Color
-  capacitySection?.classList.remove("hidden");
-  colorSection?.classList.remove("hidden");
+    // Chỉ xử lý nếu là sản phẩm thuộc danh mục "Máy tính" (CategoryID = 1)
+    if (Number(product.CategoryID) === 1 && variants.length > 0) {
+      // Hiện phần lựa chọn ROM và Color
+      capacitySection?.classList.remove("hidden");
+      colorSection?.classList.remove("hidden");
 
-  // ROM (Dung lượng)
-  if (capacityContainer) {
-    const capacities = [
-      ...new Set(
-        variants
-          .flatMap((v) =>
-            (v.Specifications || []).filter((s) => s.SpecKey === "ROM").map((s) => s.SpecValue)
-          )
-          .filter(Boolean)
-      ),
-    ];
-    capacityContainer.innerHTML = "";
-    capacities.forEach((cap) => {
-      const div = document.createElement("div");
-      div.className = "variant-option";
-      div.textContent = cap;
-      capacityContainer.appendChild(div);
-    });
-  }
+      // ROM (Dung lượng)
+      if (capacityContainer) {
+        const capacities = [
+          ...new Set(
+            variants
+              .flatMap((v) =>
+                (v.Specifications || []).filter((s) => s.SpecKey === "ROM").map((s) => s.SpecValue)
+              )
+              .filter(Boolean)
+          ),
+        ];
+        capacityContainer.innerHTML = "";
+        capacities.forEach((cap) => {
+          const div = document.createElement("div");
+          div.className = "variant-option";
+          div.textContent = cap;
+          capacityContainer.appendChild(div);
+        });
+      }
 
-  // Màu sắc (Color)
-  if (colorContainer) {
-    const colors = [
-      ...new Set(
-        variants
-          .flatMap((v) =>
-            (v.Specifications || []).filter((s) => s.SpecKey === "Color").map((s) => s.SpecValue)
-          )
-          .filter(Boolean)
-      ),
-    ];
-    colorContainer.innerHTML = "";
-    colors.forEach((color) => {
-      const div = document.createElement("div");
-      div.className = "variant-option";
-      div.textContent = color;
-      colorContainer.appendChild(div);
-    });
-  }
-} else {
-  // Không phải sản phẩm "Máy tính" => Ẩn phần ROM và Màu
-  capacitySection?.classList.add("hidden");
-  colorSection?.classList.add("hidden");
-}
+      // Màu sắc (Color)
+      if (colorContainer) {
+        const colors = [
+          ...new Set(
+            variants
+              .flatMap((v) =>
+                (v.Specifications || []).filter((s) => s.SpecKey === "Color").map((s) => s.SpecValue)
+              )
+              .filter(Boolean)
+          ),
+        ];
+        colorContainer.innerHTML = "";
+        colors.forEach((color) => {
+          const div = document.createElement("div");
+          div.className = "variant-option";
+          div.textContent = color;
+          colorContainer.appendChild(div);
+        });
+      }
+    } else {
+      // Không phải sản phẩm "Máy tính" => Ẩn phần ROM và Màu
+      capacitySection?.classList.add("hidden");
+      colorSection?.classList.add("hidden");
+    }
 
 
     // Update description
@@ -528,20 +528,6 @@ if (Number(product.CategoryID) === 1 && variants.length > 0) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
   }
-  const capacityVariantsSection = document.getElementById("capacityVariantsSection");
-const colorVariantsSection = document.getElementById("colorVariantsSection");
-
-// Ẩn nếu không phải máy tính (CategoryID === 1)
-if (Number(product.CategoryID) !== 1) {
-  capacityVariantsSection?.classList.add("hidden");
-  colorVariantsSection?.classList.add("hidden");
-  console.log("Đã ẩn dung lượng và màu sắc vì không phải danh mục máy tính");
-} else {
-  capacityVariantsSection?.classList.remove("hidden");
-  colorVariantsSection?.classList.remove("hidden");
-  console.log("Hiển thị dung lượng và màu sắc vì là máy tính");
-}
-
 });
 
 async function loadReviews(productId) {
