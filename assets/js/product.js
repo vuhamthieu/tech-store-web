@@ -119,7 +119,7 @@ document.querySelectorAll(".nav-menu li a").forEach((link) => {
 ////////////////////
 //product list
 
-const API_URL = "http://localhost/webproject/tech-store-web/back-end/php/api/products";
+const API_URL = "http://localhost:8080/webproject/tech-store-web/back-end/php/api/products";
 
 const productGrid = document.querySelector(".product-grid");
 // Lấy input tìm kiếm từ header
@@ -208,8 +208,19 @@ function renderProducts(products) {
   productGrid.innerHTML = products
     .map((p) => {
       const productName = p.Title || "Tên sản phẩm";
-      const specsArray = [p.CPU, p.RAM, p.Storage].filter(Boolean);
-      const specs = specsArray.length ? specsArray.join(" / ") : "";
+
+      // Thông số dạng đầy đủ
+      let specs = "";
+      if (p.CPU) specs += `CPU: ${p.CPU} / `;
+      if (p.RAM) specs += `RAM: ${p.RAM} / `;
+      if (p.Storage) specs += `Ổ cứng: ${p.Storage}`;
+      specs = specs.replace(/\/\s*$/, "");
+
+      // Nếu không có CPU/RAM/Storage thì lấy từ Description
+      if (!specs && p.Description) {
+        const lines = p.Description.split("\n").slice(0, 2); // lấy 2 dòng đầu
+        specs = lines.join(" / ");
+      }
 
       return `
       <div class="product-item" style="cursor:pointer; padding:10px; box-sizing:border-box; width:100%; max-width:280px;" onclick="window.location.href='detail.html?id=${p.ProductID}'">
@@ -231,8 +242,21 @@ function renderProducts(products) {
         ">
           ${productName}
         </div>
-        <div style="font-size:14px; color:#555; margin:0 0 6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-          ${specs || `<i style="color:#aaa">Thông số đang cập nhật</i>`}
+        <div style="
+          font-size:13px;
+          color:#555;
+          margin:6px 0;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          display:-webkit-box;
+          -webkit-line-clamp:2;
+          -webkit-box-orient:vertical;
+        ">
+          ${
+            specs
+              ? specs
+              : `<i style="color:#aaa">Thông số đang cập nhật</i>`
+          }
         </div>
         <div style="font-size:13px; color:#777; margin-bottom:4px;">
           ${p.Brand || "Không rõ thương hiệu"}
@@ -247,6 +271,7 @@ function renderProducts(products) {
     })
     .join("");
 }
+
 
 
 

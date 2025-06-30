@@ -15,6 +15,54 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /*warranty*/
+    .warranty-policy {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+}
+
+.warranty-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.warranty-list ul {
+  list-style-type: circle;
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.warranty-note {
+  font-style: italic;
+  color: #555;
+  margin-top: 10px;
+}
+
+    /* Hover phóng to ảnh chính */
+#mainProductImage {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mainProductImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Hover nhô lên thumbnail */
+.thumbnail img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 6px;
+}
+
+.thumbnail img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
     .hidden {
   display: none !important;
 }
@@ -328,13 +376,38 @@
     </div>
 
     <!-- Tab: Bảo hành -->
-    <div class="tab-content" id="warranty">
-      <div class="warranty-content">
-        <h2 class="section-title">Chính sách bảo hành</h2>
-        <!-- Các mục bảo hành sẽ được đổ vào đây bằng JS -->
-        <!-- Ghi chú bảo hành (nếu có) cũng sẽ được thêm vào sau cùng -->
-      </div>
+  <!-- Tab: Bảo hành -->
+<div class="tab-content" id="warranty">
+  <div class="warranty-content">
+    <h2 class="section-title">Chính sách bảo hành</h2>
+
+    <div class="warranty-policy">
+      <ul class="warranty-list">
+        <li><strong>Thời gian bảo hành:</strong> Tối thiểu 12 tháng cho tất cả các sản phẩm chính hãng.</li>
+        <li><strong>Địa điểm bảo hành:</strong> Trung tâm bảo hành hãng hoặc hệ thống cửa hàng TechBlack toàn quốc.</li>
+        <li><strong>Điều kiện được bảo hành:</strong>
+          <ul>
+            <li>Sản phẩm còn thời hạn bảo hành và có tem/phiếu bảo hành hợp lệ.</li>
+            <li>Lỗi kỹ thuật từ nhà sản xuất (màn hình, bo mạch, cảm biến, ...).</li>
+            <li>Có hóa đơn mua hàng hoặc thông tin từ hệ thống.</li>
+          </ul>
+        </li>
+        <li><strong>Không bảo hành khi:</strong>
+          <ul>
+            <li>Sản phẩm bị hư hại do rơi, vỡ, nước, cháy nổ, thiên tai.</li>
+            <li>Can thiệp phần cứng, sửa chữa bên ngoài, hoặc sử dụng sai cách.</li>
+          </ul>
+        </li>
+        <li><strong>Thời gian xử lý:</strong> Từ 3 - 10 ngày làm việc tùy vào tình trạng sản phẩm.</li>
+        <li><strong>Đổi mới:</strong> Đổi sản phẩm mới trong 7 ngày đầu nếu có lỗi phần cứng do nhà sản xuất.</li>
+      </ul>
+      <p class="warranty-note">
+        Mọi thông tin hỗ trợ, vui lòng liên hệ <strong>1900 1234</strong> hoặc email <a href="mailto:hotro@techblack.vn">hotro@techblack.vn</a>.
+      </p>
     </div>
+  </div>
+</div>
+
   </div>
 
   <!-- Reviewer-->
@@ -395,29 +468,37 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
-      <div class="footer-column">
-        <h4>VỀ CHÚNG TÔI</h4>
-        <p>TechBlack - Đối tác công nghệ tin cậy</p>
-        <p>Giấy phép kinh doanh: 0123456789</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>LIÊN HỆ</h4>
-        <p>
-          <i class="fas fa-map-marker-alt"></i> 141 Chiến Thắng, Thanh Trì, Hà
-          Nội
-        </p>
-        <p><i class="fas fa-phone"></i> 0909 123 456</p>
-        <p><i class="fas fa-envelope"></i> canhquat213@gmail.com</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>THEO DÕI CHÚNG TÔI</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+      <div class="footer-grid">
+        <!-- CỘT THƯƠNG HIỆU BÊN TRÁI -->
+        <div class="footer-brandbox">
+          <div class="footer-brandname">TECHSPHERE</div>
+          <div class="footer-slogan">Công nghệ cho cuộc sống hiện đại.</div>
+          <div class="footer-social">
+            <a href="#" style="display: flex; align-items: center; gap: 8px;">
+              <i class="fab fa-facebook-f"></i>
+              <span>FACEBOOK</span>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:support@techsphere.vn">support@techsphere.vn</a>
+          </div>
         </div>
+        <!-- CÁC CỘT CŨ GIỮ NGUYÊN -->
+        <div class="footer-column">
+          <h3>Sản phẩm</h3>
+          <ul>
+            <li><a href="product.html">Laptop & PC</a></li>
+            <li><a href="product-camera.html">Camera</a></li>
+            <li><a href="product-devices.html">Phụ kiện Tech</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Techsphere. All rights reserved. | Công nghệ cho cuộc
+          sống hiện đại.
+        </p>
       </div>
     </div>
   </footer>
