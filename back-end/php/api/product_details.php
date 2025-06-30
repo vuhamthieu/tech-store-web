@@ -63,6 +63,26 @@
         $galleryImages[] = $row;
     }
 
+    // Tính tổng số lượng đã bán (chỉ tính đơn đã duyệt)
+    $stmt = $conn->prepare("
+        SELECT SUM(od.Quantity) as SoldCount
+        FROM OrderDetails od
+        JOIN Orders o ON od.OrderID = o.OrderID
+        WHERE od.ProductID = ? AND o.Status = 1
+    ");
+    $stmt->bind_param("i", $productId);
+    $stmt->execute();
+    $soldResult = $stmt->get_result();
+    $soldRow = $soldResult->fetch_assoc();
+    $soldCount = $soldRow['SoldCount'] ?? 0;
+
+    // Tính tồn kho thực tế
+    $stock = max(0, $product['Stock'] - $soldCount);
+
+    // Thêm vào response
+    $product['SoldCount'] = $soldCount;
+    $product['Stock'] = $stock;
+
     $response = [
         "product" => $product,
         "productSpecifications" => $productSpecifications,

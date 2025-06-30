@@ -48,7 +48,7 @@ document
 
       console.log('Sending login request...');
       const res = await fetch(
-        "http://localhost:8080/webproject/tech-store-web/back-end/php/api/login",
+        "http://localhost/webproject/tech-store-web/back-end/php/api/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
