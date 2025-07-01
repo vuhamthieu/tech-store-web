@@ -1,10 +1,11 @@
-use sql12787720;
+
 
 -- Bảng Role
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY AUTO_INCREMENT,
     RoleName VARCHAR(20) NOT NULL
-) ENGINE=InnoDB;
+);
+
 -- Bảng User 
 CREATE TABLE Users (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
@@ -16,7 +17,7 @@ CREATE TABLE Users (
     Password VARCHAR(100) NOT NULL,
     Avatar VARCHAR(500) DEFAULT NULL,
     RoleID INT NOT NULL,
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     IsDisabled TINYINT DEFAULT 0 COMMENT '0: Active, 1: Disabled',
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 ) ENGINE=InnoDB;
@@ -30,20 +31,21 @@ CREATE TABLE UserTokens (
     AccessTokenExpiresAt DATETIME,
     RefreshTokenExpiresAt DATETIME,
     DeviceInfo VARCHAR(200),
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     IsRevoked TINYINT DEFAULT 0,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
-) ENGINE=InnoDB;
+);
+
 -- Bảng Favorites
 CREATE TABLE Favorites (
     FavoriteID INT PRIMARY KEY AUTO_INCREMENT,
     UserID INT NOT NULL,
     ProductID INT NOT NULL,
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
     UNIQUE KEY (UserID, ProductID)
-) ENGINE=InnoDB;
+);
 
 -- Bảng Notifications
 CREATE TABLE Notifications (
@@ -52,16 +54,16 @@ CREATE TABLE Notifications (
     Title VARCHAR(255) NOT NULL,
     Content TEXT NOT NULL,
     IsRead TINYINT DEFAULT 0,  -- 0: chưa đọc, 1: đã đọc
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
-)ENGINE=InnoDB;
+);
 
 
 -- Bảng Category
 CREATE TABLE Categories (
     CategoryID INT PRIMARY KEY AUTO_INCREMENT,
     CategoryName VARCHAR(100) NOT NULL
-)ENGINE=InnoDB;
+);
 
 -- Bảng Products
 CREATE TABLE Products (
@@ -75,8 +77,8 @@ CREATE TABLE Products (
     Brand VARCHAR(100),
     Thumbnail VARCHAR(500),
     Rating DECIMAL(2, 1) DEFAULT 0 CHECK (Rating >= 0 AND Rating <= 5),
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UpdatedAt TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
     IsDeleted TINYINT DEFAULT 0,
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 ) ENGINE=InnoDB;
@@ -88,7 +90,7 @@ CREATE TABLE ProductSpecifications (
     SpecKey VARCHAR(100),        -- ví dụ: CPU, Screen, Battery
     SpecValue VARCHAR(200),      -- ví dụ: Intel i5, 15.6", 5000mAh
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
-)ENGINE=InnoDB;
+);
 
 -- Bảng ProductVariants (từng biến thể của sản phẩm)
 CREATE TABLE ProductVariants (
@@ -99,7 +101,8 @@ CREATE TABLE ProductVariants (
     Stock INT DEFAULT 0 CHECK (Stock >= 0),
     Thumbnail VARCHAR(500),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
-) ENGINE=InnoDB;
+);
+
 -- Bảng VariantSpecifications (chi tiết cho các biến thể)
 CREATE TABLE VariantSpecifications (
     VariantSpecID INT PRIMARY KEY AUTO_INCREMENT,
@@ -107,7 +110,7 @@ CREATE TABLE VariantSpecifications (
     SpecKey VARCHAR(100), -- Mã (VD: CPU, Screen, Battery)
     SpecValue VARCHAR(100), -- Giá trị (VD: Intel i5, 15.6", 5000mAh)
     FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID) ON DELETE CASCADE
-)ENGINE=InnoDB;
+);
 
 -- Bảng Gallery
 CREATE TABLE Gallery (
@@ -115,7 +118,7 @@ CREATE TABLE Gallery (
     ProductID INT NOT NULL,
     Thumbnail VARCHAR(500) NOT NULL,
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-)ENGINE=InnoDB;
+);
 
 -- Bảng Giỏ hàng
 CREATE TABLE Cart (
@@ -124,7 +127,7 @@ CREATE TABLE Cart (
     ProductID INT NOT NULL,
     Quantity INT DEFAULT 1 CHECK (Quantity > 0),
     Options VARCHAR(255) DEFAULT NULL,
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY unique_cart_item (UserID, ProductID, Options),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
@@ -139,13 +142,13 @@ CREATE TABLE Orders (
     ShippingPhone VARCHAR(20),
     ShippingAddress VARCHAR(200),
     ShippingNote TEXT,
-    OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     TotalAmount DECIMAL(12, 2) NOT NULL,
     Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved',
     PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid',
     PaymentMethod VARCHAR(50),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
-)ENGINE=InnoDB;
+);
 
 -- Bảng OrderDetails
 CREATE TABLE OrderDetails (
@@ -156,7 +159,7 @@ CREATE TABLE OrderDetails (
     UnitPrice DECIMAL(10, 2) NOT NULL CHECK (UnitPrice >= 0),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-)ENGINE=InnoDB;
+);
 
 -- Bảng tạm  
 CREATE TABLE payment_tokens (
@@ -165,8 +168,8 @@ CREATE TABLE payment_tokens (
     OrderID VARCHAR(50),
     UserID INT,
     Amount DECIMAL(12,2),
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)ENGINE=InnoDB;
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Bảng đánh giá
 CREATE TABLE Reviews (
@@ -175,10 +178,10 @@ CREATE TABLE Reviews (
     UserID INT NOT NULL,
     Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
     Comment TEXT,
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
-) ENGINE=InnoDB ;
+);
 
 -- Bảng Coupons
 CREATE TABLE Coupons (
@@ -188,11 +191,11 @@ CREATE TABLE Coupons (
     DiscountValue DECIMAL(10,2) NOT NULL,       
     MinOrderAmount DECIMAL(12,2) DEFAULT 0,      
     MaxDiscountAmount DECIMAL(12,2) DEFAULT NULL,     -- Giới hạn giảm tối đa (chỉ với percent)
-    StartDate TIMESTAMP NOT NULL,                  
+    StartDate DATETIME NOT NULL,                  
     EndDate DATETIME NOT NULL,                     
     UsageLimit INT DEFAULT NULL,                      -- NULL = không giới hạn
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)ENGINE=InnoDB;
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Bảng CouponProducts: nếu bạn muốn chỉ áp dụng mã cho 1 số sản phẩm
 CREATE TABLE CouponProducts (
@@ -202,7 +205,7 @@ CREATE TABLE CouponProducts (
     FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
     UNIQUE (CouponID, ProductID)
-)ENGINE=InnoDB;
+);
 
 -- Bảng OrderCoupons: lưu coupon đã áp dụng cho mỗi đơn hàng
 CREATE TABLE OrderCoupons (
@@ -213,7 +216,7 @@ CREATE TABLE OrderCoupons (
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
     UNIQUE (OrderID, CouponID)
-)ENGINE=InnoDB;
+);
 
 -- Bảng CouponUsage: theo dõi mỗi lần user dùng mã
 CREATE TABLE CouponUsage (
@@ -221,12 +224,12 @@ CREATE TABLE CouponUsage (
     CouponID INT NOT NULL,
     UserID INT NOT NULL,
     OrderID INT,                                    
-    UsedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     UNIQUE (CouponID, UserID, OrderID)
-)ENGINE=InnoDB;
+);
 
 -- 1. Dữ liệu cho bảng Categories
 INSERT INTO Categories (CategoryID, CategoryName) VALUES
