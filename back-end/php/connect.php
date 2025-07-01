@@ -2,10 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$database = "db_tech_store_web";
+$host = "sql12787720";
+$user = "sql12787720";
+$pass = "thieu1807";
+$database = "sql12787720";
 $conn = new mysqli($host, $user, $pass, $database);
 
 if ($conn->connect_error) {
