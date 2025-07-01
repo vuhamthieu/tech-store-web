@@ -222,8 +222,38 @@ function renderProducts(products) {
         specs = lines.join(" / ");
       }
 
+      // Thêm banner BEST SELLER cho sản phẩm có ID = 9
+      const bestSellerBanner = p.ProductID == 9 ? `
+        <div style="
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: linear-gradient(45deg, #ff4655, #e53935);
+          color: white;
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 2px 8px rgba(255, 70, 85, 0.3);
+          z-index: 10;
+          animation: pulse 2s infinite;
+        ">
+          Bán chạy
+        </div>
+      ` : '';
+
       return `
-      <div class="product-item" style="cursor:pointer; padding:10px; box-sizing:border-box; width:100%; max-width:280px;" onclick="window.location.href='detail.html?id=${p.ProductID}'">
+      <div class="product-item" style="
+        cursor:pointer; 
+        padding:10px; 
+        box-sizing:border-box; 
+        width:100%; 
+        max-width:280px;
+        position: relative;
+      " onclick="window.location.href='detail.html?id=${p.ProductID}'">
+        ${bestSellerBanner}
         <div>
           <img src="${p.Thumbnail}" alt="${p.Title}" style="width:100%; height:100%; object-fit:cover;">
         </div>
@@ -252,17 +282,20 @@ function renderProducts(products) {
           -webkit-line-clamp:2;
           -webkit-box-orient:vertical;
         ">
-          ${
-            specs
-              ? specs
-              : `<i style="color:#aaa">Thông số đang cập nhật</i>`
-          }
+          ${specs
+          ? specs
+          : `<i style="color:#aaa">Thông số đang cập nhật</i>`
+        }
         </div>
         <div style="font-size:13px; color:#777; margin-bottom:4px;">
           ${p.Brand || "Không rõ thương hiệu"}
         </div>
-        <div style="font-size:13px; color:#555; margin-bottom:4px;">
-          ⭐ ${p.Rating || "0.0"} (${p.Reviews || '0'} đánh giá)
+        <div style="
+          font-size:13px; 
+          color:#555; 
+          margin-bottom:4px;
+        ">
+          <i class="fas fa-star" style="color: #FFD700; -webkit-text-stroke: 0; text-stroke: 0;"></i> ${p.Rating || "0.0"} (${p.Reviews || '0'} đánh giá)
         </div>
         <div style="font-weight:700; font-size:15px; color:#E53935;">
           ${formatPrice(Number(p.Price))}

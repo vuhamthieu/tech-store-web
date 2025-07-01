@@ -13,120 +13,256 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
+    .promo-banner {
+      width: 100%;
+      height: 590px;
+      /* hoặc cao hơn nữa nếu muốn */
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .promo-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Banner khuyến mãi dọc */
+    .vertical-promo-banner {
+      position: relative;
+      width: calc(100% + 30px);
+      /* Nới rộng thêm một chút bên trái */
+      left: -30px;
+      /* Dịch trái vừa đủ để chạm nút toggle */
+      background: linear-gradient(to bottom, #121212, #1f1f1f);
+      border-radius: 12px;
+      padding: 20px 15px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+      border: 2px solid #ff0000;
+      animation: glowBorder 4s infinite ease-in-out;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    /* Tiêu đề banner */
+    .vertical-promo-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ff0000;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 6px rgba(255, 0, 0, 0.6);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    /* Ảnh sản phẩm trong banner */
+    .vertical-promo-img img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #fff;
+    }
+
+    /* Thông tin ưu đãi */
+    .vertical-promo-info p {
+      font-size: 14px;
+      margin: 6px 0;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: #fff;
+      backdrop-filter: blur(3px);
+      border-left: 3px solid #ff0000;
+    }
+
+    .vertical-promo-info strong {
+      color: #ff0000;
+    }
+
+    /* Nút mua ngay */
+    .promo-buy-btn {
+      display: inline-block;
+      background-color: #ff0000;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+      border: 2px solid #fff;
+    }
+
+    .promo-buy-btn:hover {
+      background-color: #fff;
+      color: #ff0000;
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px #ff0000;
+    }
+
+    /* Hiệu ứng border phát sáng */
+    @keyframes glowBorder {
+
+      0%,
+      100% {
+        box-shadow: 0 0 12px rgba(255, 0, 0, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+      }
+    }
+
+    /*slogan*/
+    .cyber-slogan .slogan-text {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      width: 260px;
+      /* Cố định chiều rộng đủ chứa slogan */
+      height: 24px;
+      text-align: left;
+    }
+
+    @keyframes blinkCursor {
+
+      0%,
+      100% {
+        border-color: red;
+      }
+
+      50% {
+        border-color: transparent;
+      }
+    }
+
     /*suggest*/
     .search-box {
-  position: relative;
-  width: 100%;
-  max-width: 550px;
-}
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+    }
 
-#searchInput {
-  width: 100%;
-  padding: 10px 40px 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-}
+    #searchInput {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
 
-.search-box button {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #888;
-}
+    .search-box button {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+    }
 
-.suggestion-box {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 350px;
-  overflow-y: auto;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-top: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  border-radius: 0 0 6px 6px;
-}
+    .suggestion-box {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      max-height: 350px;
+      overflow-y: auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-top: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      border-radius: 0 0 6px 6px;
+    }
 
-.suggestion-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  background-color: #fff;
-  transition: all 0.25s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-}
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+      background-color: #fff;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
 
-.suggestion-item img {
-  width: 45px;
-  height: 45px;
-  object-fit: cover;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
+    .suggestion-item img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
 
-.suggestion-item .text-info {
-  display: flex;
-  flex-direction: column;
-}
+    .suggestion-item .text-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-.suggestion-item .product-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 240px;
-  transition: color 0.25s;
-}
+    .suggestion-item .product-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+      transition: color 0.25s;
+    }
 
-.suggestion-item .product-price {
-  font-size: 13px;
-  font-weight: 500;
-  color: #e53935;
-}
+    .suggestion-item .product-price {
+      font-size: 13px;
+      font-weight: 500;
+      color: #e53935;
+    }
 
-.suggestion-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  background-color: #fff;
-}
+    .suggestion-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      background-color: #fff;
+    }
 
-.suggestion-item:hover .product-title {
-  color: #e53935;
-}
+    .suggestion-item:hover .product-title {
+      color: #e53935;
+    }
 
+    .suggestion-details {
+      flex-grow: 1;
+      overflow: hidden;
+    }
 
-.suggestion-details {
-  flex-grow: 1;
-  overflow: hidden;
-}
+    .suggestion-details .title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
 
-.suggestion-details .title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-}
+    .suggestion-details .price {
+      color: #E53935;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-.suggestion-details .price {
-  color: #E53935;
-  font-weight: 600;
-  font-size: 14px;
-}
     .cyber-slogan {
       position: relative;
       /* QUAN TRỌNG: cho phép ::before giới hạn trong khung */
@@ -151,7 +287,6 @@
       color: #E53935;
       text-transform: uppercase;
     }
-
 
     /* Hiệu ứng lượn sóng */
     .cyber-slogan::before {
@@ -245,7 +380,6 @@
       justify-content: space-between;
       gap: 20px;
       padding: 10px 0;
-
     }
 
     .nav-left {
@@ -431,7 +565,6 @@
       .left-sidebar.collapsed+.sidebar-toggle {
         right: 15px;
       }
-
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -537,16 +670,26 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-widget promo-widget">
-        <h3>KHUYẾN MÃI</h3>
-        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747914376/unnamed_w5hymn.webp"
-          alt="Laptop Asus TUF Gaming A15" class="promo-banner" />
-        <div class="promo-info">
-          <div class="promo-title">Asus TUF Gaming A15</div>
-          <div class="promo-prices">
-            <span class="promo-price-new">22.990.000đ</span>
-            <span class="promo-price-old">27.990.000đ</span>
-          </div>
-          <a href="detail.html?id=9" class="promo-btn">MUA NGAY</a>
+        <div class="promo-banner-wrapper">
+          <a href="promotion.html">
+            <div class="promo-banner">
+              <img src="../assets/img/sale.png" alt="Khuyến mãi 7.7">
+            </div>
+          </a>
+        </div>
+        <div class="promo-banner-wrapper">
+          <a href="promotion-acer.html">
+            <div class="promo-banner promo-banner-square">
+              <img src="../assets/img/how.png" alt="Acer Nitro V 15">
+            </div>
+          </a>
+        </div>
+        <div class="promo-banner-wrapper">
+          <a href="promotion-tuf.html">
+            <div class="promo-banner promo-banner-tuf">
+              <img src="../assets/img/nikon.png" alt="ASUS TUF Gaming A16">
+            </div>
+          </a>
         </div>
       </div>
     </aside>
@@ -554,7 +697,7 @@
     <!-- Product Section -->
     <section class="product-section">
       <div class="section-header">
-        <h2>SẢN PHẨM MÁY TÍNH</h2>
+        <h2>SẢN PHẨM CAMERA</h2>
 
         <!-- Bộ lọc sắp xếp -->
         <select id="sort-filter">
@@ -666,30 +809,30 @@
         });
       }
     });
- 
-const suggestionBox = document.getElementById("search-suggestions");
 
-searchInput.addEventListener("input", async function () {
-  const keyword = this.value.trim();
+    const suggestionBox = document.getElementById("search-suggestions");
 
-  if (keyword.length === 0) {
-    suggestionBox.innerHTML = "";
-    suggestionBox.style.display = "none";
-    return;
-  }
+    searchInput.addEventListener("input", async function () {
+      const keyword = this.value.trim();
 
-  try {
-    const response = await fetch(`http://localhost:8080/webproject/tech-store-web/back-end/php/api/products?search=${encodeURIComponent(keyword)}&limit=5`);
-    const data = await response.json();
+      if (keyword.length === 0) {
+        suggestionBox.innerHTML = "";
+        suggestionBox.style.display = "none";
+        return;
+      }
 
-    if (!data.products || data.products.length === 0) {
-      suggestionBox.innerHTML = "<div class='suggestion-item'>Không tìm thấy sản phẩm</div>";
-      suggestionBox.style.display = "block";
-      return;
-    }
+      try {
+        const response = await fetch(`http://localhost:8080/webproject/tech-store-web/back-end/php/api/products?search=${encodeURIComponent(keyword)}&limit=5`);
+        const data = await response.json();
 
-    // Hiển thị danh sách gợi ý
-    suggestionBox.innerHTML = data.products.map(product => `
+        if (!data.products || data.products.length === 0) {
+          suggestionBox.innerHTML = "<div class='suggestion-item'>Không tìm thấy sản phẩm</div>";
+          suggestionBox.style.display = "block";
+          return;
+        }
+
+        // Hiển thị danh sách gợi ý
+        suggestionBox.innerHTML = data.products.map(product => `
       <div class="suggestion-item" onclick="window.location.href='detail.html?id=${product.ProductID}'">
         <img src="${product.Thumbnail}" alt="${product.Title}" />
         <div class="suggestion-details">
@@ -699,21 +842,21 @@ searchInput.addEventListener("input", async function () {
       </div>
     `).join("");
 
-    suggestionBox.style.display = "block";
+        suggestionBox.style.display = "block";
 
-  } catch (error) {
-    console.error("Lỗi khi tìm kiếm:", error);
-    suggestionBox.innerHTML = "<div class='suggestion-item'>Lỗi khi tìm kiếm</div>";
-    suggestionBox.style.display = "block";
-  }
-});
+      } catch (error) {
+        console.error("Lỗi khi tìm kiếm:", error);
+        suggestionBox.innerHTML = "<div class='suggestion-item'>Lỗi khi tìm kiếm</div>";
+        suggestionBox.style.display = "block";
+      }
+    });
 
-// Ẩn khi click ra ngoài
-document.addEventListener("click", function (e) {
-  if (!document.querySelector(".search-box").contains(e.target)) {
-    suggestionBox.style.display = "none";
-  }
-});
+    // Ẩn khi click ra ngoài
+    document.addEventListener("click", function (e) {
+      if (!document.querySelector(".search-box").contains(e.target)) {
+        suggestionBox.style.display = "none";
+      }
+    });
   </script>
 </body>
 
