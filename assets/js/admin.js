@@ -50,16 +50,47 @@ async function loadDashboard() {
   }
 }
 
-// Load orders data
-async function loadOrders() {
+let allOrdersData = []; // Store all orders data for filtering
+
+// Load orders data with filter and search
+async function loadOrders(statusFilter = '', searchTerm = '') {
   const token = localStorage.getItem("access_token");
   const res = await fetch("../back-end/php/api/get-all-orders", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
+
   if (result.success && Array.isArray(result.data)) {
-    let html = "";
-    result.data.forEach(order => {
+    // Store all data for client-side filtering
+    allOrdersData = result.data;
+
+    let filteredOrders = result.data;
+
+    // Apply status filter if specified
+    if (statusFilter !== '') {
+      filteredOrders = filteredOrders.filter(order => order.Status == statusFilter);
+    }
+
+    // Apply search filter if specified
+    if (searchTerm !== '') {
+      const searchLower = searchTerm.toLowerCase();
+      filteredOrders = filteredOrders.filter(order =>
+        order.OrderID.toString().includes(searchLower) ||
+        order.ShippingName.toLowerCase().includes(searchLower) ||
+        order.OrderDate.toLowerCase().includes(searchLower)
+      );
+    }
+
+    renderOrdersTable(filteredOrders);
+  }
+}
+
+// Render orders table
+function renderOrdersTable(orders) {
+  let html = "";
+
+  if (orders.length > 0) {
+    orders.forEach(order => {
       const statusText = order.Status == 1 ? "Đã duyệt" : order.Status == 2 ? "Đã từ chối" : "Chờ xử lý";
       const statusClass = order.Status == 1 ? "approved" : order.Status == 2 ? "declined" : "pending";
 
@@ -83,8 +114,59 @@ async function loadOrders() {
         </tr>
       `;
     });
-    document.querySelector("#ordersTable tbody").innerHTML = html;
+  } else {
+    html = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 40px; color: #666;">
+          <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 10px; display: block; color: #ddd;"></i>
+          Không có đơn hàng nào phù hợp với bộ lọc
+        </td>
+      </tr>
+    `;
   }
+
+  document.querySelector("#ordersTable tbody").innerHTML = html;
+}
+
+// Search orders function
+function searchOrders() {
+  const searchTerm = document.getElementById("orderSearchInput").value.trim();
+  const statusFilter = document.getElementById("orderStatusFilter").value;
+
+  if (allOrdersData.length > 0) {
+    let filteredOrders = allOrdersData;
+
+    // Apply status filter
+    if (statusFilter !== '') {
+      filteredOrders = filteredOrders.filter(order => order.Status == statusFilter);
+    }
+
+    // Apply search filter
+    if (searchTerm !== '') {
+      const searchLower = searchTerm.toLowerCase();
+      filteredOrders = filteredOrders.filter(order =>
+        order.OrderID.toString().includes(searchLower) ||
+        order.ShippingName.toLowerCase().includes(searchLower) ||
+        order.OrderDate.toLowerCase().includes(searchLower)
+      );
+    }
+
+    renderOrdersTable(filteredOrders);
+  }
+}
+
+// Clear order filter
+function clearOrderFilter() {
+  document.getElementById("orderStatusFilter").value = "";
+  document.getElementById("orderSearchInput").value = "";
+  loadOrders();
+}
+
+// Clear order search
+function clearOrderSearch() {
+  document.getElementById("orderSearchInput").value = "";
+  const statusFilter = document.getElementById("orderStatusFilter").value;
+  loadOrders(statusFilter);
 }
 
 // Load product data
@@ -392,6 +474,25 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   loadDashboard();
+
+  // Add filter event listener
+  const orderStatusFilter = document.getElementById("orderStatusFilter");
+  if (orderStatusFilter) {
+    orderStatusFilter.addEventListener("change", function () {
+      const searchTerm = document.getElementById("orderSearchInput").value.trim();
+      loadOrders(this.value, searchTerm);
+    });
+  }
+
+  // Add search input event listener (search on Enter key)
+  const orderSearchInput = document.getElementById("orderSearchInput");
+  if (orderSearchInput) {
+    orderSearchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        searchOrders();
+      }
+    });
+  }
 });
 
 // Product Modal Functions
