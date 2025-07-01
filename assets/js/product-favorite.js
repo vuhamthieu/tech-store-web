@@ -98,7 +98,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 </button>
             `;
 
-            item.querySelector(".btn-remove").addEventListener("click", function () {
+            item.style.cursor = "pointer";
+            item.addEventListener("click", function (e) {
+                if (!e.target.closest('.btn-remove')) {
+                    window.location.href = `detail.html?id=${product.ProductID}`;
+                }
+            });
+
+            item.querySelector(".btn-remove").addEventListener("click", function (e) {
+                e.stopPropagation();
                 removeFavorite(product.ProductID);
             });
 

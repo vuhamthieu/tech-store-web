@@ -68,6 +68,7 @@ ul {
 .main-header {
     background-color: var(--pure-black);
     color: var(--pure-white);
+    border-bottom: 2px solid #ff4655;
     padding: 22px 0;
     position: sticky;
     top: 0;
@@ -1535,4 +1536,40 @@ ul {
     /* Không cắt ảnh, luôn hiển thị đủ */
     display: block;
     background: transparent;
+}
+
+/* Animation cho banner Best Seller */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 70, 85, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(255, 70, 85, 0.5);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 70, 85, 0.3);
+    }
+}
+
+/* Bỏ viền đen của ngôi sao đánh giá */
+.product-item .rating,
+.product-item div[style*="color:#555"],
+.product-item div[style*="color:#555"] span,
+.product-item div[style*="color:#555"] i {
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+    text-shadow: none;
+}
+
+/* Hoặc sử dụng Font Awesome icon thay vì emoji */
+.rating-star {
+    color: #FFD700;
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+    text-shadow: none;
 }
