@@ -91,7 +91,7 @@ function renderOrdersTable(orders) {
 
   if (orders.length > 0) {
     orders.forEach(order => {
-      const statusText = order.Status == 1 ? "Đã duyệt" : order.Status == 2 ? "Đã từ chối" : "Chờ xử lý";
+      const statusText = order.Status == 1 ? "Đã giao hàng" : order.Status == 2 ? "Đã từ chối" : "Chưa giao hàng";
       const statusClass = order.Status == 1 ? "approved" : order.Status == 2 ? "declined" : "pending";
 
       html += `
