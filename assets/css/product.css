@@ -1548,3 +1548,24 @@ ul {
     text-stroke: 0;
     text-shadow: none;
 }
+
+.best-seller-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(45deg, #ff0000, #e53935);
+    color: #fff;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.15);
+    z-index: 2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.product-item {
+    position: relative;
+    /* Để badge định vị tuyệt đối trong item */
+}
