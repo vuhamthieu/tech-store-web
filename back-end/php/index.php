@@ -230,7 +230,7 @@
             require 'refresh_token.php';
             break;
 
-        //duyệt đơn hàng
+        //duyệt đơn hàng đã giao
         case 'api/approve-order':
             require 'api/approve_order.php';
             break;
