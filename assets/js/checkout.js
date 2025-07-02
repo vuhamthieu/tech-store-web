@@ -233,6 +233,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Nếu là COD, hiển thị modal thành công
       if (paymentMethod === "cod") {
+        // Gọi confirm_payment cho COD
+        await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm_payment.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            payment_method: "cod"
+          })
+        });
         btnText.style.display = 'inline';
         loadingSpinner.style.display = 'none';
         successModal.style.display = 'flex';
@@ -251,22 +259,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         const payData = await payRes.json();
         console.log("Payment API response:", payData);
-        if (payData.success && payData.pay_url) {
-          await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/store-payment-token", {
-            method: "POST",
-            body: new URLSearchParams({
-              payment_token: payData.payment_token,
-              order_id: orderData.order_id,
-              user_id: user.UserID,
-              amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0)
-            })
-          });
-          window.location.href = payData.pay_url;
-        } else {
-          alert(payData.message || "Lỗi thanh toán!");
-          btnText.style.display = 'inline';
-          loadingSpinner.style.display = 'none';
-        }
+        btnText.style.display = 'inline';
+        loadingSpinner.style.display = 'none';
+        successModal.style.display = 'flex';
+        return;
       } else {
         alert("Vui lòng chọn phương thức thanh toán hợp lệ!");
         btnText.style.display = 'inline';

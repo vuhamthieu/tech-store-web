@@ -217,9 +217,12 @@ ul {
 
 .user-dropdown {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-.dropdown-content {
+.user-dropdown .dropdown-content {
     display: none;
     position: absolute;
     right: 0;
@@ -229,7 +232,12 @@ ul {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     z-index: 1000;
-    margin-top: 5px;
+    margin-top: 0px;
+}
+
+.user-dropdown:hover .dropdown-content,
+.user-dropdown:focus-within .dropdown-content {
+    display: block;
 }
 
 .dropdown-content a {
@@ -244,10 +252,6 @@ ul {
 .dropdown-content a:hover {
     background-color: var(--light-gray);
     color: var(--primary-red);
-}
-
-.user-dropdown:hover .dropdown-content {
-    display: block;
 }
 
 /* Cart Icon */
