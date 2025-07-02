@@ -217,9 +217,12 @@ ul {
 
 .user-dropdown {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-.dropdown-content {
+.user-dropdown .dropdown-content {
     display: none;
     position: absolute;
     right: 0;
@@ -229,7 +232,12 @@ ul {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     z-index: 1000;
-    margin-top: 5px;
+    margin-top: 0px;
+}
+
+.user-dropdown:hover .dropdown-content,
+.user-dropdown:focus-within .dropdown-content {
+    display: block;
 }
 
 .dropdown-content a {
@@ -244,10 +252,6 @@ ul {
 .dropdown-content a:hover {
     background-color: var(--light-gray);
     color: var(--primary-red);
-}
-
-.user-dropdown:hover .dropdown-content {
-    display: block;
 }
 
 /* Cart Icon */
@@ -1543,4 +1547,25 @@ ul {
     -webkit-text-stroke: 0;
     text-stroke: 0;
     text-shadow: none;
+}
+
+.best-seller-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(45deg, #ff0000, #e53935);
+    color: #fff;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.15);
+    z-index: 2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.product-item {
+    position: relative;
+    /* Để badge định vị tuyệt đối trong item */
 }

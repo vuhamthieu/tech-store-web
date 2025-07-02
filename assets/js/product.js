@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function resetTimer() {
     clearTimeout(autoHideTimer);
-    autoHideTimer = setTimeout(hideSidebar, 10000); // 10 giây
+    autoHideTimer = setTimeout(hideSidebar, 3000); // 3 giây
   }
 
   // Khởi động lần đầu
