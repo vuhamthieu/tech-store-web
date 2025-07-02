@@ -1,6 +1,8 @@
 <?php
     include __DIR__ . '/../connect.php';
 
+    $data = json_decode(file_get_contents('php://input'), true);
+
     $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"; //fake
 
     $partnerCode = "MOMOXNQH20200511"; //fake
@@ -9,8 +11,8 @@
 
     $orderId = time();
     $requestId = time() . "_request";
-    $amount = $_POST['amount'] ?? '0';
-    $orderInfo = $_POST['order_info'] ?? "Thanh toan don hang";
+    $amount = $data['amount'] ?? '0';
+    $orderInfo = $data['order_info'] ?? 'Thanh toán Momo';
     $returnUrl = "https://yourdomain.com/payment_return.php"; //fake
     $notifyUrl = "https://yourdomain.com/payment_ipn.php"; //fake
     $extraData = bin2hex(random_bytes(8)); 
@@ -48,6 +50,7 @@
             "success" => true,
             "pay_url" => $result['payUrl'],
             "order_id" => $orderId,
+            "payment_status" => 1,
             "payment_token" => $extraData
         ]);
     } else {

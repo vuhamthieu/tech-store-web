@@ -14,7 +14,6 @@
     $paymentStatus = 0;
 
     if (strtolower($paymentMethod) === 'cod') {
-        $status = 1;
         $paymentStatus = 0;
     } elseif ($tokenSuccess) { //nếu người dùng chọn thanh toán online
         $stmt = $conn->prepare("SELECT * FROM payment_tokens WHERE token = ? LIMIT 1");
@@ -23,7 +22,6 @@
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            $status = 1;
             $paymentStatus = 1;
 
             $delete = $conn->prepare("DELETE FROM payment_tokens WHERE token = ?");

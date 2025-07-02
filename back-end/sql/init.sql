@@ -144,7 +144,7 @@ CREATE TABLE Orders (
     ShippingNote TEXT,
     OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     TotalAmount DECIMAL(12, 2) NOT NULL,
-    Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved',
+    Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved', -- 2: Declined
     PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid',
     PaymentMethod VARCHAR(50),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)

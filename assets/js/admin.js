@@ -25,13 +25,13 @@ async function loadDashboard() {
     data.recent_orders.forEach(order => {
       let statusText, statusClass;
       if (order.status == 1) {
-        statusText = "Đã duyệt";
+        statusText = "Đã giao hàng";
         statusClass = "approved";
       } else if (order.status == 2) {
         statusText = "Đã từ chối";
         statusClass = "declined";
       } else {
-        statusText = "Chờ xử lý";
+        statusText = "Chưa giao hàng";
         statusClass = "pending";
       }
 
@@ -92,7 +92,7 @@ function renderOrdersTable(orders) {
 
   if (orders.length > 0) {
     orders.forEach(order => {
-      const statusText = order.Status == 1 ? "Đã duyệt" : order.Status == 2 ? "Đã từ chối" : "Chờ xử lý";
+      const statusText = order.Status == 1 ? "Đã giao hàng" : order.Status == 2 ? "Đã từ chối" : "Chưa giao hàng";
       const statusClass = order.Status == 1 ? "approved" : order.Status == 2 ? "declined" : "pending";
 
       html += `

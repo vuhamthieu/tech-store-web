@@ -41,7 +41,7 @@
     if ($updateStmt->execute()) {
         // Send notification to user
         $notificationTitle = "Đơn hàng bị từ chối";
-        $notificationMessage = "Đơn hàng #$orderId của bạn đã bị từ chối. Lý do: $reason. Tổng tiền: ₫" . number_format($totalAmount, 0, ',', '.');
+        $notificationMessage = "Đơn hàng #$orderId của bạn đã bị hủy. Lý do: $reason. Tổng tiền: ₫" . number_format($totalAmount, 0, ',', '.');
         
         $notifStmt = $conn->prepare("INSERT INTO Notifications (UserID, Title, Content) VALUES (?, ?, ?)");
         $notifStmt->bind_param("iss", $userId, $notificationTitle, $notificationMessage);

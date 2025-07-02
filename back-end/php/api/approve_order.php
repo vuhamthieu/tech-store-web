@@ -34,13 +34,13 @@
     $totalAmount = $order['TotalAmount'];
 
     // Update order status to approved (Status = 1)
-    $updateStmt = $conn->prepare("UPDATE Orders SET Status = 1 WHERE OrderID = ?");
+    $updateStmt = $conn->prepare("UPDATE Orders SET Status = 1 AND PaymentStatus = 1 WHERE OrderID = ?");
     $updateStmt->bind_param("i", $orderId);
 
     if ($updateStmt->execute()) {
         // Send notification to user
         $notificationTitle = "Đơn hàng đã được duyệt";
-        $notificationMessage = "Đơn hàng #$orderId của bạn đã được duyệt thành công. Tổng tiền: ₫" . number_format($totalAmount, 0, ',', '.');
+        $notificationMessage = "Đơn hàng #$orderId của bạn đã được giao thành công. Tổng tiền: ₫" . number_format($totalAmount, 0, ',', '.');
         
         $notifStmt = $conn->prepare("INSERT INTO Notifications (UserID, Title, Content) VALUES (?, ?, ?)");
         $notifStmt->bind_param("iss", $userId, $notificationTitle, $notificationMessage);
@@ -48,7 +48,7 @@
 
         echo json_encode([
             "success" => true,
-            "message" => "Đã duyệt đơn hàng thành công"
+            "message" => "Đã giao đơn hàng thành công"
         ]);
     } else {
         echo json_encode([
