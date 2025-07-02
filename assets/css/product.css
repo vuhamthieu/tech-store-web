@@ -773,10 +773,10 @@ ul {
 .left-sidebar {
     position: fixed;
     left: 0;
-    top: 10vh;
+    top: 8.5vh;
     /* Cách header */
     width: 280px;
-    height: calc(100vh + 150px);
+    height: 100vh;
     background: #1a1a1a;
     color: white;
     padding: 20px 15px;
