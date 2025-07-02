@@ -13,6 +13,7 @@ async function loadDashboard() {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
+  console.log("Dashboard data:", result);
   if (result.success && result.overview) {
     const data = result.overview;
     document.getElementById("totalOrders").textContent = data.total_orders;
@@ -109,7 +110,11 @@ function renderOrdersTable(orders) {
               <button class="btn btn-danger btn-sm" onclick="declineOrder(${order.OrderID})" title="Từ chối đơn hàng">
                 <i class="fas fa-times"></i>
               </button>
-            ` : ''}
+            ` : `
+              <button class="btn btn-danger btn-sm" onclick="deleteOrder(${order.OrderID})" title="Xóa đơn hàng">
+                <i class="fas fa-trash"></i>
+              </button>
+            `}
           </td>
         </tr>
       `;
@@ -657,5 +662,33 @@ window.onclick = function (event) {
   const modal = document.getElementById('productModal');
   if (event.target === modal) {
     closeProductModal();
+  }
+}
+
+async function deleteOrder(orderId) {
+  if (!confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) return;
+
+  const token = localStorage.getItem("access_token");
+  try {
+    const res = await fetch("../back-end/php/api/delete-order", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ order_id: orderId })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Xóa đơn hàng thành công!");
+      loadOrders(); // Refresh orders table
+      loadDashboard(); // Refresh dashboard
+    } else {
+      alert("Lỗi: " + (result.message || 'Không thể xóa đơn hàng'));
+    }
+  } catch (error) {
+    console.error('Lỗi khi xóa đơn hàng:', error);
+    alert('Đã xảy ra lỗi khi xóa đơn hàng');
   }
 }

@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function getOrderStatusText(status) {
-    if (status == 1) return "Đã duyệt";
+    if (status == 1) return "Đã giao hàng";
     if (status == 2) return "Đã từ chối";
     return "Chờ xử lý";
   }
