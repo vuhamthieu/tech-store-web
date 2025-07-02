@@ -13,39 +13,42 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      /* hoặc center nếu muốn căn giữa toàn bộ */
+      gap: 8px;
+      /* khoảng cách giữa icon và chữ */
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-red);
+      color: var(--primary-red);
+    }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* hoặc center nếu muốn căn giữa toàn bộ */
-  gap: 8px; /* khoảng cách giữa icon và chữ */
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary-red);
-  color: var(--primary-red);
-}
+    .section-header i {
+      font-size: 18px;
+      color: var(--primary-red);
+      margin-right: 12px;
+      /* 👈 khoảng cách giữa icon và chữ */
+    }
 
-.section-header i {
-  font-size: 18px;
-  color: var(--primary-red);
-  margin-right: 12px; /* 👈 khoảng cách giữa icon và chữ */
-}
-
-.section-header h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  text-transform: uppercase;
-}
+    .section-header h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+      text-transform: uppercase;
+    }
 
     .no-hover-color:hover {
-  background-color: inherit !important;
-  color: inherit !important;
-}
+      background-color: inherit !important;
+      color: inherit !important;
+    }
 
-.no-hover-color:hover i {
-  color: black !important; /* giữ màu gốc */
-}
+    .no-hover-color:hover i {
+      color: black !important;
+      /* giữ màu gốc */
+    }
 
     .promo-banner {
       width: 100%;
@@ -521,8 +524,10 @@
         <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_aur0g6.webp" alt="Laptop mới" />
         <div class="product-info">
           <h4>Laptop Acer Swift Go</h4>
-          
-          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
+
+          <a
+            href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button
+              class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -538,7 +543,9 @@
           alt="Webcam nổi bật" />
         <div class="product-info">
           <h4>Laptop Asus TUF A15</h4>
-          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
+          <a
+            href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button
+              class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -563,8 +570,8 @@
         <button class="no-hover-color">
           <i class="fas fa-search" style="color: black;"></i>
         </button>
-        
-        
+
+
         <div id="search-suggestions" class="suggestion-box"></div>
       </div>
       <div class="header-actions">
@@ -630,7 +637,7 @@
     <!-- Product Section -->
     <section class="product-section">
       <div class="section-header" style="color:#121212 ;">
-        <h2>SẢN PHẨM MÁY TÍNH</h2>
+        <h2>SẢN PHẨM CAMERA</h2>
 
         <!-- Bộ lọc sắp xếp -->
         <select id="sort-filter" style="margin-left: 440px ;">
