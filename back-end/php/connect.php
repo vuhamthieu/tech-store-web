@@ -2,12 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-date_default_timezone_set('Asia/Ho_Chi_Minh');
-
-$host = "127.0.0.1:3307";
+$host = "localhost";
 $user = "root";
 $pass = "";
-$database = "localhost";
+$database = "db_tech_store_web";
 $conn = new mysqli($host, $user, $pass, $database);
 
 if ($conn->connect_error) {
