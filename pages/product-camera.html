@@ -13,6 +13,40 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* hoặc center nếu muốn căn giữa toàn bộ */
+  gap: 8px; /* khoảng cách giữa icon và chữ */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-red);
+  color: var(--primary-red);
+}
+
+.section-header i {
+  font-size: 18px;
+  color: var(--primary-red);
+  margin-right: 12px; /* 👈 khoảng cách giữa icon và chữ */
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+    .no-hover-color:hover {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.no-hover-color:hover i {
+  color: black !important; /* giữ màu gốc */
+}
+
     .promo-banner {
       width: 100%;
       height: 590px;
@@ -29,6 +63,8 @@
       object-fit: cover;
       display: block;
     }
+
+
 
     /* Banner khuyến mãi dọc */
     .vertical-promo-banner {
@@ -48,6 +84,8 @@
       margin-top: 20px;
       z-index: 1;
     }
+
+
 
     /* Tiêu đề banner */
     .vertical-promo-title {
@@ -124,6 +162,7 @@
     }
 
     /*slogan*/
+
     .cyber-slogan .slogan-text {
       font-size: 16px;
       font-weight: 700;
@@ -135,7 +174,9 @@
       /* Cố định chiều rộng đủ chứa slogan */
       height: 24px;
       text-align: left;
+
     }
+
 
     @keyframes blinkCursor {
 
@@ -242,6 +283,7 @@
       color: #e53935;
     }
 
+
     .suggestion-details {
       flex-grow: 1;
       overflow: hidden;
@@ -263,124 +305,12 @@
       font-size: 14px;
     }
 
-    .cyber-slogan {
-      position: relative;
-      /* QUAN TRỌNG: cho phép ::before giới hạn trong khung */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px 12px;
-      border: 1.5px solid #E53935;
-      border-radius: 6px;
-      height: 40px;
-      background: transparent;
-      margin-right: 20px;
-      overflow: hidden;
-      /* Ngăn hiệu ứng tràn ra ngoài */
-    }
-
-    .slogan-text {
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 1px;
-      color: #E53935;
-      text-transform: uppercase;
-    }
-
-    /* Hiệu ứng lượn sóng */
-    .cyber-slogan::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,10 50,5 T100,5" fill="none" stroke="%23E53935" stroke-width="0.5"/></svg>') repeat-x;
-      background-size: 200% 100%;
-      opacity: 0;
-      transition: all 1s ease-out;
-    }
-
-    /* Khi hover */
-    .cyber-slogan:hover {
-      box-shadow: 0 0 25px rgba(229, 57, 53, 0.7);
-    }
-
-    .cyber-slogan:hover::before {
-      opacity: 1;
-      animation: wave 3s linear infinite;
-      background-size: 50% 100%;
-    }
-
-    .cyber-slogan:hover .slogan-text {
-      color: #E53935;
-      text-shadow: 0 0 8px rgba(229, 57, 53, 0.6);
-      animation: textGlow 1.5s infinite alternate;
-    }
-
-    .cyber-slogan:hover .lightning {
-      color: #E53935;
-      animation: lightningPulse 0.8s infinite alternate;
-      filter: drop-shadow(0 0 6px rgba(229, 57, 53, 0.8));
-    }
-
-    /* Animation */
-    @keyframes wave {
-      0% {
-        background-position-x: 0;
-      }
-
-      100% {
-        background-position-x: 100%;
-      }
-    }
-
-    @keyframes textGlow {
-      0% {
-        opacity: 0.9;
-      }
-
-      100% {
-        opacity: 1;
-        text-shadow: 0 0 12px rgba(229, 57, 53, 0.9);
-      }
-    }
-
-    @keyframes lightningPulse {
-      0% {
-        transform: scale(1);
-      }
-
-      100% {
-        transform: scale(1.2);
-      }
-    }
-
-    /* Hiệu ứng đổ bóng đỏ */
-    .cyber-slogan::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(229, 57, 53, 0.2) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.6s;
-    }
-
-    .cyber-slogan:hover::after {
-      opacity: 1;
-    }
-
     .nav-container {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 10px 0;
+      align-items: center;
     }
+
 
     .nav-left {
       flex: 0 0 auto;
@@ -565,6 +495,7 @@
       .left-sidebar.collapsed+.sidebar-toggle {
         right: 15px;
       }
+
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -590,8 +521,8 @@
         <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_aur0g6.webp" alt="Laptop mới" />
         <div class="product-info">
           <h4>Laptop Acer Swift Go</h4>
-          <div class="price">16.990.000đ</div>
-          <button class="buy-btn">XEM NGAY</button>
+          
+          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -603,12 +534,11 @@
         <h3>BÁN CHẠY</h3>
       </div>
       <div class="product-card">
-        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747921805/unnamed_t9h5bc.webp"
-          alt="Tai nghe nổi bật" />
+        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747914376/unnamed_w5hymn.webp"
+          alt="Webcam nổi bật" />
         <div class="product-info">
-          <h4>Webcam Logitech C720</h4>
-          <div class="price">449.000đ</div>
-          <button class="buy-btn">THÊM VÀO GIỎ</button>
+          <h4>Laptop Asus TUF A15</h4>
+          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -630,7 +560,11 @@
 
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off" />
-        <button><i class="fas fa-search"></i></button>
+        <button class="no-hover-color">
+          <i class="fas fa-search" style="color: black;"></i>
+        </button>
+        
+        
         <div id="search-suggestions" class="suggestion-box"></div>
       </div>
       <div class="header-actions">
@@ -649,7 +583,8 @@
       <!-- Slogan bên trái -->
       <div class="nav-left">
         <div class="cyber-slogan">
-          <span class="slogan-text">REDEFINE YOUR STANDARD</span>
+          <span class="slogan-text" id="navSlogan"></span>
+
         </div>
       </div>
 
@@ -678,14 +613,14 @@
         <div class="promo-banner-wrapper">
           <a href="promotion-acer.html">
             <div class="promo-banner promo-banner-square">
-              <img src="../assets/img/how.png" alt="Acer Nitro V 15">
+              <img src="../assets/img/acer-banner.jpg" alt="Acer Nitro V 15">
             </div>
           </a>
         </div>
         <div class="promo-banner-wrapper">
           <a href="promotion-tuf.html">
             <div class="promo-banner promo-banner-tuf">
-              <img src="../assets/img/nikon.png" alt="ASUS TUF Gaming A16">
+              <img src="../assets/img/Dominate Your Game with ASUS TUF Gaming A16.png" alt="ASUS TUF Gaming A16">
             </div>
           </a>
         </div>
@@ -694,11 +629,11 @@
 
     <!-- Product Section -->
     <section class="product-section">
-      <div class="section-header">
-        <h2>SẢN PHẨM CAMERA</h2>
+      <div class="section-header" style="color:#121212 ;">
+        <h2>SẢN PHẨM MÁY TÍNH</h2>
 
         <!-- Bộ lọc sắp xếp -->
-        <select id="sort-filter">
+        <select id="sort-filter" style="margin-left: 440px ;">
           <option value="">Tất cả các giá</option>
           <option value="price_asc">Giá: Thấp đến cao</option>
           <option value="price_desc">Giá: Cao đến thấp</option>
@@ -820,7 +755,7 @@
       }
 
       try {
-        const response = await fetch(`http://localhost:8080/webproject/tech-store-web/back-end/php/api/products?search=${encodeURIComponent(keyword)}&limit=5`);
+        const response = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/products?search=${encodeURIComponent(keyword)}&limit=5`);
         const data = await response.json();
 
         if (!data.products || data.products.length === 0) {
@@ -855,6 +790,35 @@
         suggestionBox.style.display = "none";
       }
     });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const sloganEl = document.getElementById("navSlogan");
+      const slogan = "REDEFINE YOUR STANDARD";
+      let charIndex = 0;
+      const speed = 80;
+      const hold = 5000;
+
+      function typeWriter() {
+        if (charIndex <= slogan.length) {
+          sloganEl.innerHTML = `<span style="color:red">${slogan.slice(0, charIndex)}</span>`;
+          charIndex++;
+          setTimeout(typeWriter, speed);
+        } else {
+          setTimeout(() => {
+            sloganEl.innerHTML = "";
+            charIndex = 0;
+            typeWriter();
+          }, hold);
+        }
+      }
+
+      typeWriter();
+    });
+
+
+
+
   </script>
 </body>
 

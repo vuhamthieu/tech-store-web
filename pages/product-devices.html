@@ -13,6 +13,40 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* hoặc center nếu muốn căn giữa toàn bộ */
+  gap: 8px; /* khoảng cách giữa icon và chữ */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-red);
+  color: var(--primary-red);
+}
+
+.section-header i {
+  font-size: 18px;
+  color: var(--primary-red);
+  margin-right: 12px; /* 👈 khoảng cách giữa icon và chữ */
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+    .no-hover-color:hover {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.no-hover-color:hover i {
+  color: black !important; /* giữ màu gốc */
+}
+
     .promo-banner {
       width: 100%;
       height: 590px;
@@ -487,8 +521,8 @@
         <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_aur0g6.webp" alt="Laptop mới" />
         <div class="product-info">
           <h4>Laptop Acer Swift Go</h4>
-          <div class="price">16.990.000đ</div>
-          <button class="buy-btn">XEM NGAY</button>
+          
+          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -500,12 +534,11 @@
         <h3>BÁN CHẠY</h3>
       </div>
       <div class="product-card">
-        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747921805/unnamed_t9h5bc.webp"
-          alt="Tai nghe nổi bật" />
+        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747914376/unnamed_w5hymn.webp"
+          alt="Webcam nổi bật" />
         <div class="product-info">
-          <h4>Webcam Logitech C720</h4>
-          <div class="price">449.000đ</div>
-          <button class="buy-btn">THÊM VÀO GIỎ</button>
+          <h4>Laptop Asus TUF A15</h4>
+          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
         </div>
       </div>
     </div>
@@ -527,7 +560,11 @@
 
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off" />
-        <button><i class="fas fa-search"></i></button>
+        <button class="no-hover-color">
+          <i class="fas fa-search" style="color: black;"></i>
+        </button>
+        
+        
         <div id="search-suggestions" class="suggestion-box"></div>
       </div>
       <div class="header-actions">
@@ -576,14 +613,14 @@
         <div class="promo-banner-wrapper">
           <a href="promotion-acer.html">
             <div class="promo-banner promo-banner-square">
-              <img src="../assets/img/ice.png" alt="Acer Nitro V 15">
+              <img src="../assets/img/acer-banner.jpg" alt="Acer Nitro V 15">
             </div>
           </a>
         </div>
         <div class="promo-banner-wrapper">
           <a href="promotion-tuf.html">
             <div class="promo-banner promo-banner-tuf">
-              <img src="../assets/img/hub.png" alt="ASUS TUF Gaming A16">
+              <img src="../assets/img/Dominate Your Game with ASUS TUF Gaming A16.png" alt="ASUS TUF Gaming A16">
             </div>
           </a>
         </div>
@@ -592,11 +629,11 @@
 
     <!-- Product Section -->
     <section class="product-section">
-      <div class="section-header">
-        <h2>SẢN PHẨM THIẾT BỊ</h2>
+      <div class="section-header" style="color:#121212 ;">
+        <h2>SẢN PHẨM MÁY TÍNH</h2>
 
         <!-- Bộ lọc sắp xếp -->
-        <select id="sort-filter">
+        <select id="sort-filter" style="margin-left: 440px ;">
           <option value="">Tất cả các giá</option>
           <option value="price_asc">Giá: Thấp đến cao</option>
           <option value="price_desc">Giá: Cao đến thấp</option>
