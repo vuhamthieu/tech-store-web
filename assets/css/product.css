@@ -585,7 +585,7 @@ ul {
 }
 
 .left-sidebar.collapsed~.sidebar-toggle {
-    left: 15px;
+    left: 0px;
 }
 
 
@@ -773,10 +773,10 @@ ul {
 .left-sidebar {
     position: fixed;
     left: 0;
-    top: 150px;
+    top: 8.5vh;
     /* Cách header */
     width: 280px;
-    height: calc(100vh - 150px);
+    height: 100vh;
     background: #1a1a1a;
     color: white;
     padding: 20px 15px;
@@ -787,7 +787,7 @@ ul {
 }
 
 .left-sidebar.collapsed {
-    left: -250px;
+    left: -300px;
 }
 
 .toggle-sidebar {
