@@ -34,7 +34,7 @@
     $totalAmount = $order['TotalAmount'];
 
     // Update order status to approved (Status = 1)
-    $updateStmt = $conn->prepare("UPDATE Orders SET Status = 1 WHERE OrderID = ?");
+    $updateStmt = $conn->prepare("UPDATE Orders SET Status = 1 AND PaymentStatus = 1 WHERE OrderID = ?");
     $updateStmt->bind_param("i", $orderId);
 
     if ($updateStmt->execute()) {

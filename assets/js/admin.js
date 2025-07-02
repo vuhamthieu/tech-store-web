@@ -24,13 +24,13 @@ async function loadDashboard() {
     data.recent_orders.forEach(order => {
       let statusText, statusClass;
       if (order.status == 1) {
-        statusText = "Đã duyệt";
+        statusText = "Đã giao hàng";
         statusClass = "approved";
       } else if (order.status == 2) {
         statusText = "Đã từ chối";
         statusClass = "declined";
       } else {
-        statusText = "Chờ xử lý";
+        statusText = "Chưa giao hàng";
         statusClass = "pending";
       }
 
