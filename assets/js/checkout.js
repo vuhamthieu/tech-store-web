@@ -246,24 +246,52 @@ document.addEventListener('DOMContentLoaded', function () {
         successModal.style.display = 'flex';
         return;
       } else if (paymentMethod === "momo" || paymentMethod === "visa") {
-        let payApi = paymentMethod === "momo"
-          ? "momo_payment.php"
-          : "visa_payment.php";
-        console.log("Calling payment API:", payApi);
-        const payRes = await authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
-          method: "POST",
-          body: new URLSearchParams({
-            amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0),
-            order_info: `Thanh toán đơn hàng #${orderData.order_id}`
-          })
-        });
-        const payData = await payRes.json();
-        console.log("Payment API response:", payData);
-        btnText.style.display = 'inline';
-        loadingSpinner.style.display = 'none';
-        successModal.style.display = 'flex';
-        return;
-      } else {
+          let payApi = paymentMethod === "momo"
+            ? "momo_payment.php"
+            : "visa_payment.php";
+
+          console.log("Calling payment API:", payApi);
+
+          // 1. Gọi API thanh toán
+          const payRes = await authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
+            method: "POST",
+            body: new URLSearchParams({
+              amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0),
+              order_info: `Thanh toán đơn hàng #${orderData.order_id}`
+            })
+          });
+
+          const payData = await payRes.json();
+          console.log("Payment API response:", payData);
+
+          const { payment_token, order_id } = payData;
+
+          // 2. Lưu token vào DB
+          await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/store-payment-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              payment_token,
+              order_id
+            })
+          });
+
+          // 3. Gọi xác nhận thanh toán
+          await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              payment_method: paymentMethod,
+              payment_token: payment_token
+            })
+          });
+
+          // 4. Hiện modal đặt hàng thành công
+          btnText.style.display = 'inline';
+          loadingSpinner.style.display = 'none';
+          successModal.style.display = 'flex';
+          return;
+        } else {
         alert("Vui lòng chọn phương thức thanh toán hợp lệ!");
         btnText.style.display = 'inline';
         loadingSpinner.style.display = 'none';
