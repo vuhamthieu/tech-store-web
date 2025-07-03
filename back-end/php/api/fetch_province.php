@@ -7,7 +7,9 @@
     // Base URL API gốc
     $baseUrl = 'https://provinces.open-api.vn/api/';
 
-    $url = $baseUrl . $path . '?depth=' . $depth;
+    if ($path === '') {
+        $url = $baseUrl;
+    }else $url = $baseUrl . $path . '?depth=' . $depth;
 
     $response = file_get_contents($url);
 
