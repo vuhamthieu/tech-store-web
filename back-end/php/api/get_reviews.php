@@ -2,6 +2,9 @@
     include __DIR__ . '/../connect.php';
 
     $productId = isset($_GET['productId']) ? intval($_GET['productId']) : 0;
+    $page       = max(1, intval($_GET['page'] ?? 1));
+    $limit      = max(1, intval($_GET['limit'] ?? 15));
+    $offset     = ($page - 1) * $limit;
 
     if ($productId <= 0) {
         echo json_encode(["error" => "Thiếu hoặc sai productId"]);
@@ -14,11 +17,11 @@
         FROM Reviews r
         JOIN Users u ON r.UserID = u.UserID
         WHERE r.ProductID = ?
-        ORDER BY r.CreatedAt DESC
+        ORDER BY r.CreatedAt DESC LIMIT ? OFFSET ?
     ";
 
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $productId);
+    $stmt->bind_param("iii", $productId, $limit, $offset);
     $stmt->execute();
     $result = $stmt->get_result();
 
