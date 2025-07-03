@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 4. Load Tỉnh
-  authFetch("https://provinces.open-api.vn/api/p/")
+  authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/fetch-province")
     .then(res => res.json())
     .then(data => {
       data.forEach(p => {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     districtSelect.innerHTML = '<option value="">-- Chọn Quận / Huyện --</option>';
     wardSelect.innerHTML = '<option value="">-- Chọn Phường / Xã --</option>';
 
-    authFetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+    authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/fetch-province?path=p/${provinceCode}`)
       .then(res => res.json())
       .then(data => {
         data.districts.forEach(d => {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const districtCode = districtSelect.value;
     wardSelect.innerHTML = '<option value="">-- Chọn Phường / Xã --</option>';
 
-    authFetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+    authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/fetch-province?path=d/${districtCode}`)
       .then(res => res.json())
       .then(data => {
         data.wards.forEach(w => {
