@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Nếu là COD, hiển thị modal thành công
       if (paymentMethod === "cod") {
         // Gọi confirm_payment cho COD
-        await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm_payment.php", {
+        await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const productIds = checkoutList.map(item => item.product_id || item.ProductID);
 
-    authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/use_coupon.php", {
+    authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/use-coupon", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

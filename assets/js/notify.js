@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      authFetch("http://localhost/webproject/tech-store-web/back-end/php/logout.php", {
+      authFetch("http://localhost/webproject/tech-store-web/back-end/php/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
