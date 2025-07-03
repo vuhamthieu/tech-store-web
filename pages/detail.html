@@ -17,55 +17,56 @@
   <style>
     /*warranty*/
     .warranty-policy {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  line-height: 1.6;
-  font-family: 'Roboto', sans-serif;
-}
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      line-height: 1.6;
+      font-family: 'Roboto', sans-serif;
+    }
 
-.warranty-list {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-bottom: 15px;
-}
+    .warranty-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
 
-.warranty-list ul {
-  list-style-type: circle;
-  padding-left: 20px;
-  margin-top: 5px;
-}
+    .warranty-list ul {
+      list-style-type: circle;
+      padding-left: 20px;
+      margin-top: 5px;
+    }
 
-.warranty-note {
-  font-style: italic;
-  color: #555;
-  margin-top: 10px;
-}
+    .warranty-note {
+      font-style: italic;
+      color: #555;
+      margin-top: 10px;
+    }
 
     /* Hover phóng to ảnh chính */
-#mainProductImage {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    #mainProductImage {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-#mainProductImage:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
+    #mainProductImage:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
 
-/* Hover nhô lên thumbnail */
-.thumbnail img {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 6px;
-}
+    /* Hover nhô lên thumbnail */
+    .thumbnail img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 6px;
+    }
 
-.thumbnail img:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
+    .thumbnail img:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
     .hidden {
-  display: none !important;
-}
+      display: none !important;
+    }
+
     /* Reset và font chung */
     * {
       box-sizing: border-box;
@@ -376,37 +377,39 @@
     </div>
 
     <!-- Tab: Bảo hành -->
-  <!-- Tab: Bảo hành -->
-<div class="tab-content" id="warranty">
-  <div class="warranty-content">
-    <h2 class="section-title">Chính sách bảo hành</h2>
+    <!-- Tab: Bảo hành -->
+    <div class="tab-content" id="warranty">
+      <div class="warranty-content">
+        <h2 class="section-title">Chính sách bảo hành</h2>
 
-    <div class="warranty-policy">
-      <ul class="warranty-list">
-        <li><strong>Thời gian bảo hành:</strong> Tối thiểu 12 tháng cho tất cả các sản phẩm chính hãng.</li>
-        <li><strong>Địa điểm bảo hành:</strong> Trung tâm bảo hành hãng hoặc hệ thống cửa hàng TechBlack toàn quốc.</li>
-        <li><strong>Điều kiện được bảo hành:</strong>
-          <ul>
-            <li>Sản phẩm còn thời hạn bảo hành và có tem/phiếu bảo hành hợp lệ.</li>
-            <li>Lỗi kỹ thuật từ nhà sản xuất (màn hình, bo mạch, cảm biến, ...).</li>
-            <li>Có hóa đơn mua hàng hoặc thông tin từ hệ thống.</li>
+        <div class="warranty-policy">
+          <ul class="warranty-list">
+            <li><strong>Thời gian bảo hành:</strong> Tối thiểu 12 tháng cho tất cả các sản phẩm chính hãng.</li>
+            <li><strong>Địa điểm bảo hành:</strong> Trung tâm bảo hành hãng hoặc hệ thống cửa hàng TechBlack toàn quốc.
+            </li>
+            <li><strong>Điều kiện được bảo hành:</strong>
+              <ul>
+                <li>Sản phẩm còn thời hạn bảo hành và có tem/phiếu bảo hành hợp lệ.</li>
+                <li>Lỗi kỹ thuật từ nhà sản xuất (màn hình, bo mạch, cảm biến, ...).</li>
+                <li>Có hóa đơn mua hàng hoặc thông tin từ hệ thống.</li>
+              </ul>
+            </li>
+            <li><strong>Không bảo hành khi:</strong>
+              <ul>
+                <li>Sản phẩm bị hư hại do rơi, vỡ, nước, cháy nổ, thiên tai.</li>
+                <li>Can thiệp phần cứng, sửa chữa bên ngoài, hoặc sử dụng sai cách.</li>
+              </ul>
+            </li>
+            <li><strong>Thời gian xử lý:</strong> Từ 3 - 10 ngày làm việc tùy vào tình trạng sản phẩm.</li>
+            <li><strong>Đổi mới:</strong> Đổi sản phẩm mới trong 7 ngày đầu nếu có lỗi phần cứng do nhà sản xuất.</li>
           </ul>
-        </li>
-        <li><strong>Không bảo hành khi:</strong>
-          <ul>
-            <li>Sản phẩm bị hư hại do rơi, vỡ, nước, cháy nổ, thiên tai.</li>
-            <li>Can thiệp phần cứng, sửa chữa bên ngoài, hoặc sử dụng sai cách.</li>
-          </ul>
-        </li>
-        <li><strong>Thời gian xử lý:</strong> Từ 3 - 10 ngày làm việc tùy vào tình trạng sản phẩm.</li>
-        <li><strong>Đổi mới:</strong> Đổi sản phẩm mới trong 7 ngày đầu nếu có lỗi phần cứng do nhà sản xuất.</li>
-      </ul>
-      <p class="warranty-note">
-        Mọi thông tin hỗ trợ, vui lòng liên hệ <strong>1900 1234</strong> hoặc email <a href="mailto:hotro@techblack.vn">hotro@techblack.vn</a>.
-      </p>
+          <p class="warranty-note">
+            Mọi thông tin hỗ trợ, vui lòng liên hệ <strong>1900 1234</strong> hoặc email <a
+              href="mailto:hotro@techblack.vn">hotro@techblack.vn</a>.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
   </div>
 
@@ -419,7 +422,6 @@
       <div class="summary-container">
         <div class="average-rating">
           <div class="average-score"><span id="avg-rating">0</span>/5</div>
-          <div class="stars" id="avg-stars">★★★★★</div>
           <div class="total-reviews"><span id="total-reviews">0</span> đánh giá</div>
         </div>
         <div class="rating-details" id="rating-breakdown">
@@ -514,9 +516,16 @@
       if (isLoggedIn && user.UserID) {
         document.querySelector("header").classList.add("logged-in");
         const userInfoContainer = document.querySelector(".user-info-container");
+        const isAdmin = user.RoleID === 2; // Giả sử RoleID = 2 là admin
+        const firstMenuLink = isAdmin
+          ? '<a href="dashboard.html">Dashboard</a>'
+          : '<a href="user.html">Thông tin tài khoản</a>';
+
+        const avatarLink = isAdmin ? 'dashboard.html' : 'user.html';
+
         userInfoContainer.innerHTML = `
           <div class="user-info">
-            <a href="user.html">
+            <a href="${avatarLink}">
               <img src="${user.Avatar
             ? 'http://localhost/webproject/tech-store-web/assets/img/' + user.Avatar
             : 'https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-1/482236741_636204415676991_5392700582177539028_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeF-ZMG_JcvB5jG-9TdeZq09X-xSXJw_HWhf7FJcnD8daPet7y5DQKkl_3Yqsodo_HgQX3sQqkAQzWspJYhKvzRp&_nc_ohc=Oguzvd7HXB0Q7kNvwFUs_9J&_nc_oc=AdlwzdkAon8zboaTFw_4eXUzLshM9PSe8wQI0qqyV_7t7dOq2GiJlhl7WBha0hVidAgl-5__FNyd7vzW0REYkRzR&_nc_zt=24&_nc_ht=scontent.fhan19-1.fna&_nc_gid=FwyM96FZ-5f-jGuI43dbDQ&oh=00_AfOVhVAEK4Zlebyh3XPaZLvLcsll7BQcFTh9bZWnE8YcQg&oe=6855F6D6'
@@ -525,12 +534,26 @@
             <div class="user-dropdown">
               <span class="user-name">${user.FullName}</span>
               <div class="dropdown-content">
-                <a href="user.html">Thông tin tài khoản</a>
+                ${firstMenuLink}
                 <a href="#" id="logout-btn">Đăng xuất</a>
               </div>
             </div>
           </div>
         `;
+
+        // Ẩn các nút và form review nếu là admin
+        if (isAdmin) {
+          // Ẩn nút thêm vào giỏ hàng
+          const addToCartBtn = document.getElementById("addToCartBtn");
+          if (addToCartBtn) addToCartBtn.style.display = "none";
+          // Ẩn nút mua ngay
+          const buyNowBtn = document.getElementById("buyNowBtn");
+          if (buyNowBtn) buyNowBtn.style.display = "none";
+          // Ẩn form viết đánh giá
+          const writeReview = document.querySelector(".write-review");
+          if (writeReview) writeReview.style.display = "none";
+        }
+
         document.addEventListener('click', function (e) {
           if (e.target && e.target.id === 'logout-btn') {
             e.preventDefault();
