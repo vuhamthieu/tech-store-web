@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
-        const res = await fetch(
+        const res = await authFetch(
             `http://localhost/webproject/tech-store-web/back-end/php/api/cart`,
             {
                 method: 'GET',
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             try {
-                const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/remove-from-cart', {
+                const res = await authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/remove-from-cart', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const productId = cartItem.dataset.id;
         const options = cartItem.dataset.options;
         try {
-            const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-cart-quantity', {
+            const res = await authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-cart-quantity', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -255,10 +255,29 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     document.querySelector(".checkout-btn")?.addEventListener("click", function (e) {
         e.preventDefault();
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        console.log("Cart before checkout:", cart);
-        localStorage.setItem("checkout", JSON.stringify(cart));
-        console.log("Checkout after set:", localStorage.getItem("checkout"));
+
+        // Lấy tất cả các cart-item đã được tick chọn
+        const checkedItems = document.querySelectorAll('.cart-item .item-select:checked');
+        if (checkedItems.length === 0) {
+            alert("Vui lòng chọn ít nhất một sản phẩm để mua!");
+            return;
+        }
+
+        // Tạo danh sách sản phẩm đã chọn
+        const selectedProducts = Array.from(checkedItems).map(checkbox => {
+            const item = checkbox.closest('.cart-item');
+            return {
+                ProductID: item.dataset.id,
+                Quantity: Number(item.querySelector('.qty-input').value),
+                Options: item.dataset.options,
+                Title: item.querySelector('.cart-title').textContent,
+                Price: Number(item.dataset.price),
+                Thumbnail: item.querySelector('.cart-thumb').src
+            };
+        });
+
+        // Lưu vào localStorage để trang checkout dùng
+        localStorage.setItem("checkout", JSON.stringify(selectedProducts));
         window.location.href = "checkout.html";
     });
 });

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function loadWishlist() {
         try {
             console.log("Calling API with token:", token);
-            const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
+            const res = await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/get-favorite-products", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function removeFavorite(productId) {
         try {
-            const res = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+            const res = await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!confirm("Bạn có chắc muốn xóa tất cả sản phẩm yêu thích?")) return;
 
         await Promise.all(allProducts.map(p =>
-            fetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
+            authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite-product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const birthdayInput = document.getElementById('birthday');
   const token = localStorage.getItem('token') || '';
 
-  // === FETCH CART COUNT ===
-  function fetchCartCount() {
+  // === authFetch CART COUNT ===
+  function authFetchCartCount() {
     if (!token) {
       console.log('Không có token, không thể lấy số lượng giỏ hàng');
       return;
     }
 
-    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/cart', {
+    authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/cart', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  // === FETCH USER INFO ===
-  function fetchUserData() {
-    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-info-user', {
+  // === authFetch USER INFO ===
+  function authFetchUserData() {
+    authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-info-user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -93,10 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  fetchUserData();
+  authFetchUserData();
 
-  // Fetch cart count
-  fetchCartCount();
+  // authFetch cart count
+  authFetchCartCount();
 
   // === PROFILE FORM SUBMIT ===
   const profileForm = document.querySelector('.profile-form');
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         email: emailInput.value
       };
 
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-info-user', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-info-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const formData = new FormData();
       formData.append('avatar', file);
 
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + token
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-password-user', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-password-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

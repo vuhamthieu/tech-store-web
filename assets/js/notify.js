@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let notifications = [];
 
-  async function fetchNotifications() {
+  async function authFetchNotifications() {
     const token = localStorage.getItem("access_token");
     if (!token) {
       // Optionally redirect to login or show a message
       return;
     }
     try {
-      const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-notification', {
+      const res = await authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/get-notification', {
         headers: {
           'Authorization': 'Bearer ' + token
         }
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function markAsRead(id) {
     try {
-      await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/mark-noti-is-read', {
+      await authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/mark-noti-is-read', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ notification_id: id })
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function deleteNotification(id) {
     const token = localStorage.getItem("access_token");
-    const res = await fetch('http://localhost/webproject/tech-store-web/back-end/php/api/delete-noti', {
+    const res = await authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/delete-noti', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData();
     formData.append('avatar', file);
 
-    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+    authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem("access_token")
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      fetch("http://localhost/webproject/tech-store-web/back-end/php/logout.php", {
+      authFetch("http://localhost/webproject/tech-store-web/back-end/php/logout.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -208,5 +208,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  fetchNotifications();
+  authFetchNotifications();
 });
