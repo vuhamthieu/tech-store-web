@@ -16,7 +16,7 @@
     }
 
     // Get order details to find the user
-    $stmt = $conn->prepare("SELECT UserID, TotalAmount, OrderDetails FROM Orders WHERE OrderID = ?");
+    $stmt = $conn->prepare("SELECT UserID, TotalAmount FROM Orders WHERE OrderID = ?");
     $stmt->bind_param("i", $orderId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -32,7 +32,6 @@
 
     $userId = $order['UserID'];
     $totalAmount = $order['TotalAmount'];
-    $orderDetails = json_decode($order['OrderDetails'], true);
 
     // Update order status to approved (Status = 1)
     $updateStmt = $conn->prepare("UPDATE Orders SET Status = 1, PaymentStatus = 1 WHERE OrderID = ?");
@@ -46,16 +45,6 @@
         $notifStmt = $conn->prepare("INSERT INTO Notifications (UserID, Title, Content) VALUES (?, ?, ?)");
         $notifStmt->bind_param("iss", $userId, $notificationTitle, $notificationMessage);
         $notifStmt->execute();
-
-        // Trừ tồn kho
-        foreach ($orderDetails as $item) {
-            $productId = $item['ProductID'];
-            $quantity = $item['Quantity'];
-            $updateStock = "UPDATE Products SET Stock = Stock - ? WHERE ProductID = ?";
-            $stmt = $conn->prepare($updateStock);
-            $stmt->bind_param("ii", $quantity, $productId);
-            $stmt->execute();
-        }
 
         echo json_encode([
             "success" => true,
