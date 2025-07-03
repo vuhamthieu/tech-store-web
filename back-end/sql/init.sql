@@ -1,10 +1,24 @@
+-- Bảng Category
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY AUTO_INCREMENT,
+    CategoryName VARCHAR(100) NOT NULL
+);
 
+-- Dữ liệu cho bảng Categories
+INSERT INTO Categories (CategoryID, CategoryName) VALUES
+  (1, 'Laptop'),
+  (2, 'Cameras'),
+  (3, 'Accessories');
 
 -- Bảng Role
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY AUTO_INCREMENT,
     RoleName VARCHAR(20) NOT NULL
 );
+
+INSERT INTO Roles (RoleID, RoleName) VALUES
+  (1, 'User'),
+  (2, 'Admin');
 
 -- Bảng User 
 CREATE TABLE Users (
@@ -22,6 +36,8 @@ CREATE TABLE Users (
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 ) ENGINE=InnoDB;
 
+INSERT INTO Users (FullName, Email, Phone, Password, RoleID) VALUES ('admin', 'admin@techstore.com', 'admin', '$2y$10$wLwb7LwTnkKRm1y0WLyGYOm4bByC0TfAZE5qFUBOiuJL67qaoJwWW', 2);
+
 -- Bảng User Token
 CREATE TABLE UserTokens (
     TokenID INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,17 +52,6 @@ CREATE TABLE UserTokens (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- Bảng Favorites
-CREATE TABLE Favorites (
-    FavoriteID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT NOT NULL,
-    ProductID INT NOT NULL,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
-    UNIQUE KEY (UserID, ProductID)
-);
-
 -- Bảng Notifications
 CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY AUTO_INCREMENT,
@@ -56,13 +61,6 @@ CREATE TABLE Notifications (
     IsRead TINYINT DEFAULT 0,  -- 0: chưa đọc, 1: đã đọc
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
-);
-
-
--- Bảng Category
-CREATE TABLE Categories (
-    CategoryID INT PRIMARY KEY AUTO_INCREMENT,
-    CategoryName VARCHAR(100) NOT NULL
 );
 
 -- Bảng Products
@@ -83,165 +81,7 @@ CREATE TABLE Products (
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 ) ENGINE=InnoDB;
 
--- Bảng ProductSpecifications
-CREATE TABLE ProductSpecifications (
-    SpecID INT PRIMARY KEY AUTO_INCREMENT,
-    ProductID INT NOT NULL,
-    SpecKey VARCHAR(100),        -- ví dụ: CPU, Screen, Battery
-    SpecValue VARCHAR(200),      -- ví dụ: Intel i5, 15.6", 5000mAh
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
-);
-
--- Bảng ProductVariants (từng biến thể của sản phẩm)
-CREATE TABLE ProductVariants (
-    VariantID INT PRIMARY KEY AUTO_INCREMENT,
-    ProductID INT,
-    SKU VARCHAR(100) UNIQUE, -- Mã (VD: XYZ-BLK64)
-    Price DECIMAL(10,2) NOT NULL,
-    Stock INT DEFAULT 0 CHECK (Stock >= 0),
-    Thumbnail VARCHAR(500),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
-);
-
--- Bảng VariantSpecifications (chi tiết cho các biến thể)
-CREATE TABLE VariantSpecifications (
-    VariantSpecID INT PRIMARY KEY AUTO_INCREMENT,
-    VariantID INT,
-    SpecKey VARCHAR(100), -- Mã (VD: CPU, Screen, Battery)
-    SpecValue VARCHAR(100), -- Giá trị (VD: Intel i5, 15.6", 5000mAh)
-    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID) ON DELETE CASCADE
-);
-
--- Bảng Gallery
-CREATE TABLE Gallery (
-    GalleryID INT PRIMARY KEY AUTO_INCREMENT,
-    ProductID INT NOT NULL,
-    Thumbnail VARCHAR(500) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
-
--- Bảng Giỏ hàng
-CREATE TABLE Cart (
-    CartID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT NOT NULL,
-    ProductID INT NOT NULL,
-    Quantity INT DEFAULT 1 CHECK (Quantity > 0),
-    Options VARCHAR(255) DEFAULT NULL,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_cart_item (UserID, ProductID, Options),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-) ENGINE=InnoDB;
-
-
--- Bảng Orders
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT NOT NULL,
-    ShippingName VARCHAR(100) CHARACTER SET utf8mb4,
-    ShippingPhone VARCHAR(20),
-    ShippingAddress VARCHAR(200),
-    ShippingNote TEXT,
-    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TotalAmount DECIMAL(12, 2) NOT NULL,
-    Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved', 
-    PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid',
-    PaymentMethod VARCHAR(50),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
-);
-
--- Bảng OrderDetails
-CREATE TABLE OrderDetails (
-    OrderDetailID INT PRIMARY KEY AUTO_INCREMENT,
-    OrderID INT NOT NULL,
-    ProductID INT NOT NULL,
-    Quantity INT NOT NULL CHECK (Quantity > 0),
-    UnitPrice DECIMAL(10, 2) NOT NULL CHECK (UnitPrice >= 0),
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
-
--- Bảng tạm  
-CREATE TABLE payment_tokens (
-    TokenID INT AUTO_INCREMENT PRIMARY KEY,
-    Token VARCHAR(100) NOT NULL UNIQUE,
-    OrderID VARCHAR(50),
-    UserID INT,
-    Amount DECIMAL(12,2),
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- Bảng đánh giá
-CREATE TABLE Reviews (
-    ReviewID INT PRIMARY KEY AUTO_INCREMENT,
-    ProductID INT NOT NULL,
-    UserID INT NOT NULL,
-    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
-    Comment TEXT,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
-);
-
--- Bảng Coupons
-CREATE TABLE Coupons (
-    CouponID INT PRIMARY KEY AUTO_INCREMENT,
-    Code VARCHAR(50) UNIQUE NOT NULL,              
-    DiscountType ENUM('percent','fixed') NOT NULL,  
-    DiscountValue DECIMAL(10,2) NOT NULL,       
-    MinOrderAmount DECIMAL(12,2) DEFAULT 0,      
-    MaxDiscountAmount DECIMAL(12,2) DEFAULT NULL,     -- Giới hạn giảm tối đa (chỉ với percent)
-    StartDate DATETIME NOT NULL,                  
-    EndDate DATETIME NOT NULL,                     
-    UsageLimit INT DEFAULT NULL,                      -- NULL = không giới hạn
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- Bảng CouponProducts: nếu bạn muốn chỉ áp dụng mã cho 1 số sản phẩm
-CREATE TABLE CouponProducts (
-    CouponProductID INT PRIMARY KEY AUTO_INCREMENT,
-    CouponID INT NOT NULL,
-    ProductID INT NOT NULL,
-    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
-    UNIQUE (CouponID, ProductID)
-);
-
--- Bảng OrderCoupons: lưu coupon đã áp dụng cho mỗi đơn hàng
-CREATE TABLE OrderCoupons (
-    OrderCouponID INT PRIMARY KEY AUTO_INCREMENT,
-    OrderID INT NOT NULL,
-    CouponID INT NOT NULL,
-    DiscountApplied DECIMAL(12,2) NOT NULL,          
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
-    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
-    UNIQUE (OrderID, CouponID)
-);
-
--- Bảng CouponUsage: theo dõi mỗi lần user dùng mã
-CREATE TABLE CouponUsage (
-    UsageID INT PRIMARY KEY AUTO_INCREMENT,
-    CouponID INT NOT NULL,
-    UserID INT NOT NULL,
-    OrderID INT,                                    
-    UsedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
-    UNIQUE (CouponID, UserID, OrderID)
-);
-
--- 1. Dữ liệu cho bảng Categories
-INSERT INTO Categories (CategoryID, CategoryName) VALUES
-  (1, 'Laptop'),
-  (2, 'Cameras'),
-  (3, 'Accessories');
-
-INSERT INTO Roles (RoleID, RoleName) VALUES
-  (1, 'User'),
-  (2, 'Admin');
-
--- 2. Dữ liệu cho bảng Products
+-- Dữ liệu cho bảng Products
 INSERT INTO Products (ProductID, CategoryID, Title, Price, Description, Stock, Brand, Thumbnail) VALUES
 (1, 1, 'Laptop Acer Swift Go 14 SFG14-41-R251 (Ryzen 5 7430U/ Onboard graphics/ 16GB/ 1TB/ Windows 11)', 16990000, '- CPU: AMD Ryzen™ 5 7430U (2.3 GHz - 4.3 GHz/ 16MB/ 6 nhân, 12 luồng)\n- RAM: 16GB Onbard 4800MHz LPDDR4X (Hỗ trợ tối đa 16GB)\n- VGA: Onboard graphics\n- Ổ cứng: 1TB SSD M.2 NVMe\n- Màn hình: 14\" Full HD (1920 x 1080) IPS, 60Hz, 300 nits, Acer ComfyView, 100% sRGB\n- Khác: Bàn phím thường, FHD webcam, Acer Purified Voice; Acer TrueHarmony, AMD\n- OS: Windows 11 Home', 50, 'Acer', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_o0cawh.webp'),
 (2, 1, 'Laptop Lenovo LOQ 15IRX9 - 83DV013PVN (i5-13450HX/ GeForce RTX™ 3050/ 12GB/ 512GB/ Windows 11)', 21490000, '- CPU: Intel® Core™ i5-13450HX (2.4 GHz - 4.6 GHz/ 20MB/ 10 nhân, 16 luồng)\n- RAM: 1 x 12GB 4800MHz DDR5 (Hỗ trợ tối đa 32GB)\n- VGA: GeForce RTX™ 3050 6GB GDDR6\n- Ổ cứng: 512GB SSD M.2 NVMe\n- Màn hình: 15.6\" Full HD (1920 x 1080) IPS, 144Hz, Màn hình chống lóa, 300 nits, 100% sRGB\n- Khác: Bàn phím thường, FHD webcam, Nahimic Audio, Non-EVO\n- OS: Windows 11 Home SL', 10, 'Lenovo', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883762/unnamed_7_viabrj.webp'),
@@ -273,6 +113,16 @@ INSERT INTO Products (ProductID, CategoryID, Title, Price, Description, Stock, B
 (28, 3, 'Bộ chia/ Hub USB 4 cổng 3.0 Orico TWU3-4A-BK (Đen)', 230000, '- USB 3.0, tốc độ truyền dữ liệu 5Gbps\n- Đầu vào (input): 1 cáp: USB 3.0 dài 15cm\n- Đầu ra (output): 4 cổng USB 3.0', 70, 'Orico', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924649/unnamed_jncpjc.webp'),
 (29, 3, 'Cáp chuyển đổi USB sang Cổng LAN Orico UTJU2', 230000, '- Input: 1 x USB 2.0\n- Output: 1 x RJ45\n- Chiều dài dây: 10cm', 50, 'Orico', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924810/unnamed_aigsl3.webp'),
 (30, 3, 'Bộ Chia/ Hub USB 3.0 Ugreen 4 Port UG-20290', 250000, '- Bộ chia USB 4 cổng Ugreen 20290 giúp bạn mở rộng thêm 4 cổng USB 3.0 với máy tính của bạn,\n- Tương thích với USB 2.0 và USB 1.1;\n- Chuyển tốc độ đến 5Gbps - nhanh hơn 10 lần so với USB 2.0;', 80, 'Ugreen', 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924940/unnamed_rteiyf.webp');
+
+
+-- Bảng ProductSpecifications
+CREATE TABLE ProductSpecifications (
+    SpecID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    SpecKey VARCHAR(100),        -- ví dụ: CPU, Screen, Battery
+    SpecValue VARCHAR(200),      -- ví dụ: Intel i5, 15.6", 5000mAh
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+);
 
 INSERT INTO ProductSpecifications (ProductID, SpecKey, SpecValue) VALUES
 -- Product 1
@@ -395,6 +245,16 @@ INSERT INTO ProductSpecifications (ProductID, SpecKey, SpecValue) VALUES
 (10, 'Ports', '2x USB-C, USB-A, HDMI'),
 (10, 'Camera', '1080p Windows Hello');
 
+-- Bảng ProductVariants (từng biến thể của sản phẩm)
+CREATE TABLE ProductVariants (
+    VariantID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT,
+    SKU VARCHAR(100) UNIQUE, -- Mã (VD: XYZ-BLK64)
+    Price DECIMAL(10,2) NOT NULL,
+    Stock INT DEFAULT 0 CHECK (Stock >= 0),
+    Thumbnail VARCHAR(500),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+);
 
 INSERT INTO ProductVariants (ProductID, SKU, Price, Stock) VALUES
 (1, 'SKU-1-256-DE', 21990000, 30),
@@ -497,6 +357,14 @@ INSERT INTO ProductVariants (ProductID, SKU, Price, Stock) VALUES
 (10, 'SKU-10-1T-BA', 24990000, 25),
 (10, 'SKU-10-1T-XA', 24990000, 20);
 
+-- Bảng VariantSpecifications (chi tiết cho các biến thể)
+CREATE TABLE VariantSpecifications (
+    VariantSpecID INT PRIMARY KEY AUTO_INCREMENT,
+    VariantID INT,
+    SpecKey VARCHAR(100), -- Mã (VD: CPU, Screen, Battery)
+    SpecValue VARCHAR(100), -- Giá trị (VD: Intel i5, 15.6", 5000mAh)
+    FOREIGN KEY (VariantID) REFERENCES ProductVariants(VariantID) ON DELETE CASCADE
+);
 
 INSERT INTO VariantSpecifications (VariantID, SpecKey, SpecValue) VALUES
 -- Product 1
@@ -609,6 +477,13 @@ INSERT INTO VariantSpecifications (VariantID, SpecKey, SpecValue) VALUES
 (89, 'ROM', '1TB'), (89, 'Color', 'Bạc'),
 (90, 'ROM', '1TB'), (90, 'Color', 'Xám');
 
+-- Bảng Gallery
+CREATE TABLE Gallery (
+    GalleryID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    Thumbnail VARCHAR(500) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
 
 -- 3. Dữ liệu cho bảng Gallery
 INSERT INTO Gallery (GalleryID, ProductID, Thumbnail) VALUES
@@ -731,3 +606,129 @@ INSERT INTO Gallery (GalleryID, ProductID, Thumbnail) VALUES
   (117, 29, 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924835/unnamed_lhw91h.webp'),
   (118, 29, 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924876/unnamed_kullgd.webp'),
   (119, 30, 'https://res.cloudinary.com/dc61dgxo8/image/upload/v1747924971/unnamed_dwj6gk.webp');
+
+-- Bảng Favorites
+CREATE TABLE Favorites (
+    FavoriteID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    UNIQUE KEY (UserID, ProductID)
+);
+
+-- Bảng Giỏ hàng
+CREATE TABLE Cart (
+    CartID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT DEFAULT 1 CHECK (Quantity > 0),
+    Options VARCHAR(255) DEFAULT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_cart_item (UserID, ProductID, Options),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+) ENGINE=InnoDB;
+
+
+-- Bảng Orders
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    ShippingName VARCHAR(100) CHARACTER SET utf8mb4,
+    ShippingPhone VARCHAR(20),
+    ShippingAddress VARCHAR(200),
+    ShippingNote TEXT,
+    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TotalAmount DECIMAL(12, 2) NOT NULL,
+    Status TINYINT DEFAULT 0 COMMENT '0: Pending, 1: Approved', 
+    PaymentStatus TINYINT DEFAULT 0 COMMENT '0: Unpaid, 1: Paid',
+    PaymentMethod VARCHAR(50),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Bảng OrderDetails
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY AUTO_INCREMENT,
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    UnitPrice DECIMAL(10, 2) NOT NULL CHECK (UnitPrice >= 0),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Bảng tạm  
+CREATE TABLE payment_tokens (
+    TokenID INT AUTO_INCREMENT PRIMARY KEY,
+    Token VARCHAR(100) NOT NULL UNIQUE,
+    OrderID VARCHAR(50),
+    UserID INT,
+    Amount DECIMAL(12,2),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bảng đánh giá
+CREATE TABLE Reviews (
+    ReviewID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    UserID INT NOT NULL,
+    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
+    Comment TEXT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Bảng Coupons
+CREATE TABLE Coupons (
+    CouponID INT PRIMARY KEY AUTO_INCREMENT,
+    Code VARCHAR(50) UNIQUE NOT NULL,              
+    DiscountType ENUM('percent','fixed') NOT NULL,  
+    DiscountValue DECIMAL(10,2) NOT NULL,       
+    MinOrderAmount DECIMAL(12,2) DEFAULT 0,      
+    MaxDiscountAmount DECIMAL(12,2) DEFAULT NULL,     -- Giới hạn giảm tối đa (chỉ với percent)
+    StartDate DATETIME NOT NULL,                  
+    EndDate DATETIME NOT NULL,                     
+    UsageLimit INT DEFAULT NULL,                      -- NULL = không giới hạn
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO Coupons (Code, DiscountType, DiscountValue, MinOrderAmount, MaxDiscountAmount, StartDate, EndDate, UsageLimit) VALUES
+  ('SALE50', 'fixed', 50000, 500000, NULL, '2024-06-01 00:00:00', '2026-07-01 23:59:59', 100),
+  ('PERCENT10', 'percent', 10, 1000000, 100000, '2024-01-01 00:00:00', '2026-12-31 23:59:59', 50);
+
+-- Bảng CouponProducts: áp dụng mã cho 1 số sản phẩm
+CREATE TABLE CouponProducts (
+    CouponProductID INT PRIMARY KEY AUTO_INCREMENT,
+    CouponID INT NOT NULL,
+    ProductID INT NOT NULL,
+    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    UNIQUE (CouponID, ProductID)
+);
+
+-- Bảng OrderCoupons: lưu coupon đã áp dụng cho mỗi đơn hàng
+CREATE TABLE OrderCoupons (
+    OrderCouponID INT PRIMARY KEY AUTO_INCREMENT,
+    OrderID INT NOT NULL,
+    CouponID INT NOT NULL,
+    DiscountApplied DECIMAL(12,2) NOT NULL,          
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
+    UNIQUE (OrderID, CouponID)
+);
+
+-- Bảng CouponUsage: theo dõi mỗi lần user dùng mã
+CREATE TABLE CouponUsage (
+    UsageID INT PRIMARY KEY AUTO_INCREMENT,
+    CouponID INT NOT NULL,
+    UserID INT NOT NULL,
+    OrderID INT,                                    
+    UsedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    UNIQUE (CouponID, UserID, OrderID)
+);
