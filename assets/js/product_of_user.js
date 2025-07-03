@@ -322,4 +322,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById('timeFilter').addEventListener('change', doSearch);
   document.getElementById('statusFilter').addEventListener('change', doSearch);
+
+  // Xử lý sự kiện chuyển trang
+  prevPageBtn.addEventListener("click", function () {
+    if (currentPage > 1) {
+      currentPage--;
+      // Sau khi đổi trang, cần apply lại filter để render đúng trang
+      applyFilters();
+    }
+  });
+
+  nextPageBtn.addEventListener("click", function () {
+    // Tính lại tổng số trang dựa trên filter hiện tại
+    const keyword = searchInput.value.trim().toLowerCase();
+    const status = statusFilter.value;
+    const time = timeFilter.value;
+    const now = new Date();
+
+    let filtered = allOrders.filter(order => {
+      let matchStatus = status === "all" || order.Status.toString() === status;
+      let matchTime = true;
+      const orderDate = new Date(order.OrderDate);
+      if (time === "3months") {
+        matchTime = (now - orderDate) <= 90 * 24 * 60 * 60 * 1000;
+      } else if (time === "6months") {
+        matchTime = (now - orderDate) <= 180 * 24 * 60 * 60 * 1000;
+      } else if (!isNaN(parseInt(time))) {
+        matchTime = orderDate.getFullYear().toString() === time;
+      }
+      let matchKeyword = keyword === "" ||
+        order.OrderID.toString().includes(keyword) ||
+        (order.items && order.items.some(item =>
+          item.Title && item.Title.toLowerCase().includes(keyword)
+        ));
+      return matchStatus && matchTime && matchKeyword;
+    });
+
+    const totalPages = Math.ceil(filtered.length / ordersPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      applyFilters();
+    }
+  });
 });
