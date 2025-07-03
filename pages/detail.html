@@ -15,6 +15,174 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+     .no-hover-color:hover {
+      background-color: inherit !important;
+      color: inherit !important;
+    }
+
+    .no-hover-color:hover i {
+      color: black !important;
+      /* giữ màu gốc */
+    }
+     /*suggest*/
+     .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .search-box button {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .suggestion-box {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      max-height: 350px;
+      overflow-y: auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-top: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+      background-color: #fff;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .suggestion-item img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .suggestion-item .text-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .suggestion-item .product-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+      transition: color 0.25s;
+    }
+
+    .suggestion-item .product-price {
+      font-size: 13px;
+      font-weight: 500;
+      color: #e53935;
+    }
+
+    .suggestion-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      background-color: #fff;
+    }
+
+    .suggestion-item:hover .product-title {
+      color: #e53935;
+    }
+
+
+    .suggestion-details {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    .suggestion-details .title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+
+    .suggestion-details .price {
+      color: #E53935;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+
+    .nav-left {
+      flex: 0 0 auto;
+      /* Không chiếm quá nhiều không gian */
+      margin-right: 40px;
+      /* Cách menu một khoảng vừa đủ */
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      /* giảm khoảng cách giữa các mục menu nếu cần */
+    }
+
+    .nav-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu>li {
+      display: inline-block;
+    }
+
+    .nav-menu>li>a {
+      color: #333;
+      padding: 10px 15px;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-menu>li>a:hover {
+      color: #E53935;
+    }
     /*warranty*/
     .warranty-policy {
       background-color: #f9f9f9;
@@ -199,8 +367,13 @@
       </a>
 
       <div class="search-box">
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-        <button><i class="fas fa-search"></i></button>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off" />
+        <button class="no-hover-color">
+          <i class="fas fa-search" style="color: black;"></i>
+        </button>
+
+
+        <div id="search-suggestions" class="suggestion-box"></div>
       </div>
 
       <div class="header-actions">
@@ -564,6 +737,91 @@
         });
       }
     });
+    //
+    const suggestionBox = document.getElementById("search-suggestions");
+
+    searchInput.addEventListener("input", async function () {
+      const keyword = this.value.trim();
+
+      if (keyword.length === 0) {
+        suggestionBox.innerHTML = "";
+        suggestionBox.style.display = "none";
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/products?search=${encodeURIComponent(keyword)}&limit=5`);
+        const data = await response.json();
+
+        if (!data.products || data.products.length === 0) {
+          suggestionBox.innerHTML = "<div class='suggestion-item'>Không tìm thấy sản phẩm</div>";
+          suggestionBox.style.display = "block";
+          return;
+        }
+
+        // Hiển thị danh sách gợi ý
+        suggestionBox.innerHTML = data.products.map(product => `
+      <div class="suggestion-item" onclick="window.location.href='detail.html?id=${product.ProductID}'">
+        <img src="${product.Thumbnail}" alt="${product.Title}" />
+        <div class="suggestion-details">
+          <div class="title">${product.Title}</div>
+          <div class="price">${Number(product.Price).toLocaleString('vi-VN')} ₫</div>
+        </div>
+      </div>
+    `).join("");
+
+        suggestionBox.style.display = "block";
+
+      } catch (error) {
+        console.error("Lỗi khi tìm kiếm:", error);
+        suggestionBox.innerHTML = "<div class='suggestion-item'>Lỗi khi tìm kiếm</div>";
+        suggestionBox.style.display = "block";
+      }
+    });
+    // Khi người dùng nhấn Enter để tìm kiếm
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault(); // tránh reload form nếu có
+    const keyword = this.value.trim();
+    if (keyword.length > 0) {
+      window.location.href = `search-product.html?search=${encodeURIComponent(keyword)}`;
+    }
+  }
+});
+
+    // Ẩn khi click ra ngoài
+    document.addEventListener("click", function (e) {
+      if (!document.querySelector(".search-box").contains(e.target)) {
+        suggestionBox.style.display = "none";
+      }
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const sloganEl = document.getElementById("navSlogan");
+      const slogan = "REDEFINE YOUR STANDARD";
+      let charIndex = 0;
+      const speed = 80;
+      const hold = 5000;
+
+      function typeWriter() {
+        if (charIndex <= slogan.length) {
+          sloganEl.innerHTML = `<span style="color:red">${slogan.slice(0, charIndex)}</span>`;
+          charIndex++;
+          setTimeout(typeWriter, speed);
+        } else {
+          setTimeout(() => {
+            sloganEl.innerHTML = "";
+            charIndex = 0;
+            typeWriter();
+          }, hold);
+        }
+      }
+
+      typeWriter();
+    });
+
+    
   </script>
 
 </body>

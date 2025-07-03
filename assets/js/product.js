@@ -216,13 +216,13 @@ function renderProducts(products) {
       if (p.Storage) specs += `Ổ cứng: ${p.Storage}`;
       specs = specs.replace(/\/\s*$/, "");
 
-      // Nếu không có CPU/RAM/Storage thì lấy từ Description
+      // Nếu không có CPU/RAM/Storage thì lấy từ mô tả
       if (!specs && p.Description) {
         const lines = p.Description.split("\n").slice(0, 2); // lấy 2 dòng đầu
         specs = lines.join(" / ");
       }
 
-      // Thêm banner BEST SELLER cho sản phẩm có ID = 9
+      // Banner Best Seller
       const bestSellerBanner = p.ProductID == 9 ? `
         <div style="
           position: absolute;
@@ -241,8 +241,11 @@ function renderProducts(products) {
           animation: pulse 2s infinite;
         ">
           Bán chạy
-        </div>
-      ` : '';
+        </div>` : "";
+
+      // ✅ Lấy số lượng đánh giá từ localStorage nếu API không trả về
+      const storedReviewCount = Number(localStorage.getItem(`reviewCount_${p.ProductID}`)) || 0;
+      const reviewCount = (p.Reviews && p.Reviews > 0) ? p.Reviews : storedReviewCount;
 
       return `
       <div class="product-item" style="
@@ -282,10 +285,7 @@ function renderProducts(products) {
           -webkit-line-clamp:2;
           -webkit-box-orient:vertical;
         ">
-          ${specs
-          ? specs
-          : `<i style="color:#aaa">Thông số đang cập nhật</i>`
-        }
+          ${specs ? specs : `<i style="color:#aaa">Thông số đang cập nhật</i>`}
         </div>
         <div style="font-size:13px; color:#777; margin-bottom:4px;">
           ${p.Brand || "Không rõ thương hiệu"}
@@ -295,7 +295,11 @@ function renderProducts(products) {
           color:#555; 
           margin-bottom:4px;
         ">
-          <i class="fas fa-star" style="color: #FFD700; -webkit-text-stroke: 0; text-stroke: 0;"></i> ${p.Rating || "0.0"} (${p.Reviews || '0'} đánh giá)
+       <div style="font-size:13px; color:#555; margin-bottom:4px;">
+  <i class="fas fa-star" style="color: #FFD700;"></i> 
+  ${p.Rating || "0.0"} (${reviewCount} đánh giá)
+</div>
+
         </div>
         <div style="font-weight:700; font-size:15px; color:#E53935;">
           ${formatPrice(Number(p.Price))}
@@ -304,6 +308,7 @@ function renderProducts(products) {
     })
     .join("");
 }
+
 
 
 

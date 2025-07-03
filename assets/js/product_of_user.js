@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (result.success && result.avatar) {
           alert('Cập nhật ảnh thành công!');
           localStorage.setItem('avatarUrl', result.avatar);
-          avatarImage.src = 'http://localhost/webproject/tech-store-web/assests/img/' + result.avatar;
+          avatarImage.src = 'http://localhost/webproject/tech-store-web/assets/img/' + result.avatar;
         } else {
           alert('Lỗi: ' + result.message);
         }

@@ -529,98 +529,124 @@ document.addEventListener("DOMContentLoaded", async function () {
     alert("Không thể tải dữ liệu sản phẩm.");
   }
 });
+let allReviews = [];  // Lưu toàn bộ đánh giá
+let currentReviewIndex = 0;  // Theo dõi số lượng đã hiển thị
 
 async function loadReviews(productId) {
   try {
     const res = await fetch(
       `http://localhost/webproject/tech-store-web/back-end/php/api/get-reviews?productId=${productId}`
     );
-    const reviews = await res.json();
+    allReviews = await res.json();
+    currentReviewIndex = 0; // reset index
 
     const totalReviewsSpan = document.getElementById("total-reviews");
     const ratingCountDiv = document.getElementById("ratingCount");
-    if (totalReviewsSpan) totalReviewsSpan.textContent = reviews.length;
-    if (ratingCountDiv) ratingCountDiv.textContent = `${reviews.length} đánh giá`;
+    if (totalReviewsSpan) totalReviewsSpan.textContent = allReviews.length;
+    if (ratingCountDiv) ratingCountDiv.textContent = `${allReviews.length} đánh giá`;
 
     const reviewsList = document.querySelector(".reviews-list");
-
-    if (!reviews || reviews.length === 0) {
-      reviewsList.innerHTML = "<p>Chưa có đánh giá nào cho sản phẩm này.</p>";
-      return;
-    }
-
-    // Clear existing reviews except the header
     const header = reviewsList.querySelector(".reviews-header");
     reviewsList.innerHTML = "";
     if (header) reviewsList.appendChild(header);
 
-    // Add each review
-    reviews.forEach((review) => {
-      const reviewItem = document.createElement("div");
-      reviewItem.className = "review-item";
-      reviewItem.innerHTML = `
-        <div class="reviewer-info">
-          <div class="reviewer-avatar">
-            <img src="${review.Avatar
-          ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar
-          : 'https://via.placeholder.com/50x50'
-        }" alt="${review.FullName}">
-          </div>
-          <div class="reviewer-details">
-            <div class="reviewer-name">${review.FullName}</div>
-            <div class="review-date">${new Date(
-          review.CreatedAt
-        ).toLocaleDateString("vi-VN")}</div>
-          </div>
-        </div>
-        <div class="review-content">
-          <div class="review-rating">
-            <div class="stars">${"★".repeat(review.Rating)}${"☆".repeat(
-          5 - review.Rating
-        )}</div>
-            <div class="review-title">${review.Title || ""}</div>
-          </div>
-          <div class="review-text">
-            <p>${review.Comment}</p>
-          </div>
-          ${review.Images
-          ? `
-          <div class="review-images">
-            ${review.Images.map(
-            (img) => `
-              <div class="review-image">
-                <img src="${img}" alt="Hình ảnh đánh giá">
-              </div>
-            `
-          ).join("")}
-          </div>`
-          : ""
-        }
-          <div class="review-helpful">
-            <span class="helpful-text">Đánh giá này có hữu ích không?</span>
-            <button class="helpful-btn">Có (${review.HelpfulCount || 0
-        })</button>
-            <button class="not-helpful-btn">Không (${review.NotHelpfulCount || 0
-        })</button>
-          </div>
-        </div>
-      `;
-      reviewsList.appendChild(reviewItem);
-    });
-
-    // Add load more button
-    const loadMoreDiv = document.createElement("div");
-    loadMoreDiv.className = "load-more-reviews";
-    loadMoreDiv.innerHTML = `
-      <button class="load-more-btn">Xem Thêm Đánh Giá</button>
-    `;
-    reviewsList.appendChild(loadMoreDiv);
+    renderMoreReviews(15); // Hiển thị 15 đánh giá đầu tiên
   } catch (error) {
     console.error("Lỗi khi tải đánh giá:", error);
-    document.querySelector(".reviews-list").innerHTML =
-      "<p>Không thể tải đánh giá.</p>";
+    document.querySelector(".reviews-list").innerHTML = "<p>Không thể tải đánh giá.</p>";
+  }
+  document.querySelectorAll(".review-helpful").forEach((section) => {
+    const reviewId = section.getAttribute("data-review-id");
+    const stored = localStorage.getItem(`review-feedback-${reviewId}`);
+  
+    const helpfulBtn = section.querySelector(".helpful-btn");
+    const notHelpfulBtn = section.querySelector(".not-helpful-btn");
+  
+    if (stored === "helpful") {
+      helpfulBtn?.classList.add("active");
+      const countSpan = helpfulBtn.querySelector("span");
+      if (countSpan) {
+        let count = parseInt(countSpan.textContent || "0");
+        countSpan.textContent = count + 1;
+      }
+    } else if (stored === "not-helpful") {
+      notHelpfulBtn?.classList.add("active");
+      const countSpan = notHelpfulBtn.querySelector("span");
+      if (countSpan) {
+        let count = parseInt(countSpan.textContent || "0");
+        countSpan.textContent = count + 1;
+      }
+    }
+  });
+  const reviewCount = allReviews.length;
+  localStorage.setItem(`reviewCount_${productId}`, reviewCount);
+  
+  setupHelpfulButtons();
+}
+function renderMoreReviews(count) {
+  const reviewsList = document.querySelector(".reviews-list");
+  const nextIndex = currentReviewIndex + count;
+  const reviewsToRender = allReviews.slice(currentReviewIndex, nextIndex);
+
+  reviewsToRender.forEach((review) => {
+    const reviewItem = document.createElement("div");
+    reviewItem.className = "review-item";
+    reviewItem.setAttribute("data-review-id", review.ReviewID);
+    reviewItem.innerHTML = `
+      <div class="reviewer-info">
+        <div class="reviewer-avatar">
+          <img src="${review.Avatar ? 'http://localhost/webproject/tech-store-web/assets/img/' + review.Avatar : 'https://via.placeholder.com/50x50'}" alt="${review.FullName}">
+        </div>
+        <div class="reviewer-details">
+          <div class="reviewer-name">${review.FullName}</div>
+          <div class="review-date">${new Date(review.CreatedAt).toLocaleDateString("vi-VN")}</div>
+        </div>
+      </div>
+      <div class="review-content">
+        <div class="review-rating">
+          <div class="stars">${"★".repeat(review.Rating)}${"☆".repeat(5 - review.Rating)}</div>
+        </div>
+        <div class="review-text">
+          <p>${review.Comment}</p>
+        </div>
+        ${review.Images ? `
+          <div class="review-images">
+            ${review.Images.map(img => `
+              <div class="review-image">
+                <img src="${img}" alt="Hình ảnh đánh giá">
+              </div>`).join("")}
+          </div>` : ""}
+        <div class="review-helpful" data-review-id="${review.ReviewID}">
+  <span class="helpful-text">Đánh giá này có hữu ích không?</span>
+  <button class="helpful-btn">Có (<span class="count">${review.HelpfulCount || 0}</span>)</button>
+  <button class="not-helpful-btn">Không (<span class="count">${review.NotHelpfulCount || 0}</span>)</button>
+</div>
+
+      </div>
+    `;
+    reviewsList.appendChild(reviewItem);
+  });
+
+  currentReviewIndex = nextIndex;
+
+  const existingButton = document.querySelector(".load-more-reviews");
+  if (currentReviewIndex < allReviews.length) {
+    if (!existingButton) {
+      const loadMoreDiv = document.createElement("div");
+      loadMoreDiv.className = "load-more-reviews";
+      loadMoreDiv.innerHTML = `<button class="load-more-btn">Xem Thêm Đánh Giá</button>`;
+      reviewsList.appendChild(loadMoreDiv);
+
+      // Thêm sự kiện click
+      loadMoreDiv.querySelector(".load-more-btn").addEventListener("click", () => {
+        renderMoreReviews(15);
+      });
+    }
+  } else {
+    if (existingButton) existingButton.remove(); // Ẩn nút nếu hết
   }
 }
+
 
 // Thêm vào giỏ hàng với animation
 document.getElementById("addToCartBtn")?.addEventListener("click", async function (e) {
@@ -775,3 +801,37 @@ function showSuccessMessage(message) {
 
 // Update cart badge on page load
 updateCartBadge();
+function setupHelpfulButtons() {
+  document.querySelectorAll(".review-item").forEach((reviewItem) => {
+    const reviewId = reviewItem.getAttribute("data-review-id");
+    const helpfulBtn = reviewItem.querySelector(".helpful-btn");
+    const notHelpfulBtn = reviewItem.querySelector(".not-helpful-btn");
+
+    helpfulBtn?.addEventListener("click", () =>
+      handleHelpfulClick(reviewId, true, helpfulBtn)
+    );
+    notHelpfulBtn?.addEventListener("click", () =>
+      handleHelpfulClick(reviewId, false, notHelpfulBtn)
+    );
+  });
+}
+
+function handleHelpfulClick(reviewId, isHelpful, button) {
+  const storageKey = `review-feedback-${reviewId}`;
+  const alreadyVoted = localStorage.getItem(storageKey);
+
+  if (alreadyVoted) {
+    alert("Bạn đã đánh giá nhận xét này rồi!");
+    return;
+  }
+
+  // Tăng số lượng
+  const countSpan = button.querySelector("span") || button;
+  let count = parseInt(countSpan.textContent.match(/\d+/)?.[0] || 0);
+  count++;
+  button.textContent = button.textContent.replace(/\d+/, count);
+  button.classList.add("active");
+
+  // Ghi nhớ là đã vote
+  localStorage.setItem(storageKey, isHelpful ? "helpful" : "not-helpful");
+}
