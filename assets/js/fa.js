@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let isFavorite = false;
   
     // Kiểm tra xem sản phẩm có đang được yêu thích không
-    fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/is_favorite.php?product_id=${productId}`)
+    authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/is_favorite.php?product_id=${productId}`)
       .then(res => res.json())
       .then(data => {
         isFavorite = !!data.is_favorite;
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ? "http://localhost/webproject/tech-store-web/back-end/php/api/remove-favorite"
         : "http://localhost/webproject/tech-store-web/back-end/php/api/add-favorite";
   
-      fetch(url, {
+      authFetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product_id: productId })

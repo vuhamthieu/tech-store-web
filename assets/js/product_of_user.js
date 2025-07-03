@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load user info and orders
   loadUserInfo();
-  fetchOrders();
+  authFetchOrders();
 
   function loadUserInfo() {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -56,12 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  async function fetchOrders() {
+  async function authFetchOrders() {
     try {
       const token = localStorage.getItem("token") || localStorage.getItem("access_token");
-      console.log("Fetching orders with token:", token);
+      console.log("authFetching orders with token:", token);
 
-      const res = await fetch("../back-end/php/api/get-orders-with-detail", {
+      const res = await authFetch("../back-end/php/api/get-orders-with-detail", {
         headers: { "Authorization": `Bearer ${token}` }
       });
 
@@ -73,10 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Orders loaded:", allOrders);
         applyFilters();
       } else {
-        console.error("Failed to fetch orders:", data.message);
+        console.error("Failed to authFetch orders:", data.message);
       }
     } catch (err) {
-      console.error("Fetch error:", err);
+      console.error("authFetch error:", err);
     }
   }
 
@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
+    authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/update-avatar-user', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token
