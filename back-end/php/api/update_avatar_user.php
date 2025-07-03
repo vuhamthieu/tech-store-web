@@ -1,7 +1,6 @@
 <?php
     include __DIR__ . '/../connect.php';
     include __DIR__ . '/../auth.php';
-    include __DIR__ . '/../cors.php';
     $user = authenticate();
     $userId = $user['UserID'];
 

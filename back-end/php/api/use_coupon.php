@@ -14,7 +14,7 @@
         exit;
     }
 
-    // 1. Kiểm tra mã có tồn tại và còn hiệu lực không
+    //Kiểm tra mã có tồn tại và còn hiệu lực không
     $query = "SELECT * FROM Coupons WHERE Code = ? AND StartDate <= NOW() AND EndDate >= NOW()";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $code);
@@ -26,13 +26,13 @@
         exit;
     }
 
-    // 2. Kiểm tra điều kiện đơn hàng tối thiểu
+    //Kiểm tra điều kiện đơn hàng tối thiểu
     if ($orderAmount < $coupon['MinOrderAmount']) {
         echo json_encode(["success" => false, "message" => "Đơn hàng chưa đủ tối thiểu để áp dụng mã"]);
         exit;
     }
 
-    // 3. Kiểm tra sản phẩm áp dụng (nếu có tương ứng với mã đặc biệt mà user nhập vào)
+    //Kiểm tra sản phẩm áp dụng (nếu có tương ứng với mã đặc biệt mà user nhập vào)
     $couponId = $coupon['CouponID'];
     $checkProductQuery = "SELECT ProductID FROM CouponProducts WHERE CouponID = ?";
     $checkStmt = mysqli_prepare($conn, $checkProductQuery);
@@ -58,7 +58,7 @@
         }
     }
 
-    // 4. Kiểm tra giới hạn lượt dùng
+    //Kiểm tra giới hạn lượt dùng
     if ($coupon['UsageLimit'] !== null) {
         $limitQuery = "SELECT COUNT(*) AS used_count FROM CouponUsage WHERE CouponID = ?";
         $limitStmt = mysqli_prepare($conn, $limitQuery);
@@ -83,7 +83,7 @@
         exit;
     }
 
-    // 5. Tính số tiền được giảm
+    //Tính số tiền được giảm
     $discount = 0;
     if ($coupon['DiscountType'] == 'percent') {
         $discount = ($coupon['DiscountValue'] / 100) * $orderAmount;

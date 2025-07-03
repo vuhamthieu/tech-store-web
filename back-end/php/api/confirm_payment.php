@@ -10,7 +10,7 @@
         exit;
     }
 
-    $status = 0;
+    $status = 0; //chưa giao hàng
     $paymentStatus = 0;
 
     if (strtolower($paymentMethod) === 'cod') {

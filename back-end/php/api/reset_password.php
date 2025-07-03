@@ -23,6 +23,7 @@
 
     $userId = $result->fetch_assoc()['UserID'];
 
+    //token là OTP
     $check = $conn->prepare("
         SELECT TokenID FROM UserTokens 
         WHERE UserID = ? AND AccessToken = ? AND IsRevoked = 0 AND AccessTokenExpiresAt > NOW()
