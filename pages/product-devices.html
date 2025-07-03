@@ -13,39 +13,42 @@
   <link rel="stylesheet" href="../assets/css/product.css" />
   <link rel="stylesheet" href="../assets/css/reponsive_product.css" />
   <style>
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      /* hoặc center nếu muốn căn giữa toàn bộ */
+      gap: 8px;
+      /* khoảng cách giữa icon và chữ */
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-red);
+      color: var(--primary-red);
+    }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* hoặc center nếu muốn căn giữa toàn bộ */
-  gap: 8px; /* khoảng cách giữa icon và chữ */
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary-red);
-  color: var(--primary-red);
-}
+    .section-header i {
+      font-size: 18px;
+      color: var(--primary-red);
+      margin-right: 12px;
+      /* 👈 khoảng cách giữa icon và chữ */
+    }
 
-.section-header i {
-  font-size: 18px;
-  color: var(--primary-red);
-  margin-right: 12px; /* 👈 khoảng cách giữa icon và chữ */
-}
-
-.section-header h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  text-transform: uppercase;
-}
+    .section-header h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+      text-transform: uppercase;
+    }
 
     .no-hover-color:hover {
-  background-color: inherit !important;
-  color: inherit !important;
-}
+      background-color: inherit !important;
+      color: inherit !important;
+    }
 
-.no-hover-color:hover i {
-  color: black !important; /* giữ màu gốc */
-}
+    .no-hover-color:hover i {
+      color: black !important;
+      /* giữ màu gốc */
+    }
 
     .promo-banner {
       width: 100%;
@@ -512,35 +515,48 @@
       <i class="fas fa-chevron-left"></i>
     </button>
     <!-- Sản phẩm mới -->
-    <div class="sidebar-section new-section">
-      <div class="section-header">
-        <i class="fas fa-bolt"></i>
-        <h3>MỚI VỀ</h3>
+    <!-- Sản phẩm mới -->
+<div class="sidebar-section new-section">
+  <div class="section-header">
+    <i class="fas fa-bolt"></i>
+    <h3>MỚI VỀ</h3>
+  </div>
+  <div class="product-card">
+    <a href="detail.html?id=1"> <!-- ID của Laptop Acer Swift Go -->
+      <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_aur0g6.webp" alt="Laptop mới" />
+      <div class="product-info">
+        <h4>Laptop Acer Swift Go</h4>
       </div>
-      <div class="product-card">
-        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747883783/unnamed_aur0g6.webp" alt="Laptop mới" />
-        <div class="product-info">
-          <h4>Laptop Acer Swift Go</h4>
-          
-          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
-        </div>
-      </div>
-    </div>
+    </a>
+    <a
+      href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"
+      target="_blank">
+      <button class="buy-btn">Liên hệ</button>
+    </a>
+  </div>
+</div>
 
-    <!-- Sản phẩm nổi bật -->
-    <div class="sidebar-section featured-section">
-      <div class="section-header">
-        <i class="fas fa-crown"></i>
-        <h3>BÁN CHẠY</h3>
+<!-- Sản phẩm nổi bật -->
+<div class="sidebar-section featured-section">
+  <div class="section-header">
+    <i class="fas fa-crown"></i>
+    <h3>BÁN CHẠY</h3>
+  </div>
+  <div class="product-card">
+    <a href="detail.html?id=9"> <!-- ID của Asus TUF A15 -->
+      <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747914376/unnamed_w5hymn.webp" alt="Asus TUF" />
+      <div class="product-info">
+        <h4>Laptop Asus TUF A15</h4>
       </div>
-      <div class="product-card">
-        <img src="https://res.cloudinary.com/dc61dgxo8/image/upload/v1747914376/unnamed_w5hymn.webp"
-          alt="Webcam nổi bật" />
-        <div class="product-info">
-          <h4>Laptop Asus TUF A15</h4>
-          <a href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"><button class="buy-btn">Liên hệ</button>
-        </div>
-      </div>
+    </a>
+    <a
+      href="https://www.facebook.com/groups/383992865141830/?hoisted_section_header_type=recently_seen&multi_permalinks=2576127992594962"
+      target="_blank">
+      <button class="buy-btn">Liên hệ</button>
+    </a>
+  </div>
+</div>
+
     </div>
     </div>
   </aside>
@@ -563,8 +579,8 @@
         <button class="no-hover-color">
           <i class="fas fa-search" style="color: black;"></i>
         </button>
-        
-        
+
+
         <div id="search-suggestions" class="suggestion-box"></div>
       </div>
       <div class="header-actions">
@@ -630,7 +646,7 @@
     <!-- Product Section -->
     <section class="product-section">
       <div class="section-header" style="color:#121212 ;">
-        <h2>SẢN PHẨM THIẾT BỊ</h2>
+        <h2>SẢN PHẨM MÁY TÍNH</h2>
 
         <!-- Bộ lọc sắp xếp -->
         <select id="sort-filter" style="margin-left: 440px ;">
@@ -713,8 +729,9 @@
           ? '<a href="dashboard.html">Dashboard</a>'
           : '<a href="user.html">Thông tin tài khoản</a>';
 
-          const avatarLink = isAdmin ? 'dashboard.html' : 'user.html';
-          userInfoContainer.innerHTML = `
+        const avatarLink = isAdmin ? 'dashboard.html' : 'user.html';
+
+        userInfoContainer.innerHTML = `
   <div class="user-info">
     <a href="${avatarLink}">
       <img src="${user.Avatar
