@@ -169,7 +169,7 @@ async function loadProducts(page = 1) {
   if (sortBy) params.append("sort_by", sortBy);
 
   try {
-    const response = await authauthFetch(`${API_URL}?${params.toString()}`);
+    const response = await authFetch(`${API_URL}?${params.toString()}`);
     const data = await response.json();
 
     if (data.products && data.products.length > 0) {

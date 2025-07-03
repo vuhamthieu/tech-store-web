@@ -401,7 +401,7 @@ async function logout() {
 
   try {
     // Gọi API logout để thu hồi token
-    const res = await authauthFetch("../back-end/php/api/logout", {
+    const res = await authFetch("../back-end/php/api/logout", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
