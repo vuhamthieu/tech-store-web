@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Đang gửi...';
   
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact })
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
       isResendingOtp = true;
       resendOtpLink.textContent = 'Đang gửi lại...';
   
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact })
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
   
-      fetch('http://localhost/webproject/tech-store-web/back-end/php/api/reset-password', {
+      authFetch('http://localhost/webproject/tech-store-web/back-end/php/api/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 4. Load Tỉnh
-  fetch("https://provinces.open-api.vn/api/p/")
+  authFetch("https://provinces.open-api.vn/api/p/")
     .then(res => res.json())
     .then(data => {
       data.forEach(p => {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     districtSelect.innerHTML = '<option value="">-- Chọn Quận / Huyện --</option>';
     wardSelect.innerHTML = '<option value="">-- Chọn Phường / Xã --</option>';
 
-    fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+    authFetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
       .then(res => res.json())
       .then(data => {
         data.districts.forEach(d => {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const districtCode = districtSelect.value;
     wardSelect.innerHTML = '<option value="">-- Chọn Phường / Xã --</option>';
 
-    fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+    authFetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
       .then(res => res.json())
       .then(data => {
         data.wards.forEach(w => {
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gọi API đặt hàng
     try {
       console.log("Placing order...");
-      const orderRes = await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/place-order", {
+      const orderRes = await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/place-order", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Nếu là COD, hiển thị modal thành công
       if (paymentMethod === "cod") {
         // Gọi confirm_payment cho COD
-        await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm_payment.php", {
+        await authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/confirm_payment.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ? "momo_payment.php"
           : "visa_payment.php";
         console.log("Calling payment API:", payApi);
-        const payRes = await fetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
+        const payRes = await authFetch(`http://localhost/webproject/tech-store-web/back-end/php/api/${payApi}`, {
           method: "POST",
           body: new URLSearchParams({
             amount: window._checkoutTotal + 20000 - (appliedCoupon ? appliedCoupon.discount_amount : 0),
@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const productIds = checkoutList.map(item => item.product_id || item.ProductID);
 
-    fetch("http://localhost/webproject/tech-store-web/back-end/php/api/use_coupon.php", {
+    authFetch("http://localhost/webproject/tech-store-web/back-end/php/api/use_coupon.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

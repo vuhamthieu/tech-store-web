@@ -47,7 +47,7 @@ document
       loginBtn.textContent = "ĐANG ĐĂNG NHẬP...";
 
       console.log('Sending login request...');
-      const res = await fetch(
+      const res = await authFetch(
         "http://localhost/webproject/tech-store-web/back-end/php/api/login",
         {
           method: "POST",

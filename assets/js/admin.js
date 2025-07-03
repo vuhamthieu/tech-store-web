@@ -1,4 +1,4 @@
-async function fetchData(endpoint) {
+async function authFetchData(endpoint) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockData[endpoint] || []);
@@ -9,7 +9,7 @@ async function fetchData(endpoint) {
 // Load dashboard data
 async function loadDashboard() {
   const token = localStorage.getItem("access_token");
-  const res = await fetch("../back-end/php/api/get-dashboard-overview", {
+  const res = await authFetch("../back-end/php/api/get-dashboard-overview", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
@@ -56,7 +56,7 @@ let allOrdersData = []; // Store all orders data for filtering
 // Load orders data with filter and search
 async function loadOrders(statusFilter = '', searchTerm = '') {
   const token = localStorage.getItem("access_token");
-  const res = await fetch("../back-end/php/api/get-all-orders", {
+  const res = await authFetch("../back-end/php/api/get-all-orders", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
@@ -177,7 +177,7 @@ function clearOrderSearch() {
 // Load product data
 async function loadProducts() {
   const token = localStorage.getItem("access_token");
-  const res = await fetch("../back-end/php/api/get-all-products", {
+  const res = await authFetch("../back-end/php/api/get-all-products", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
@@ -217,7 +217,7 @@ async function loadProducts() {
 // Load user data
 async function loadUsers() {
   const token = localStorage.getItem("access_token");
-  const res = await fetch("../back-end/php/api/get-all-users", {
+  const res = await authFetch("../back-end/php/api/get-all-users", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   const result = await res.json();
@@ -259,7 +259,7 @@ async function disableUser(userId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/disable-user", {
+    const res = await authFetch("../back-end/php/api/disable-user", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -287,7 +287,7 @@ async function enableUser(userId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/enable-user", {
+    const res = await authFetch("../back-end/php/api/enable-user", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -315,7 +315,7 @@ async function approveOrder(orderId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/approve-order", {
+    const res = await authFetch("../back-end/php/api/approve-order", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -344,7 +344,7 @@ async function declineOrder(orderId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/decline-order", {
+    const res = await authFetch("../back-end/php/api/decline-order", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -401,7 +401,7 @@ async function logout() {
 
   try {
     // Gọi API logout để thu hồi token
-    const res = await fetch("../back-end/php/api/logout", {
+    const res = await authFetch("../back-end/php/api/logout", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -529,7 +529,7 @@ function closeProductModal() {
 async function loadProductData(productId) {
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch(`../back-end/php/api/product-details?product_id=${productId}`, {
+    const res = await authFetch(`../back-end/php/api/product-details?product_id=${productId}`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
     const result = await res.json();
@@ -577,7 +577,7 @@ async function saveProduct(event) {
 async function addProduct(productData) {
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/add-product", {
+    const res = await authFetch("../back-end/php/api/add-product", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -603,7 +603,7 @@ async function addProduct(productData) {
 async function updateProduct(productData) {
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/update-info-product", {
+    const res = await authFetch("../back-end/php/api/update-info-product", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -631,7 +631,7 @@ async function deleteProduct(productId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/delete-product", {
+    const res = await authFetch("../back-end/php/api/delete-product", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -670,7 +670,7 @@ async function deleteOrder(orderId) {
 
   const token = localStorage.getItem("access_token");
   try {
-    const res = await fetch("../back-end/php/api/delete-order", {
+    const res = await authFetch("../back-end/php/api/delete-order", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,

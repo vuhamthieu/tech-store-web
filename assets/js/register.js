@@ -86,7 +86,7 @@
       };
 
       try {
-        const res = await fetch(
+        const res = await authFetch(
           "http://localhost/webproject/tech-store-web/back-end/php/api/register",
           {
             method: "POST",
