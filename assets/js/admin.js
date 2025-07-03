@@ -417,6 +417,8 @@ async function logout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("access_token_expires_at");
+    localStorage.removeItem("refresh_token_expires_at");
     localStorage.removeItem("cart");
     localStorage.removeItem("checkout");
 

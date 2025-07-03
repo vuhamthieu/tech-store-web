@@ -27,15 +27,31 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
 
         // Thêm sự kiện đăng xuất
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', async  function (e) {
             if (e.target && e.target.id === 'logout-btn') {
                 e.preventDefault();
 
-                // Xóa thông tin đăng nhập
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                localStorage.removeItem('access_token');
+                try {
+                        await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/logout", {
+                        method: "POST",
+                        headers: {
+                                    "Authorization": `Bearer ${token}`,
+
+                            "Content-Type": "application/json"
+                        }
+                    });
+                } catch (error) {
+                        console.error("Logout API error:", error);
+                }
+
+                // Xoá localStorage
+                localStorage.removeItem("user");
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("token");
+                localStorage.removeItem("refresh_token");
+                localStorage.removeItem("access_token_expires_at");
+                localStorage.removeItem("refresh_token_expires_at");
 
                 // Reload lại trang
                 window.location.reload();

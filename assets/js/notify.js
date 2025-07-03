@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("DOMContentLoaded", function () {
     const logoutBtn = document.getElementById("logoutBtn");
 
-    logoutBtn.addEventListener("click", function (e) {
+    logoutBtn.addEventListener("click", async function (e) {
       e.preventDefault(); // Ngăn chuyển trang ngay lập tức
 
       const token = localStorage.getItem("access_token"); // Lấy access token từ localStorage
@@ -192,8 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            // Xoá token khỏi localStorage
+            // Xoá localStorage
+            localStorage.removeItem("user");
+            localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("access_token");
+            localStorage.removeItem("token");
+            localStorage.removeItem("refresh_token");
+            localStorage.removeItem("access_token_expires_at");
+            localStorage.removeItem("refresh_token_expires_at");
 
             alert("Đăng xuất thành công!");
             window.location.href = "../pages/login.html"; // Hoặc trang chính
