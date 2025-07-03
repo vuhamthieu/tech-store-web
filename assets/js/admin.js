@@ -531,13 +531,13 @@ function closeProductModal() {
 async function loadProductData(productId) {
   const token = localStorage.getItem("access_token");
   try {
-    const res = await authFetch(`../back-end/php/api/product-details?product_id=${productId}`, {
+    const res = await authFetch(`../back-end/php/api/product-details?productId=${productId}`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
     const result = await res.json();
 
-    if (result.success && result.data) {
-      const product = result.data;
+    if (result.success && result.data && result.data.product) {
+      const product = result.data.product;
       document.getElementById('productTitle').value = product.Title || '';
       document.getElementById('productCategory').value = product.CategoryName || '';
       document.getElementById('productPrice').value = product.Price || '';
