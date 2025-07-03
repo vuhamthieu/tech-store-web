@@ -524,6 +524,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Gọi function sau khi render variants
     addVariantEventListeners();
+
+    const cartIcon = document.querySelector(".cart-icon");
+    if (cartIcon) cartIcon.style.display = "none";
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");

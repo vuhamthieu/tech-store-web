@@ -1,5 +1,3 @@
-// assets/js/auth.js
-
 // Hàm fetch tự động refresh token khi hết hạn
 async function authFetch(url, options = {}, retry = true) {
     let token = localStorage.getItem("token") || localStorage.getItem("access_token");
@@ -12,7 +10,6 @@ async function authFetch(url, options = {}, retry = true) {
 
     let response = await fetch(url, options);
 
-    // Nếu token hết hạn, thử refresh
     if (response.status === 401 && refreshToken && retry) {
         // Gọi API refresh token
         const refreshRes = await fetch('/back-end/php/refresh_token.php', {
@@ -31,7 +28,6 @@ async function authFetch(url, options = {}, retry = true) {
             options.headers["Authorization"] = `Bearer ${token}`;
             return await authFetch(url, options, false);
         } else {
-            // Refresh cũng thất bại, đăng xuất
             localStorage.clear();
             window.location.href = "login.html";
             return;
@@ -41,12 +37,10 @@ async function authFetch(url, options = {}, retry = true) {
     return response;
 }
 
-// Hàm kiểm tra đã đăng nhập chưa
 function isLoggedIn() {
     return !!localStorage.getItem("token");
 }
 
-// Hàm đăng xuất
 function logout() {
     localStorage.clear();
     window.location.href = "login.html";
