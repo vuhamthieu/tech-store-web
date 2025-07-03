@@ -240,6 +240,10 @@
             require 'api/decline_order.php';
             break;
 
+        case 'api/fetch-province':
+            require 'api/fetch_province.php';
+            break;
+
         //kích hoạt người dùng
         case 'api/enable-user':
             require 'api/enable_user.php';
