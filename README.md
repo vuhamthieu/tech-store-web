@@ -59,16 +59,16 @@ Hệ thống được triển khai và chạy thử nghiệm trên môi trườn
 
 4. **Thêm thư viện hỗ trợ**
 ### Bước 1: Cài Composer (nếu chưa có)
-Tải và cài từ: [https://getcomposer.org/](https://getcomposer.org/)
-Kiểm tra cài đặt (mở cmd): composer -V
+   - Tải và cài từ: [https://getcomposer.org/](https://getcomposer.org/)
+   - Kiểm tra cài đặt (mở cmd): composer -V
 
 ### Bước 2: Khởi tạo Composer cho dự án
-cd C:\xampp\htdocs\webproject\tech-store-web
-composer init
+   - cd C:\xampp\htdocs\webproject\tech-store-web
+   - composer init
 
 ### Bước 3: Cài đặt thư viện cần thiết
-composer require phpmailer/phpmailer
-composer require twilio/sdk
+   - composer require phpmailer/phpmailer
+   - composer require twilio/sdk
 
 5. **Truy cập website**
    - Mở trình duyệt và nhập đường dẫn:
