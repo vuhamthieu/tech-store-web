@@ -7,6 +7,7 @@
     $inputUser = $data['user'] ?? ''; //email hoặc số điện thoại
     $password = $data['password'] ?? '';
     $role     = $data['role'] ?? 1;
+    $avatar = $data['avatar'] ?? 'logo.png';
 
     if (!$username || !$inputUser || !$password) {
         echo json_encode([
@@ -42,12 +43,12 @@
 
     $insertQuery = "";
     if ($isEmail) {
-        $insertQuery = "INSERT INTO Users (FullName, Email, Password, RoleID) VALUES (?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO Users (FullName, Email, Password, RoleID, Avatar) VALUES (?, ?, ?, ?, ?)";
     } else {
-        $insertQuery = "INSERT INTO Users (FullName, Phone, Password, RoleID) VALUES (?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO Users (FullName, Phone, Password, RoleID, Avatar) VALUES (?, ?, ?, ?, ?)";
     }   
     $stmt = mysqli_prepare($conn, $insertQuery);
-    mysqli_stmt_bind_param($stmt, "sssi", $username, $inputUser, $hashedPassword, $role);
+    mysqli_stmt_bind_param($stmt, "ssiss", $username, $inputUser, $hashedPassword, $role, $avatar);
     $success = mysqli_stmt_execute($stmt);
 
     if ($success) {

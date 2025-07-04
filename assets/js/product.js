@@ -244,8 +244,7 @@ function renderProducts(products) {
         </div>` : "";
 
       // ✅ Lấy số lượng đánh giá từ localStorage nếu API không trả về
-      const storedReviewCount = Number(localStorage.getItem(`reviewCount_${p.ProductID}`)) || 0;
-      const reviewCount = (p.Reviews && p.Reviews > 0) ? p.Reviews : storedReviewCount;
+      const reviewCount = (p.Reviews && p.Reviews > 0) ? p.Reviews : (Number(localStorage.getItem(`reviewCount_${p.ProductID}`)) || 0);
 
       return `
       <div class="product-item" style="
