@@ -321,6 +321,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           mainImage.src = imgSrc;
         });
       });
+    } else if (product.Thumbnail) {
+      mainImage.src = product.Thumbnail;
     }
 
     // Update product info
@@ -525,8 +527,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Gọi function sau khi render variants
     addVariantEventListeners();
 
+    // Chỉ ẩn icon cart nếu là admin
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.RoleID === 2; // Giả sử RoleID = 2 là admin
     const cartIcon = document.querySelector(".cart-icon");
-    if (cartIcon) cartIcon.style.display = "none";
+    if (cartIcon && isAdmin) {
+      cartIcon.style.display = "none";
+    }
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     alert("Không thể tải dữ liệu sản phẩm.");
@@ -561,10 +568,10 @@ async function loadReviews(productId) {
   document.querySelectorAll(".review-helpful").forEach((section) => {
     const reviewId = section.getAttribute("data-review-id");
     const stored = localStorage.getItem(`review-feedback-${reviewId}`);
-  
+
     const helpfulBtn = section.querySelector(".helpful-btn");
     const notHelpfulBtn = section.querySelector(".not-helpful-btn");
-  
+
     if (stored === "helpful") {
       helpfulBtn?.classList.add("active");
       const countSpan = helpfulBtn.querySelector("span");
@@ -583,7 +590,7 @@ async function loadReviews(productId) {
   });
   const reviewCount = allReviews.length;
   localStorage.setItem(`reviewCount_${productId}`, reviewCount);
-  
+
   setupHelpfulButtons();
 }
 function renderMoreReviews(count) {

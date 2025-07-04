@@ -98,7 +98,10 @@ function renderOrdersTable(orders) {
       html += `
         <tr>
           <td>${order.OrderID}</td>
-          <td>${order.ShippingName}</td>
+          <td>${(() => {
+          const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+          return (currentUser && String(order.UserID) === String(currentUser.UserID)) ? currentUser.FullName : order.ShippingName;
+        })()}</td>
           <td>${order.OrderDate}</td>
           <td class="text-red">₫${order.TotalAmount.toLocaleString()}</td>
           <td><span class="status ${statusClass}">${statusText}</span></td>
@@ -536,10 +539,13 @@ async function loadProductData(productId) {
     });
     const result = await res.json();
 
-    if (result.success && result.data && result.data.product) {
-      const product = result.data.product;
+    if (result && result.product) {
+      const product = result.product;
       document.getElementById('productTitle').value = product.Title || '';
-      document.getElementById('productCategory').value = product.CategoryName || '';
+      if (product.CategoryID == 1) document.getElementById('productCategory').value = "Laptop";
+      else if (product.CategoryID == 2) document.getElementById('productCategory').value = "Cameras";
+      else if (product.CategoryID == 3) document.getElementById('productCategory').value = "Accessories";
+      else document.getElementById('productCategory').value = "";
       document.getElementById('productPrice').value = product.Price || '';
       document.getElementById('productStock').value = product.Stock || 0;
       document.getElementById('productBrand').value = product.Brand || '';

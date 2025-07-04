@@ -36,6 +36,8 @@
     $conditions = [];
     $params     = [];
 
+    $conditions[] = "IsDeleted = 0";
+
     if ($search) {
         $conditions[] = "LOWER(Title) LIKE LOWER(?)";
         $params[] = "%$search%";

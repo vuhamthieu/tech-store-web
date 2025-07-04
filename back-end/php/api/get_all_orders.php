@@ -4,7 +4,10 @@
 
     $admin = authenticateAdmin(); // RoleID >= 2
 
-    $query = "SELECT * FROM Orders ORDER BY OrderDate DESC";
+    $query = "SELECT o.*, u.FullName as UserFullName 
+              FROM Orders o 
+              LEFT JOIN Users u ON o.UserID = u.UserID 
+              ORDER BY o.OrderDate DESC";
     $result = mysqli_query($conn, $query);
 
     $orders = [];
@@ -31,6 +34,10 @@
         }
 
         $order['details'] = $details;
+        
+        // Sử dụng tên mới từ Users nếu có, nếu không thì dùng ShippingName
+        $order['ShippingName'] = $order['UserFullName'] ?: $order['ShippingName'];
+        
         $orders[] = $order;
     }
 

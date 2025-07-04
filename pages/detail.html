@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-     .no-hover-color:hover {
+    .no-hover-color:hover {
       background-color: inherit !important;
       color: inherit !important;
     }
@@ -24,8 +24,9 @@
       color: black !important;
       /* giữ màu gốc */
     }
-     /*suggest*/
-     .search-box {
+
+    /*suggest*/
+    .search-box {
       position: relative;
       width: 100%;
       max-width: 550px;
@@ -183,6 +184,7 @@
     .nav-menu>li>a:hover {
       color: #E53935;
     }
+
     /*warranty*/
     .warranty-policy {
       background-color: #f9f9f9;
@@ -705,7 +707,7 @@
           }" alt="Avatar" class="user-avatar" style="width:40px;height:40px;border-radius:50%;">
             </a>
             <div class="user-dropdown">
-              <span class="user-name">${user.FullName}</span>
+              <span class="user-name">${user.FullName || user.full_name || 'User'}</span>
               <div class="dropdown-content">
                 ${firstMenuLink}
                 <a href="#" id="logout-btn">Đăng xuất</a>
@@ -738,7 +740,7 @@
                 method: "POST",
                 headers: {
 
-                        "Authorization": `Bearer ${token}`,
+                  "Authorization": `Bearer ${token}`,
 
                   "Content-Type": "application/json"
                 }
@@ -802,15 +804,15 @@
       }
     });
     // Khi người dùng nhấn Enter để tìm kiếm
-searchInput.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    e.preventDefault(); // tránh reload form nếu có
-    const keyword = this.value.trim();
-    if (keyword.length > 0) {
-      window.location.href = `search-product.html?search=${encodeURIComponent(keyword)}`;
-    }
-  }
-});
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault(); // tránh reload form nếu có
+        const keyword = this.value.trim();
+        if (keyword.length > 0) {
+          window.location.href = `search-product.html?search=${encodeURIComponent(keyword)}`;
+        }
+      }
+    });
 
     // Ẩn khi click ra ngoài
     document.addEventListener("click", function (e) {
@@ -844,7 +846,7 @@ searchInput.addEventListener("keydown", function (e) {
       typeWriter();
     });
 
-    
+
   </script>
 
 </body>

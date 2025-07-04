@@ -122,7 +122,27 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(res => res.json())
         .then(result => {
           if (result.success) {
+            // Cập nhật localStorage với thông tin mới
+            let user = JSON.parse(localStorage.getItem('user') || '{}');
+            user.FullName = formData.full_name;
+            user.Phone = formData.phone;
+            user.Email = formData.email;
+            user.Gender = formData.gender;
+            localStorage.setItem('user', JSON.stringify(user));
+
             alert('Cập nhật thông tin thành công!');
+
+            // Cập nhật hiển thị username trên trang hiện tại
+            const userNameElements = document.querySelectorAll('.user-name');
+            userNameElements.forEach(element => {
+              element.textContent = formData.full_name;
+            });
+
+            // Gọi function cập nhật thông tin user trên tất cả các trang
+            if (typeof updateUserInfoInHeader === 'function') {
+              updateUserInfoInHeader();
+            }
+
           } else {
             alert('Thất bại: ' + result.message);
           }
@@ -251,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
         await fetch("http://localhost/webproject/tech-store-web/back-end/php/api/logout", {
           method: "POST",
           headers: {
-                    "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
 
             "Content-Type": "application/json"
           }
