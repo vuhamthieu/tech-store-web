@@ -78,7 +78,10 @@
     $stmt->close();
 
     // Lấy danh sách sản phẩm
-    $query = "SELECT * FROM products $where $order LIMIT ? OFFSET ?";
+    $query = "SELECT p.*, 
+        (SELECT COUNT(*) FROM Reviews r WHERE r.ProductID = p.ProductID) AS Reviews
+        FROM products p
+        $where $order LIMIT ? OFFSET ?";
     $params[] = $limit;
     $params[] = $offset;
 
